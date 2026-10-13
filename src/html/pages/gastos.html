@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><title>Pluxee Enterprise - Control de Gastos y Aprobaciones</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "surface": "#f8f9ff",
+        "primary": "#091426",
+        "on-secondary-fixed": "#001a42",
+        "primary-container": "#1e293b",
+        "secondary-container": "#2170e4",
+        "outline-variant": "#c5c6cd",
+        "on-primary": "#ffffff",
+        "tertiary": "#00190e",
+        "primary-fixed": "#d8e3fb",
+        "tertiary-fixed-dim": "#4edea3",
+        "on-error": "#ffffff",
+        "surface-variant": "#d3e4fe",
+        "inverse-on-surface": "#eaf1ff",
+        "surface-container-low": "#eff4ff",
+        "surface-container": "#e5eeff",
+        "inverse-primary": "#bcc7de",
+        "surface-container-highest": "#d3e4fe",
+        "on-surface-variant": "#45474c",
+        "error": "#ba1a1a",
+        "secondary-fixed": "#d8e2ff",
+        "on-primary-fixed": "#111c2d",
+        "tertiary-fixed": "#6ffbbe",
+        "secondary-fixed-dim": "#adc6ff",
+        "on-tertiary": "#ffffff",
+        "on-primary-fixed-variant": "#3c475a",
+        "on-secondary-fixed-variant": "#004395",
+        "on-primary-container": "#8590a6",
+        "surface-bright": "#f8f9ff",
+        "surface-dim": "#cbdbf5",
+        "on-secondary": "#ffffff",
+        "primary-fixed-dim": "#bcc7de",
+        "surface-tint": "#545f73",
+        "on-tertiary-fixed-variant": "#005236",
+        "on-tertiary-container": "#00a472",
+        "on-background": "#0b1c30",
+        "secondary": "#0058be",
+        "inverse-surface": "#213145",
+        "surface-container-lowest": "#ffffff",
+        "outline": "#75777d",
+        "on-surface": "#0b1c30",
+        "error-container": "#ffdad6",
+        "on-tertiary-fixed": "#002113",
+        "on-error-container": "#93000a",
+        "tertiary-container": "#00301e",
+        "surface-container-high": "#dce9ff",
+        "on-secondary-container": "#fefcff",
+        "background": "#f8f9ff"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "2xl": "1rem",
+        "full": "9999px"
+      },
+      "spacing": {
+        "margin-mobile": "1rem",
+        "space-md": "1rem",
+        "gutter-sm": "1rem",
+        "space-xl": "2.5rem",
+        "space-sm": "0.5rem",
+        "gutter": "1.5rem",
+        "space-lg": "1.5rem",
+        "space-xs": "0.25rem",
+        "margin": "2rem"
+      },
+      "fontFamily": {
+        "display": ["Plus Jakarta Sans", "sans-serif"],
+        "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+        "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+        "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+        "body-lg": ["Inter", "sans-serif"],
+        "body-md": ["Inter", "sans-serif"],
+        "body-sm": ["Inter", "sans-serif"],
+        "label-lg": ["Inter", "sans-serif"],
+        "label-md": ["Inter", "sans-serif"],
+        "label-sm": ["Inter", "sans-serif"]
+      }
+    }
+  }
+};</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen flex flex-col"><header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200/80 px-6 py-3.5 shadow-sm transition-all">
+<div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+<!-- Left Side: Logo & Brand -->
+<div class="flex items-center gap-3">
+<a href="dashboard.html" class="flex items-center gap-3 group">
+<img src="../../assets/pluxee-icon.png" alt="Pluxee Logo" class="w-10 h-10 rounded-xl object-cover shadow-sm ring-1 ring-slate-200">
+<div class="flex items-center gap-2">
+<span class="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#091426] tracking-tight group-hover:text-blue-600 transition-colors">Pluxee <span class="font-semibold text-slate-600">Enterprise</span></span>
+<span class="text-[11px] font-semibold text-blue-700 bg-blue-50 border border-blue-200/60 px-2 py-0.5 rounded-full">Gestión de Beneficios</span>
+</div>
+</a>
+</div>
+<!-- Center: Horizontal Navigation -->
+<nav class="hidden md:flex items-center gap-1.5">
+<a class="font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 px-3.5 py-1.5 rounded-lg text-sm transition-colors flex items-center gap-1.5" href="dashboard.html">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 px-3.5 py-1.5 rounded-lg text-sm transition-colors flex items-center gap-1.5" href="empleados.html">
+<span class="material-symbols-outlined text-lg">groups</span>
+<span>Empleados</span>
+</a>
+<a aria-current="page" class="font-semibold text-blue-600 bg-blue-50/80 px-3.5 py-1.5 rounded-lg border border-blue-100 text-sm transition-colors flex items-center gap-1.5" href="gastos.html">
+<span class="material-symbols-outlined text-lg">receipt_long</span>
+<span>Gastos y Aprobaciones</span>
+<span class="ml-1 bg-amber-100 text-amber-800 text-xs font-semibold px-1.5 py-0.2 rounded-full">4</span>
+</a>
+<a class="font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 px-3.5 py-1.5 rounded-lg text-sm transition-colors flex items-center gap-1.5" href="categorias.html">
+<span class="material-symbols-outlined text-lg">category</span>
+<span>Categorías</span>
+</a>
+</nav>
+<!-- Right Side: Currency Switcher Only (Single Admin User) -->
+<div class="flex items-center gap-3">
+<div class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200/60 text-xs font-medium">
+<button class="px-2.5 py-1 rounded-md bg-white text-slate-900 font-semibold shadow-xs transition-all" type="button">€ EUR</button>
+<button class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-colors" type="button">$ USD</button>
+<button class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-colors" type="button">£ GBP</button>
+</div>
+</div>
+</div>
+</header><main class="flex-1 w-full"><div class="max-w-7xl mx-auto px-6 py-8 flex flex-col gap-8"><div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2 border-b border-surface-container-high"><div class="flex flex-col gap-2"><div class="flex items-center gap-2"><span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-surface-container-high text-secondary border border-surface-container-highest">MÓDULO DE NÓMINA &amp; COMPENSACIÓN FLEXIBLE</span><span class="text-outline text-xs">•</span><span class="text-outline font-label-sm text-xs">Pluxee Enterprise</span></div><h1 class="font-headline-lg text-2xl sm:text-3xl font-extrabold text-on-surface tracking-tight">Control de Gastos y Aprobaciones</h1><p class="font-body-md text-sm sm:text-base text-on-surface-variant max-w-3xl">Supervisa y valida los comprobantes reportados por los empleados en Pluxee Enterprise de forma centralizada.</p></div><div class="flex items-center gap-3 flex-wrap">
+  <button onclick="document.getElementById('modal-nuevo-gasto').classList.remove('hidden')" class="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#091426] hover:bg-[#1e293b] text-white text-xs sm:text-sm font-semibold shadow-xs transition-all" type="button">
+    <span class="material-symbols-outlined text-lg">add_circle</span>
+    <span>+ Registrar Nuevo Gasto</span>
+  </button>
+  <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 shadow-sm"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span><span class="font-label-md text-xs font-bold uppercase tracking-wide">4 Pendientes</span></div><div class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 shadow-sm"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span><span class="font-label-md text-xs font-bold uppercase tracking-wide">28 Aprobados</span></div><div class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 shadow-sm"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span><span class="font-label-md text-xs font-bold uppercase tracking-wide">2 Rechazados</span></div></div></div><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"><div class="p-5 bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high flex flex-col gap-1"><div class="flex items-center justify-between"><span class="font-label-sm text-xs text-on-surface-variant uppercase tracking-wider font-semibold">Total Tramitado</span><span class="material-symbols-outlined text-secondary text-xl">payments</span></div><div class="flex items-baseline justify-between mt-2"><span class="text-2xl font-bold text-primary font-headline-sm">34 Gastos</span><span class="font-label-sm text-xs font-semibold text-secondary">3.415,80 €</span></div></div><div class="p-5 bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high flex flex-col gap-1"><div class="flex items-center justify-between"><span class="font-label-sm text-xs text-on-surface-variant uppercase tracking-wider font-semibold">Pendientes Visado</span><span class="material-symbols-outlined text-amber-600 text-xl">pending_actions</span></div><div class="flex items-baseline justify-between mt-2"><span class="text-2xl font-bold text-amber-700 font-headline-sm">4 Recibos</span><span class="font-label-sm text-xs font-semibold text-amber-800">188,30 €</span></div></div><div class="p-5 bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high flex flex-col gap-1"><div class="flex items-center justify-between"><span class="font-label-sm text-xs text-on-surface-variant uppercase tracking-wider font-semibold">Consumo Flexible</span><span class="material-symbols-outlined text-secondary text-xl">pie_chart</span></div><div class="flex items-baseline justify-between mt-2"><span class="text-2xl font-bold text-primary font-headline-sm">78.4%</span><span class="font-label-sm text-xs text-outline">de 181.500 €</span></div></div><div class="p-5 bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high flex flex-col gap-1"><div class="flex items-center justify-between"><span class="font-label-sm text-xs text-on-surface-variant uppercase tracking-wider font-semibold">Tiempo Medio Aprobación</span><span class="material-symbols-outlined text-emerald-600 text-xl">avg_pace</span></div><div class="flex items-baseline justify-between mt-2"><span class="text-2xl font-bold text-on-surface font-headline-sm">3.8h</span><span class="font-label-sm text-xs font-semibold text-emerald-700">-22% vs anterior</span></div></div></div><div class="w-full bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-high overflow-hidden flex flex-col"><div class="p-6 border-b border-surface-container-high flex flex-col lg:flex-row lg:items-center justify-between gap-4"><div class="flex flex-col sm:flex-row sm:items-center gap-4"><div class="flex items-center gap-2"><h2 class="font-headline-sm text-lg font-bold text-on-surface">Historial de Gastos</h2><span class="px-2.5 py-0.5 rounded-full bg-surface-container-low font-label-sm text-xs text-on-surface-variant font-bold border border-surface-container-high">34 registros</span></div><div class="flex items-center bg-surface-container-low p-1 rounded-xl border border-surface-container-high"><button class="px-3 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-primary transition-colors" type="button">Todos (34)</button><button class="px-3 py-1 rounded-lg text-xs font-bold bg-surface-container-lowest text-secondary shadow-sm border border-surface-container-high flex items-center gap-1.5" type="button">Pendientes (4)<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span></button><button class="px-3 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-primary transition-colors" type="button">Aprobados (28)</button><button class="px-3 py-1 rounded-lg text-xs font-medium text-on-surface-variant hover:text-primary transition-colors" type="button">Rechazados (2)</button></div></div><div class="flex items-center gap-3 flex-wrap"><div class="relative flex-1 sm:flex-none"><span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-lg">search</span><input class="w-full sm:w-64 h-9 pl-9 pr-3 bg-surface-container-low border border-surface-container-high rounded-xl font-body-sm text-xs sm:text-sm text-on-surface focus:outline-none focus:ring-1 focus:ring-secondary" placeholder="Buscar empleado o concepto..." type="text"></div></div></div><div class="overflow-x-auto w-full"><table class="w-full text-left border-collapse min-w-[980px]"><thead><tr class="bg-surface-container-low/70 text-on-surface-variant font-label-sm text-xs uppercase tracking-wider h-11 border-b border-surface-container-high"><th class="pl-6 pr-3 py-3">Fecha</th><th class="px-4 py-3">Empleado</th><th class="px-4 py-3">Categoría</th><th class="px-4 py-3">Concepto</th><th class="px-4 py-3 text-right">Importe</th><th class="px-4 py-3 text-center">Comprobante</th><th class="px-4 py-3 text-center">Estado</th><th class="pr-6 pl-4 py-3 text-right">Acciones</th></tr></thead><tbody class="divide-y divide-surface-container-high font-body-sm"><tr class="hover:bg-surface-container-low/40 transition-colors h-16"><td class="pl-6 pr-3 text-xs text-on-surface-variant font-medium">24/10/2024</td><td class="px-4"><div class="flex items-center gap-2.5"><div class="w-7 h-7 rounded-lg bg-surface-container-high text-secondary flex items-center justify-center font-bold text-xs">MR</div><div><span class="font-label-md text-sm font-bold text-on-surface block">Mateo Rivas</span><span class="text-xs text-outline">Tech Lead</span></div></div></td><td class="px-4"><span class="inline-block px-2.5 py-0.5 rounded-full bg-surface-container-highest text-secondary font-label-sm text-xs font-bold">Transporte</span></td><td class="px-4 text-xs sm:text-sm text-on-surface font-medium">Abono mensual tren cercanías Renfe</td><td class="px-4 text-right font-label-md text-sm font-extrabold text-on-surface">54,00 €</td><td class="px-4 text-center"><a class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low text-secondary border border-surface-container-high text-xs font-semibold hover:bg-surface-container transition-colors" href="#"><span class="material-symbols-outlined text-sm">picture_as_pdf</span><span>PDF</span></a></td><td class="px-4 text-center"><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 font-label-sm text-xs font-bold"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Pendiente</span></td><td class="pr-6 pl-4 text-right"><div class="flex items-center justify-end gap-2"><button class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-label-sm text-xs font-bold shadow-sm transition-colors flex items-center gap-1" type="button"><span class="material-symbols-outlined text-sm">check</span>Aprobar</button><button class="px-3 py-1 bg-rose-50 text-rose-700 hover:bg-rose-100 rounded-lg font-label-sm text-xs font-bold border border-rose-200 transition-colors flex items-center gap-1" type="button"><span class="material-symbols-outlined text-sm">close</span>Rechazar</button></div></td></tr><tr class="hover:bg-surface-container-low/40 transition-colors h-16"><td class="pl-6 pr-3 text-xs text-on-surface-variant font-medium">23/10/2024</td><td class="px-4"><div class="flex items-center gap-2.5"><div class="w-7 h-7 rounded-lg bg-secondary-fixed text-on-secondary-fixed-variant flex items-center justify-center font-bold text-xs">LM</div><div><span class="font-label-md text-sm font-bold text-on-surface block">Laura Méndez</span><span class="text-xs text-outline">Product Designer</span></div></div></td><td class="px-4"><span class="inline-block px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-xs font-bold">Restauración</span></td><td class="px-4 text-xs sm:text-sm text-on-surface font-medium">Almuerzo de trabajo sprint design</td><td class="px-4 text-right font-label-md text-sm font-extrabold text-on-surface">32,50 €</td><td class="px-4 text-center"><a class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low text-secondary border border-surface-container-high text-xs font-semibold hover:bg-surface-container transition-colors" href="#"><span class="material-symbols-outlined text-sm">image</span><span>IMG</span></a></td><td class="px-4 text-center"><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 font-label-sm text-xs font-bold"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Pendiente</span></td><td class="pr-6 pl-4 text-right"><div class="flex items-center justify-end gap-2"><button class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-label-sm text-xs font-bold shadow-sm transition-colors flex items-center gap-1" type="button"><span class="material-symbols-outlined text-sm">check</span>Aprobar</button><button class="px-3 py-1 bg-rose-50 text-rose-700 hover:bg-rose-100 rounded-lg font-label-sm text-xs font-bold border border-rose-200 transition-colors flex items-center gap-1" type="button"><span class="material-symbols-outlined text-sm">close</span>Rechazar</button></div></td></tr><tr class="hover:bg-surface-container-low/40 transition-colors h-16"><td class="pl-6 pr-3 text-xs text-on-surface-variant font-medium">21/10/2024</td><td class="px-4"><div class="flex items-center gap-2.5"><div class="w-7 h-7 rounded-lg bg-tertiary-fixed text-on-tertiary-fixed-variant flex items-center justify-center font-bold text-xs">CF</div><div><span class="font-label-md text-sm font-bold text-on-surface block">Carlos Fuentes</span><span class="text-xs text-outline">DevOps Specialist</span></div></div></td><td class="px-4"><span class="inline-block px-2.5 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant font-label-sm text-xs font-bold">Formación</span></td><td class="px-4 text-xs sm:text-sm text-on-surface font-medium">Certificación AWS Solutions Architect</td><td class="px-4 text-right font-label-md text-sm font-extrabold text-on-surface">210,00 €</td><td class="px-4 text-center"><a class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low text-secondary border border-surface-container-high text-xs font-semibold hover:bg-surface-container transition-colors" href="#"><span class="material-symbols-outlined text-sm">picture_as_pdf</span><span>PDF</span></a></td><td class="px-4 text-center"><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-label-sm text-xs font-bold"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Aprobado</span></td><td class="pr-6 pl-4 text-right"><span class="font-label-sm text-xs text-outline font-medium px-2 py-1 rounded bg-surface-container-low">Procesado</span></td></tr><tr class="hover:bg-surface-container-low/40 transition-colors h-16"><td class="pl-6 pr-3 text-xs text-on-surface-variant font-medium">19/10/2024</td><td class="px-4"><div class="flex items-center gap-2.5"><div class="w-7 h-7 rounded-lg bg-primary-fixed text-on-primary-fixed-variant flex items-center justify-center font-bold text-xs">SA</div><div><span class="font-label-md text-sm font-bold text-on-surface block">Sofía Alarcón</span><span class="text-xs text-outline">People Partner</span></div></div></td><td class="px-4"><span class="inline-block px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-xs font-bold">Guardería</span></td><td class="px-4 text-xs sm:text-sm text-on-surface font-medium">Cuota mensual guardería infantil</td><td class="px-4 text-right font-label-md text-sm font-extrabold text-on-surface">240,00 €</td><td class="px-4 text-center"><a class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low text-secondary border border-surface-container-high text-xs font-semibold hover:bg-surface-container transition-colors" href="#"><span class="material-symbols-outlined text-sm">picture_as_pdf</span><span>PDF</span></a></td><td class="px-4 text-center"><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-800 border border-rose-200 font-label-sm text-xs font-bold"><span class="w-1.5 h-1.5 rounded-full bg-rose-600"></span>Rechazado</span></td><td class="pr-6 pl-4 text-right"><span class="font-label-sm text-xs text-rose-700 font-medium px-2 py-1 rounded bg-rose-50 border border-rose-200">Exceso cupo</span></td></tr><tr class="hover:bg-surface-container-low/40 transition-colors h-16"><td class="pl-6 pr-3 text-xs text-on-surface-variant font-medium">18/10/2024</td><td class="px-4"><div class="flex items-center gap-2.5"><div class="w-7 h-7 rounded-lg bg-surface-container-high text-secondary flex items-center justify-center font-bold text-xs">JS</div><div><span class="font-label-md text-sm font-bold text-on-surface block">Javier Soler</span><span class="text-xs text-outline">Data Engineer</span></div></div></td><td class="px-4"><span class="inline-block px-2.5 py-0.5 rounded-full bg-surface-container-highest text-secondary font-label-sm text-xs font-bold">Transporte</span></td><td class="px-4 text-xs sm:text-sm text-on-surface font-medium">Recarga tarjeta Consorcio Metro</td><td class="px-4 text-right font-label-md text-sm font-extrabold text-on-surface">21,80 €</td><td class="px-4 text-center"><a class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low text-secondary border border-surface-container-high text-xs font-semibold hover:bg-surface-container transition-colors" href="#"><span class="material-symbols-outlined text-sm">image</span><span>IMG</span></a></td><td class="px-4 text-center"><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 font-label-sm text-xs font-bold"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Pendiente</span></td><td class="pr-6 pl-4 text-right"><div class="flex items-center justify-end gap-2"><button class="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-label-sm text-xs font-bold shadow-sm transition-colors flex items-center gap-1" type="button"><span class="material-symbols-outlined text-sm">check</span>Aprobar</button><button class="px-3 py-1 bg-rose-50 text-rose-700 hover:bg-rose-100 rounded-lg font-label-sm text-xs font-bold border border-rose-200 transition-colors flex items-center gap-1" type="button"><span class="material-symbols-outlined text-sm">close</span>Rechazar</button></div></td></tr><tr class="hover:bg-surface-container-low/40 transition-colors h-16"><td class="pl-6 pr-3 text-xs text-on-surface-variant font-medium">15/10/2024</td><td class="px-4"><div class="flex items-center gap-2.5"><div class="w-7 h-7 rounded-lg bg-secondary-fixed text-on-secondary-fixed-variant flex items-center justify-center font-bold text-xs">NC</div><div><span class="font-label-md text-sm font-bold text-on-surface block">Nuria Casals</span><span class="text-xs text-outline">Finance Lead</span></div></div></td><td class="px-4"><span class="inline-block px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-xs font-bold">Salud</span></td><td class="px-4 text-xs sm:text-sm text-on-surface font-medium">Copago póliza dental ampliada</td><td class="px-4 text-right font-label-md text-sm font-extrabold text-on-surface">38,00 €</td><td class="px-4 text-center"><a class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container-low text-secondary border border-surface-container-high text-xs font-semibold hover:bg-surface-container transition-colors" href="#"><span class="material-symbols-outlined text-sm">picture_as_pdf</span><span>PDF</span></a></td><td class="px-4 text-center"><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-label-sm text-xs font-bold"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>Aprobado</span></td><td class="pr-6 pl-4 text-right"><span class="font-label-sm text-xs text-outline font-medium px-2 py-1 rounded bg-surface-container-low">Procesado</span></td></tr></tbody></table></div><div class="px-6 py-4 bg-surface-container-low/40 flex items-center justify-between border-t border-surface-container-high text-on-surface-variant font-label-sm text-xs"><span class="font-medium">Mostrando 6 de 34 transacciones</span><div class="flex items-center gap-2"><button class="px-3 py-1.5 bg-surface-container-lowest text-outline rounded-lg border border-surface-container-high hover:text-on-surface hover:bg-white transition-colors disabled:opacity-50" disabled="" type="button">Anterior</button><button class="px-3 py-1.5 bg-surface-container-lowest text-primary rounded-lg border border-surface-container-high hover:bg-white transition-colors font-semibold shadow-sm" type="button">Siguiente</button></div></div></div></div></main><footer class="w-full border-t border-surface-container-high bg-surface-container-lowest py-6 mt-12"><div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-body-sm text-xs text-on-surface-variant"><div class="flex items-center gap-2"><span>© 2024 Pluxee Enterprise. Todos los derechos reservados.</span></div><div class="flex items-center gap-6"><a class="hover:text-primary transition-colors" href="#">Política de Privacidad</a><a class="hover:text-primary transition-colors" href="#">Términos de Servicio</a><a class="hover:text-primary transition-colors" href="#">Soporte Corporativo</a><a class="hover:text-primary transition-colors" href="#">Seguridad GDPR</a></div></div></footer>
+<!-- MODAL: Registrar Nuevo Gasto -->
+<div id="modal-nuevo-gasto" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+  <div class="bg-white rounded-2xl shadow-xl max-w-2xl w-full overflow-hidden border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
+    <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-blue-50 border border-blue-200/60 flex items-center justify-center text-blue-700">
+          <span class="material-symbols-outlined text-xl">receipt_long</span>
+        </div>
+        <div>
+          <h3 class="font-['Plus_Jakarta_Sans'] text-lg font-bold text-slate-900 leading-tight">Registrar Nuevo Gasto</h3>
+          <p class="text-xs text-slate-500">Imputa un recibo fiscal asignado al saldo disponible del empleado.</p>
+        </div>
+      </div>
+      <button onclick="document.getElementById('modal-nuevo-gasto').classList.add('hidden')" type="button" class="text-slate-400 hover:text-slate-600 rounded-lg p-1 transition-colors">
+        <span class="material-symbols-outlined text-xl">close</span>
+      </button>
+    </div>
+
+    <form class="p-6 flex flex-col gap-4" onsubmit="event.preventDefault(); document.getElementById('modal-nuevo-gasto').classList.add('hidden');">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-semibold text-slate-700" for="mEmployee">Empleado</label>
+          <select id="mEmployee" class="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 outline-none focus:bg-white focus:border-blue-500 cursor-pointer">
+            <option selected>Mateo Rivas (Tech Lead)</option>
+            <option>Laura Méndez (Product Designer)</option>
+            <option>Carlos Fuentes (DevOps Specialist)</option>
+            <option>Sofía Alarcón (People Partner)</option>
+            <option>Javier Soler (Data Engineer)</option>
+            <option>Nuria Casals (Finance Lead)</option>
+          </select>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-semibold text-slate-700" for="mCategory">Categoría</label>
+          <select id="mCategory" class="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 outline-none focus:bg-white focus:border-blue-500 cursor-pointer">
+            <option selected value="transporte">Transporte Sostenible</option>
+            <option value="comida">Comida &amp; Restauración</option>
+            <option value="formacion">Formación Continua</option>
+            <option value="guarderia">Guardería Infantil</option>
+            <option value="salud">Salud &amp; Bienestar</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="md:col-span-2 flex flex-col gap-1.5">
+          <label class="text-xs font-semibold text-slate-700" for="mConcept">Concepto del Gasto</label>
+          <input id="mConcept" type="text" placeholder="Ej. Abono tren cercanías o almuerzo de trabajo" value="Abono transporte mensual Cercanías Renfe" class="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 outline-none focus:bg-white focus:border-blue-500">
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-semibold text-slate-700" for="mAmount">Importe (€)</label>
+          <input id="mAmount" type="number" step="0.5" value="54.00" class="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 outline-none focus:bg-white focus:border-blue-500">
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-semibold text-slate-700" for="mDate">Fecha del Comprobante</label>
+          <input id="mDate" type="date" value="2024-10-24" class="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 outline-none focus:bg-white focus:border-blue-500">
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-semibold text-slate-700">Justificante Adjunto (Cloudinary)</label>
+          <div class="h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-2">
+            <span class="text-xs text-slate-600 truncate flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm text-blue-600">attach_file</span>
+              factura_transporte_octubre.pdf
+            </span>
+            <button type="button" class="text-xs text-blue-600 hover:text-blue-700 font-semibold">Examinar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Control Transaccional de Saldo Box -->
+      <div class="p-3 bg-emerald-50/80 border border-emerald-200/80 rounded-xl flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-emerald-600 text-lg">check_circle</span>
+          <div class="flex flex-col">
+            <span class="text-xs font-semibold text-emerald-900">Control Transaccional de Saldo Garantizado</span>
+            <span class="text-[11px] text-emerald-700">Saldo disponible en Transporte: <strong>140,00 €</strong> • Gasto validado dentro del límite.</span>
+          </div>
+        </div>
+        <span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full shrink-0">Saldo OK</span>
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2.5">
+        <button onclick="document.getElementById('modal-nuevo-gasto').classList.add('hidden')" type="button" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors">Cancelar</button>
+        <button type="submit" class="px-5 py-2 rounded-xl bg-[#091426] hover:bg-[#1e293b] text-white text-xs font-semibold transition-all shadow-xs flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-base">send</span>
+          <span>Registrar Gasto</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Close modal on ESC
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      const modal = document.getElementById('modal-nuevo-gasto');
+      if (modal) modal.classList.add('hidden');
+    }
+  });
+</script>
+
+</body></html>

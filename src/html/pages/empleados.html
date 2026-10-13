@@ -1,0 +1,728 @@
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="web_dashboard" name="shell-type">
+<title>Pluxee Enterprise - Directorio de Empleados y Asignación de Beneficios</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface": "#f8f9ff",
+            "primary": "#091426",
+            "on-secondary-fixed": "#001a42",
+            "primary-container": "#1e293b",
+            "secondary-container": "#2170e4",
+            "outline-variant": "#c5c6cd",
+            "on-primary": "#ffffff",
+            "tertiary": "#00190e",
+            "primary-fixed": "#d8e3fb",
+            "tertiary-fixed-dim": "#4edea3",
+            "on-error": "#ffffff",
+            "surface-variant": "#d3e4fe",
+            "inverse-on-surface": "#eaf1ff",
+            "surface-container-low": "#eff4ff",
+            "surface-container": "#e5eeff",
+            "inverse-primary": "#bcc7de",
+            "surface-container-highest": "#d3e4fe",
+            "on-surface-variant": "#45474c",
+            "error": "#ba1a1a",
+            "secondary-fixed": "#d8e2ff",
+            "on-primary-fixed": "#111c2d",
+            "tertiary-fixed": "#6ffbbe",
+            "secondary-fixed-dim": "#adc6ff",
+            "on-tertiary": "#ffffff",
+            "on-primary-fixed-variant": "#3c475a",
+            "on-secondary-fixed-variant": "#004395",
+            "on-primary-container": "#8590a6",
+            "surface-bright": "#f8f9ff",
+            "surface-dim": "#cbdbf5",
+            "on-secondary": "#ffffff",
+            "primary-fixed-dim": "#bcc7de",
+            "surface-tint": "#545f73",
+            "on-tertiary-fixed-variant": "#005236",
+            "on-tertiary-container": "#00a472",
+            "on-background": "#0b1c30",
+            "secondary": "#0058be",
+            "inverse-surface": "#213145",
+            "surface-container-lowest": "#ffffff",
+            "outline": "#75777d",
+            "on-surface": "#0b1c30",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed": "#002113",
+            "on-error-container": "#93000a",
+            "tertiary-container": "#00301e",
+            "surface-container-high": "#dce9ff",
+            "on-secondary-container": "#fefcff",
+            "background": "#f8f9ff"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            "2xl": "1rem",
+            full: "9999px"
+          },
+          fontFamily: {
+            display: ["Plus Jakarta Sans", "sans-serif"],
+            "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "label-lg": ["Inter", "sans-serif"],
+            "label-md": ["Inter", "sans-serif"],
+            "label-sm": ["Inter", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-[#f8f9ff] font-['Inter'] text-[#0b1c30] antialiased min-h-screen flex flex-col">
+<!-- TOP HEADER NAVBAR (Pluxee Enterprise Desktop Standard) -->
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200/80 px-8 py-3.5 flex items-center justify-between shadow-xs">
+<div class="max-w-7xl mx-auto w-full flex items-center justify-between gap-4">
+<!-- Left: Logo & Brand -->
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<a href="dashboard.html" class="flex items-center gap-3 group">
+<img src="../../assets/pluxee-icon.png" alt="Pluxee Logo" class="w-10 h-10 rounded-xl object-cover shadow-sm ring-1 ring-slate-200">
+<div class="flex items-center gap-2">
+<span class="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#091426] tracking-tight group-hover:text-blue-600 transition-colors">Pluxee <span class="font-semibold text-slate-600">Enterprise</span></span>
+<span class="bg-blue-50 text-blue-700 text-xs font-semibold px-2.5 py-0.5 rounded-full border border-blue-100">Gestión de Beneficios</span>
+</div>
+</a>
+</div>
+<!-- Center: Horizontal Navigation -->
+<nav class="hidden md:flex items-center gap-1.5">
+<a class="text-slate-600 hover:text-slate-900 font-medium text-sm px-3 py-1.5 rounded-lg hover:bg-slate-100/70 transition-colors flex items-center gap-1.5" href="dashboard.html">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a aria-current="page" class="bg-blue-50 text-blue-700 font-semibold text-sm px-3.5 py-1.5 rounded-lg shadow-2xs border border-blue-200/60 transition-colors flex items-center gap-1.5" href="empleados.html">
+<span class="material-symbols-outlined text-lg">groups</span>
+<span>Empleados</span>
+</a>
+<a class="text-slate-600 hover:text-slate-900 font-medium text-sm px-3 py-1.5 rounded-lg hover:bg-slate-100/70 transition-colors flex items-center gap-1.5" href="gastos.html">
+<span class="material-symbols-outlined text-lg">receipt_long</span>
+<span>Gastos y Aprobaciones</span>
+<span class="ml-1 bg-amber-100 text-amber-800 text-xs font-semibold px-1.5 py-0.2 rounded-full">4</span>
+</a>
+<a class="text-slate-600 hover:text-slate-900 font-medium text-sm px-3 py-1.5 rounded-lg hover:bg-slate-100/70 transition-colors flex items-center gap-1.5" href="categorias.html">
+<span class="material-symbols-outlined text-lg">category</span>
+<span>Categorías</span>
+</a>
+</nav>
+</div>
+<!-- Right: Currency Switcher Only (Single Admin User) -->
+<div class="flex items-center gap-3">
+<div class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200/60 text-xs font-medium">
+<button class="px-2.5 py-1 rounded-md bg-white text-slate-900 font-semibold shadow-xs transition-all" type="button">€ EUR</button>
+<button class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-colors" type="button">$ USD</button>
+<button class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-colors" type="button">£ GBP</button>
+</div>
+</div>
+</div>
+</header>
+<!-- MAIN FULL-WIDTH CONTAINER -->
+<main class="w-full flex-1 max-w-7xl mx-auto px-6 py-8">
+<div class="flex flex-col w-full gap-8">
+<!-- Header Title Section -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2 border-b border-slate-200/80">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200/60">MÓDULO DE RECURSOS HUMANOS &amp; NÓMINA</span>
+<span class="text-slate-300 text-xs">•</span>
+<span class="text-slate-500 font-medium text-xs">Pluxee Enterprise</span>
+</div>
+<h1 class="font-['Plus_Jakarta_Sans'] text-2xl sm:text-3xl font-extrabold text-[#091426] tracking-tight">Directorio de Empleados y Asignación de Beneficios</h1>
+<p class="text-sm sm:text-base text-slate-600 max-w-3xl">Gestiona la plantilla activa, asigna cupos de retribución flexible y monitoriza el consumo mensual.</p>
+<!-- Header KPI Stats Pills -->
+<div class="flex items-center gap-2.5 flex-wrap pt-1">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200/90 text-xs font-semibold text-slate-800 shadow-2xs">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>24 Empleados Activos
+            </span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200/90 text-xs font-semibold text-slate-800 shadow-2xs">
+<span class="text-slate-400">Presupuesto asignado:</span>
+<strong class="text-blue-700 font-bold">€181,500.00</strong>
+</span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50/80 border border-blue-200/60 text-xs font-semibold text-blue-900 shadow-2xs">
+<span class="material-symbols-outlined text-blue-600 text-sm">pie_chart</span>
+<span>Consumo total del ciclo: <strong class="text-blue-700">78.4% (€142,300)</strong></span>
+</span>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center gap-3">
+          <button onclick="document.getElementById('modal-nuevo-empleado').classList.remove('hidden')" class="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-[#0058be] hover:bg-[#2170e4] text-white text-sm font-semibold shadow-sm shadow-blue-600/20 transition-all cursor-pointer" type="button">
+            <span class="material-symbols-outlined text-lg">person_add</span>
+            <span>+ Nuevo Empleado</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Directory Section (Full Width) -->
+      <div class="w-full flex flex-col gap-5">
+<!-- Search & Filter Controls -->
+<div class="p-4 bg-white rounded-2xl shadow-sm border border-slate-200/80 flex flex-col md:flex-row gap-4 items-center justify-between">
+<div class="relative flex-1 w-full">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg pointer-events-none">search</span>
+<input class="w-full pl-10 pr-3.5 py-2 bg-slate-50/80 border border-slate-200/70 rounded-xl text-slate-800 text-sm placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all" placeholder="Buscar empleado por nombre, email o cargo..." type="text">
+</div>
+<div class="flex items-center gap-1.5 flex-wrap w-full md:w-auto">
+<button class="px-3.5 py-1.5 rounded-lg bg-[#0058be] text-white text-xs font-semibold transition-colors shadow-2xs" type="button">Todos</button>
+<button class="px-3.5 py-1.5 rounded-lg bg-slate-100/80 hover:bg-slate-200/80 text-slate-700 text-xs font-medium transition-colors" type="button">Tecnología</button>
+<button class="px-3.5 py-1.5 rounded-lg bg-slate-100/80 hover:bg-slate-200/80 text-slate-700 text-xs font-medium transition-colors" type="button">Marketing</button>
+<button class="px-3.5 py-1.5 rounded-lg bg-slate-100/80 hover:bg-slate-200/80 text-slate-700 text-xs font-medium transition-colors" type="button">RRHH</button>
+<button class="px-3.5 py-1.5 rounded-lg bg-slate-100/80 hover:bg-slate-200/80 text-slate-700 text-xs font-medium transition-colors" type="button">Ventas</button>
+</div>
+</div>
+<!-- Comprehensive Employee Table Card -->
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden flex flex-col">
+<div class="px-6 py-4 bg-white flex items-center justify-between border-b border-slate-100">
+<div class="flex items-center gap-2.5">
+<span class="font-['Plus_Jakarta_Sans'] text-base font-bold text-slate-900">Plantilla y Cupos Asignados</span>
+<span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-xs font-semibold text-slate-600 border border-slate-200/60">Mostrando 6 de 24</span>
+</div>
+<span class="text-xs text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span> Actualizado hoy a las 11:20 CET
+              </span>
+</div>
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse min-w-[700px]">
+<thead>
+<tr class="bg-slate-50/80 text-slate-500 text-xs uppercase tracking-wider h-11 border-b border-slate-200/80">
+<th class="pl-6 pr-4 py-3 font-semibold">Empleado</th>
+<th class="px-4 py-3 font-semibold">Departamento</th>
+<th class="px-4 py-3 font-semibold">Beneficios Asignados</th>
+<th class="px-4 py-3 font-semibold text-right">Saldo Mensual</th>
+<th class="pr-6 pl-4 py-3 font-semibold text-center">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 text-sm">
+<!-- Row 1: Laura Gil -->
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="pl-6 pr-4 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center shrink-0 border border-blue-200/60 shadow-2xs">LG</div>
+<div class="min-w-0">
+<span class="font-semibold text-slate-900 block truncate leading-tight">Laura Gil</span>
+<span class="text-xs text-slate-500 block truncate">laura.gil@pluxee.io</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-4 text-xs font-semibold text-slate-700">
+<span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-800">Tecnología</span>
+</td>
+<td class="px-4 py-4">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-xs font-medium border border-blue-200/50">Comida 150 €</span>
+<span class="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 text-xs font-medium border border-indigo-200/50">Transporte 50 €</span>
+<span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-xs font-medium border border-emerald-200/50">Formación 200 €</span>
+</div>
+</td>
+<td class="px-4 py-4 text-right">
+<span class="font-['Plus_Jakarta_Sans'] text-sm font-extrabold text-emerald-700">400 €</span>
+</td>
+<td class="pr-6 pl-4 py-4 text-center">
+<button onclick="document.getElementById('modal-modificar-empleado').classList.remove('hidden')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 text-xs font-semibold border border-slate-200/70 transition-colors inline-flex items-center gap-1 shadow-2xs" type="button">
+  <span class="material-symbols-outlined text-sm text-blue-600">edit</span>
+  <span>Modificar Empleado</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: Marcos Soria -->
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="pl-6 pr-4 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center shrink-0 border border-slate-200/60 shadow-2xs">MS</div>
+<div class="min-w-0">
+<span class="font-semibold text-slate-900 block truncate leading-tight">Marcos Soria</span>
+<span class="text-xs text-slate-500 block truncate">marcos.soria@pluxee.io</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-4 text-xs font-semibold text-slate-700">
+<span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-800">RRHH</span>
+</td>
+<td class="px-4 py-4">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-xs font-medium border border-blue-200/50">Comida 150 €</span>
+<span class="px-2 py-0.5 rounded-md bg-teal-50 text-teal-700 text-xs font-medium border border-teal-200/50">Seguro 85 €</span>
+</div>
+</td>
+<td class="px-4 py-4 text-right">
+<span class="font-['Plus_Jakarta_Sans'] text-sm font-extrabold text-emerald-700">235 €</span>
+</td>
+<td class="pr-6 pl-4 py-4 text-center">
+<button onclick="document.getElementById('modal-modificar-empleado').classList.remove('hidden')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 text-xs font-semibold border border-slate-200/70 transition-colors inline-flex items-center gap-1 shadow-2xs" type="button">
+  <span class="material-symbols-outlined text-sm text-blue-600">edit</span>
+  <span>Modificar Empleado</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: Cristina Valero -->
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="pl-6 pr-4 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 font-bold text-xs flex items-center justify-center shrink-0 border border-purple-200/60 shadow-2xs">CV</div>
+<div class="min-w-0">
+<span class="font-semibold text-slate-900 block truncate leading-tight">Cristina Valero</span>
+<span class="text-xs text-slate-500 block truncate">c.valero@pluxee.io</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-4 text-xs font-semibold text-slate-700">
+<span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-800">Marketing</span>
+</td>
+<td class="px-4 py-4">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 text-xs font-medium border border-purple-200/50">Guardería 200 €</span>
+<span class="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 text-xs font-medium border border-indigo-200/50">Transporte 50 €</span>
+</div>
+</td>
+<td class="px-4 py-4 text-right">
+<span class="font-['Plus_Jakarta_Sans'] text-sm font-extrabold text-emerald-700">250 €</span>
+</td>
+<td class="pr-6 pl-4 py-4 text-center">
+<button onclick="document.getElementById('modal-modificar-empleado').classList.remove('hidden')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 text-xs font-semibold border border-slate-200/70 transition-colors inline-flex items-center gap-1 shadow-2xs" type="button">
+  <span class="material-symbols-outlined text-sm text-blue-600">edit</span>
+  <span>Modificar Empleado</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: Daniel Morales -->
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="pl-6 pr-4 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 font-bold text-xs flex items-center justify-center shrink-0 border border-amber-200/60 shadow-2xs">DM</div>
+<div class="min-w-0">
+<span class="font-semibold text-slate-900 block truncate leading-tight">Daniel Morales</span>
+<span class="text-xs text-slate-500 block truncate">daniel.m@pluxee.io</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-4 text-xs font-semibold text-slate-700">
+<span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-800">Ventas</span>
+</td>
+<td class="px-4 py-4">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-xs font-medium border border-blue-200/50">Comida 150 €</span>
+<span class="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 text-xs font-medium border border-indigo-200/50">Transporte 50 €</span>
+</div>
+</td>
+<td class="px-4 py-4 text-right">
+<span class="font-['Plus_Jakarta_Sans'] text-sm font-extrabold text-emerald-700">200 €</span>
+</td>
+<td class="pr-6 pl-4 py-4 text-center">
+<button onclick="document.getElementById('modal-modificar-empleado').classList.remove('hidden')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 text-xs font-semibold border border-slate-200/70 transition-colors inline-flex items-center gap-1 shadow-2xs" type="button">
+  <span class="material-symbols-outlined text-sm text-blue-600">edit</span>
+  <span>Modificar Empleado</span>
+</button>
+</td>
+</tr>
+<!-- Row 5: Sandra Navarro -->
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="pl-6 pr-4 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 font-bold text-xs flex items-center justify-center shrink-0 border border-rose-200/60 shadow-2xs">SN</div>
+<div class="min-w-0">
+<span class="font-semibold text-slate-900 block truncate leading-tight">Sandra Navarro</span>
+<span class="text-xs text-slate-500 block truncate">sandra.n@pluxee.io</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-4 text-xs font-semibold text-slate-700">
+<span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-800">Marketing</span>
+</td>
+<td class="px-4 py-4">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-xs font-medium border border-emerald-200/50">Formación 200 €</span>
+<span class="px-2 py-0.5 rounded-md bg-teal-50 text-teal-700 text-xs font-medium border border-teal-200/50">Seguro 85 €</span>
+</div>
+</td>
+<td class="px-4 py-4 text-right">
+<span class="font-['Plus_Jakarta_Sans'] text-sm font-extrabold text-emerald-700">285 €</span>
+</td>
+<td class="pr-6 pl-4 py-4 text-center">
+<button onclick="document.getElementById('modal-modificar-empleado').classList.remove('hidden')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 text-xs font-semibold border border-slate-200/70 transition-colors inline-flex items-center gap-1 shadow-2xs" type="button">
+  <span class="material-symbols-outlined text-sm text-blue-600">edit</span>
+  <span>Modificar Empleado</span>
+</button>
+</td>
+</tr>
+<!-- Row 6: Javier Pardo -->
+<tr class="hover:bg-slate-50/70 transition-colors">
+<td class="pl-6 pr-4 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center justify-center shrink-0 border border-emerald-200/60 shadow-2xs">JP</div>
+<div class="min-w-0">
+<span class="font-semibold text-slate-900 block truncate leading-tight">Javier Pardo</span>
+<span class="text-xs text-slate-500 block truncate">jpardo@pluxee.io</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-4 text-xs font-semibold text-slate-700">
+<span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-800">Tecnología</span>
+</td>
+<td class="px-4 py-4">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-xs font-medium border border-blue-200/50">Comida 150 €</span>
+<span class="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 text-xs font-medium border border-indigo-200/50">Transporte 50 €</span>
+<span class="px-2 py-0.5 rounded-md bg-teal-50 text-teal-700 text-xs font-medium border border-teal-200/50">Seguro 85 €</span>
+</div>
+</td>
+<td class="px-4 py-4 text-right">
+<span class="font-['Plus_Jakarta_Sans'] text-sm font-extrabold text-emerald-700">285 €</span>
+</td>
+<td class="pr-6 pl-4 py-4 text-center">
+<button onclick="document.getElementById('modal-modificar-empleado').classList.remove('hidden')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-700 text-xs font-semibold border border-slate-200/70 transition-colors inline-flex items-center gap-1 shadow-2xs" type="button">
+  <span class="material-symbols-outlined text-sm text-blue-600">edit</span>
+  <span>Modificar Empleado</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="px-6 py-3.5 bg-slate-50/80 flex items-center justify-between border-t border-slate-200/80 text-xs text-slate-500">
+<span class="font-medium">Página 1 de 4 (24 empleados en total)</span>
+<div class="flex items-center gap-1.5">
+<button class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-400 opacity-60 cursor-not-allowed font-medium shadow-2xs" disabled="" type="button">Anterior</button>
+<button class="px-3 py-1.5 rounded-lg bg-[#0058be] text-white font-semibold shadow-2xs" type="button">1</button>
+<button class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-medium transition-colors shadow-2xs" type="button">2</button>
+<button class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-medium transition-colors shadow-2xs" type="button">3</button>
+<button class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-medium transition-colors shadow-2xs" type="button">4</button>
+<button class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold transition-colors shadow-2xs" type="button">Siguiente</button>
+</div>
+        </div>
+      </div>
+    </div>
+</main>
+<!-- CORPORATE FOOTER -->
+<footer class="w-full border-t border-slate-200/70 bg-white py-6 mt-12">
+<div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-body-sm text-xs text-slate-500">
+<div class="flex items-center gap-2">
+<span>© 2024 Pluxee Enterprise. Todos los derechos reservados.</span>
+</div>
+<div class="flex items-center gap-6">
+<a class="hover:text-slate-900 transition-colors" href="#">Política de Privacidad</a>
+<a class="hover:text-slate-900 transition-colors" href="#">Términos de Servicio</a>
+<a class="hover:text-slate-900 transition-colors" href="#">Soporte Corporativo</a>
+<a class="hover:text-slate-900 transition-colors" href="#">Seguridad GDPR</a>
+</div>
+</div>
+</footer>
+
+<!-- MODAL: Modificar Empleado y Desglose de Beneficios -->
+<div id="modal-modificar-empleado" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
+    
+    <!-- Modal Header -->
+    <div class="sticky top-0 bg-white/95 backdrop-blur z-10 px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+      <div class="flex items-center gap-3.5">
+        <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 font-extrabold text-base flex items-center justify-center shrink-0 border border-blue-200/80 shadow-xs">SC</div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h3 class="font-['Plus_Jakarta_Sans'] text-lg font-bold text-slate-900">Sofia Chen</h3>
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-semibold flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Activo en nómina
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 font-medium">Senior UX Designer • Diseño de Producto • sofia.chen@pluxee-enterprise.io</p>
+        </div>
+      </div>
+      <button onclick="document.getElementById('modal-modificar-empleado').classList.add('hidden')" type="button" class="text-slate-400 hover:text-slate-600 rounded-lg p-1.5 transition-colors">
+        <span class="material-symbols-outlined text-2xl">close</span>
+      </button>
+    </div>
+
+    <div class="p-6 flex flex-col gap-6">
+      
+      <!-- 3 Quick KPI Cards of Employee -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 flex flex-col justify-between">
+          <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Asignado Total</span>
+          <span class="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-slate-900 mt-1">1.850 €</span>
+          <span class="text-xs text-slate-500 mt-1">Suma de 4 categorías activas</span>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 flex flex-col justify-between">
+          <span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Gastado Total</span>
+          <span class="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-blue-700 mt-1">920 €</span>
+          <span class="text-xs text-blue-600 font-medium mt-1">49.7% ejecutado</span>
+        </div>
+        <div class="p-4 rounded-xl bg-emerald-50/60 border border-emerald-200/80 flex flex-col justify-between">
+          <span class="text-[11px] font-semibold text-emerald-800 uppercase tracking-wider">Saldo Disponible Restante</span>
+          <span class="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-emerald-700 mt-1">930 €</span>
+          <span class="text-xs text-emerald-600 font-medium mt-1">Remanente neto acumulable</span>
+        </div>
+      </div>
+
+      <!-- Rule Reminder -->
+      <div class="p-3 bg-blue-50/80 rounded-xl border border-blue-200/70 text-xs text-blue-800 flex items-start gap-2">
+        <span class="material-symbols-outlined text-base text-blue-600 shrink-0">info</span>
+        <span><strong>Regla de Negocio:</strong> Un empleado puede tener varios beneficios, pero máximo uno por cada categoría. Puedes ajustar el importe asignado a continuación.</span>
+      </div>
+
+      <!-- Categories & Benefits Allocation List -->
+      <div class="flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <h4 class="font-['Plus_Jakarta_Sans'] font-bold text-base text-slate-900">Beneficios Asignados a Sofia (por Categoría)</h4>
+          <span class="text-xs text-slate-500 font-medium">4 categorías asignadas</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Comida -->
+          <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-2xs flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-blue-600">restaurant</span>
+                <span class="font-bold text-sm text-slate-900">Comida &amp; Restauración</span>
+              </div>
+              <span class="text-xs font-bold text-slate-500">60% consumido</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-xs">
+              <div>
+                <span class="text-slate-500 block">Asignado:</span>
+                <input type="number" value="350" class="w-full h-8 px-2 mt-0.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-900">
+              </div>
+              <div>
+                <span class="text-slate-500 block">Gastado:</span>
+                <span class="font-semibold text-slate-800 block mt-1.5">210 €</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block">Disponible:</span>
+                <span class="font-extrabold text-emerald-700 block mt-1.5">140 €</span>
+              </div>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+              <div class="bg-blue-600 h-1.5 rounded-full" style="width: 60%;"></div>
+            </div>
+          </div>
+
+          <!-- Transporte -->
+          <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-2xs flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-indigo-600">directions_bus</span>
+                <span class="font-bold text-sm text-slate-900">Transporte Sostenible</span>
+              </div>
+              <span class="text-xs font-bold text-slate-500">63% consumido</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-xs">
+              <div>
+                <span class="text-slate-500 block">Asignado:</span>
+                <input type="number" value="150" class="w-full h-8 px-2 mt-0.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-900">
+              </div>
+              <div>
+                <span class="text-slate-500 block">Gastado:</span>
+                <span class="font-semibold text-slate-800 block mt-1.5">95 €</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block">Disponible:</span>
+                <span class="font-extrabold text-emerald-700 block mt-1.5">55 €</span>
+              </div>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+              <div class="bg-indigo-600 h-1.5 rounded-full" style="width: 63%;"></div>
+            </div>
+          </div>
+
+          <!-- Formación -->
+          <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-2xs flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-emerald-600">school</span>
+                <span class="font-bold text-sm text-slate-900">Formación Continua</span>
+              </div>
+              <span class="text-xs font-bold text-slate-500">50% consumido</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-xs">
+              <div>
+                <span class="text-slate-500 block">Asignado:</span>
+                <input type="number" value="1000" class="w-full h-8 px-2 mt-0.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-900">
+              </div>
+              <div>
+                <span class="text-slate-500 block">Gastado:</span>
+                <span class="font-semibold text-slate-800 block mt-1.5">500 €</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block">Disponible:</span>
+                <span class="font-extrabold text-emerald-700 block mt-1.5">500 €</span>
+              </div>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+              <div class="bg-emerald-600 h-1.5 rounded-full" style="width: 50%;"></div>
+            </div>
+          </div>
+
+          <!-- Salud -->
+          <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-2xs flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-teal-600">health_and_safety</span>
+                <span class="font-bold text-sm text-slate-900">Salud &amp; Bienestar</span>
+              </div>
+              <span class="text-xs font-bold text-slate-500">32% consumido</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-xs">
+              <div>
+                <span class="text-slate-500 block">Asignado:</span>
+                <input type="number" value="350" class="w-full h-8 px-2 mt-0.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-900">
+              </div>
+              <div>
+                <span class="text-slate-500 block">Gastado:</span>
+                <span class="font-semibold text-slate-800 block mt-1.5">115 €</span>
+              </div>
+              <div>
+                <span class="text-slate-500 block">Disponible:</span>
+                <span class="font-extrabold text-emerald-700 block mt-1.5">235 €</span>
+              </div>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+              <div class="bg-teal-600 h-1.5 rounded-full" style="width: 32%;"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Add New Category to Employee Form -->
+      <div class="p-4 bg-slate-50/80 rounded-xl border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div class="flex flex-col">
+          <span class="text-xs font-bold text-slate-800">+ Asignar Nueva Categoría a Sofia</span>
+          <span class="text-[11px] text-slate-500">Disponible: Guardería Infantil (las otras 4 ya están asignadas)</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <select class="h-9 px-3 bg-white border border-slate-200 rounded-lg text-xs text-slate-800 outline-none">
+            <option>Guardería Infantil (0-3 años)</option>
+          </select>
+          <input type="number" placeholder="Importe (€)" value="250" class="h-9 w-28 px-3 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-800 outline-none">
+          <button type="button" class="h-9 px-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-2xs transition-colors shrink-0">Asignar</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Modal Footer Actions -->
+    <div class="sticky bottom-0 bg-white/95 backdrop-blur z-10 px-6 py-4 border-t border-slate-100 flex items-center justify-between">
+      <button onclick="document.getElementById('modal-modificar-empleado').classList.add('hidden')" type="button" class="px-3.5 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 rounded-xl transition-colors flex items-center gap-1">
+        <span class="material-symbols-outlined text-base">delete</span>
+        <span>Eliminar Empleado</span>
+      </button>
+
+      <div class="flex items-center gap-2.5">
+        <button onclick="document.getElementById('modal-modificar-empleado').classList.add('hidden')" type="button" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-100 transition-colors">
+          Cerrar
+        </button>
+        <button onclick="document.getElementById('modal-modificar-empleado').classList.add('hidden')" type="button" class="px-5 py-2 rounded-xl bg-[#091426] hover:bg-[#1e293b] text-white text-xs font-semibold transition-all shadow-xs flex items-center gap-1">
+          <span class="material-symbols-outlined text-base">save</span>
+          <span>Guardar Cambios</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL: Dar de Alta Nuevo Empleado -->
+<div id="modal-nuevo-empleado" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-slate-200 animate-in fade-in zoom-in-95 duration-150">
+    
+    <!-- Modal Header -->
+    <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200/60 flex items-center justify-center text-blue-700">
+          <span class="material-symbols-outlined text-xl">person_add</span>
+        </div>
+        <div>
+          <h3 class="font-['Plus_Jakarta_Sans'] text-base font-bold text-slate-900">Dar de Alta Nuevo Empleado</h3>
+          <p class="text-xs text-slate-500">Crea el perfil del colaborador en Pluxee</p>
+        </div>
+      </div>
+      <button onclick="document.getElementById('modal-nuevo-empleado').classList.add('hidden')" type="button" class="text-slate-400 hover:text-slate-600 rounded-lg p-1.5 transition-colors cursor-pointer">
+        <span class="material-symbols-outlined text-2xl">close</span>
+      </button>
+    </div>
+
+    <!-- Modal Form Body -->
+    <form class="p-6 flex flex-col gap-4" onsubmit="event.preventDefault(); document.getElementById('modal-nuevo-empleado').classList.add('hidden');">
+      <div class="flex flex-col gap-1.5">
+        <label class="text-xs font-semibold text-slate-700">Nombre y Apellidos</label>
+        <input type="text" placeholder="ej. Lucía Méndez" class="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all font-medium">
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <label class="text-xs font-semibold text-slate-700">Correo Electrónico Corporativo</label>
+        <input type="email" placeholder="lucia.mendez@pluxee.io" class="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all font-medium">
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-semibold text-slate-700">Departamento</label>
+          <select class="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:bg-white focus:border-blue-500 font-medium">
+            <option>Tecnología</option>
+            <option>Marketing</option>
+            <option>RRHH</option>
+            <option>Ventas</option>
+            <option>Finanzas</option>
+          </select>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-semibold text-slate-700">Puesto / Cargo</label>
+          <input type="text" placeholder="Product Manager" class="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:bg-white focus:border-blue-500 font-medium">
+        </div>
+      </div>
+
+      <div class="p-3 bg-blue-50/70 border border-blue-200/60 rounded-xl flex items-start gap-2.5 text-xs text-blue-900 mt-1">
+        <span class="material-symbols-outlined text-blue-600 text-base shrink-0 mt-0.5">info</span>
+        <span class="leading-relaxed">Una vez dado de alta, podrás asignarle múltiples beneficios independientes (hasta uno por categoría) desde el botón <strong>Modificar Empleado</strong>.</span>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-2.5 pt-3 border-t border-slate-100">
+        <button onclick="document.getElementById('modal-nuevo-empleado').classList.add('hidden')" type="button" class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-slate-700 font-semibold text-xs transition-colors cursor-pointer">
+          Cancelar
+        </button>
+        <button type="submit" class="flex-1 py-2.5 rounded-xl bg-[#0058be] hover:bg-[#2170e4] text-white font-semibold text-xs shadow-sm shadow-blue-600/20 flex items-center justify-center gap-1.5 transition-all cursor-pointer">
+          <span class="material-symbols-outlined text-base">check</span>
+          <span>Dar de Alta</span>
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<script>
+  // Close modals on ESC key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      const modalMod = document.getElementById('modal-modificar-empleado');
+      if (modalMod) modalMod.classList.add('hidden');
+      const modalNew = document.getElementById('modal-nuevo-empleado');
+      if (modalNew) modalNew.classList.add('hidden');
+    }
+  });
+</script>
+
+</body></html>

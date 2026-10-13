@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="web_dashboard" name="shell-type" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @layer base {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overscroll-behavior: none;
+        }
+        main > :first-child {
+          margin-top: 0 !important;
+        }
+        main > :last-child {
+          margin-bottom: 0 !important;
+        }
+      }
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed": "#111c2d",
+              "on-primary-container": "#8590a6",
+              "secondary-container": "#2170e4",
+              "outline-variant": "#c5c6cd",
+              "inverse-primary": "#bcc7de",
+              tertiary: "#00190e",
+              outline: "#75777d",
+              "primary-fixed-dim": "#bcc7de",
+              "surface-bright": "#f8f9ff",
+              "surface-container-highest": "#d3e4fe",
+              "inverse-surface": "#213145",
+              "primary-fixed": "#d8e3fb",
+              secondary: "#0058be",
+              "on-primary-fixed-variant": "#3c475a",
+              "surface-container-low": "#eff4ff",
+              "on-error-container": "#93000a",
+              surface: "#f8f9ff",
+              "on-secondary-container": "#fefcff",
+              "on-secondary-fixed": "#001a42",
+              "on-tertiary-fixed": "#002113",
+              "surface-container": "#e5eeff",
+              "on-secondary-fixed-variant": "#004395",
+              "secondary-fixed-dim": "#adc6ff",
+              "secondary-fixed": "#d8e2ff",
+              "on-tertiary": "#ffffff",
+              "primary-container": "#1e293b",
+              "on-background": "#0b1c30",
+              "surface-variant": "#d3e4fe",
+              "on-primary": "#ffffff",
+              "on-secondary": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-tertiary-container": "#00a472",
+              "surface-dim": "#cbdbf5",
+              "tertiary-fixed-dim": "#4edea3",
+              "surface-container-high": "#dce9ff",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#eaf1ff",
+              "on-tertiary-fixed-variant": "#005236",
+              "on-surface-variant": "#45474c",
+              error: "#ba1a1a",
+              "surface-tint": "#545f73",
+              background: "#f8f9ff",
+              "on-error": "#ffffff",
+              "tertiary-container": "#00301e",
+              "on-surface": "#0b1c30",
+              "tertiary-fixed": "#6ffbbe",
+              primary: "#091426",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            fontFamily: {
+              headline: ["Plus Jakarta Sans", "sans-serif"],
+              body: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-[#f8f9ff] font-['Inter'] text-[#0b1c30] antialiased min-h-screen flex flex-col"
+  >
+    <!-- TOP HEADER NAVBAR -->
+    <header
+      class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200/80 px-6 py-3.5 shadow-sm transition-all"
+    >
+      <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        <!-- Left Side: Logo & Brand -->
+        <div class="flex items-center gap-3">
+          <a href="dashboard.html" class="flex items-center gap-3 group"
+            ><img
+              src="../../assets/pluxee-icon.png"
+              alt="Pluxee Logo"
+              class="w-10 h-10 rounded-xl object-cover shadow-sm ring-1 ring-slate-200"
+            />
+            <div class="flex items-center gap-2">
+              <span
+                class="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#091426] tracking-tight group-hover:text-blue-600 transition-colors"
+                >Pluxee
+                <span class="font-semibold text-slate-600"
+                  >Enterprise</span
+                ></span
+              ><span
+                class="text-[11px] font-semibold text-blue-700 bg-blue-50 border border-blue-200/60 px-2 py-0.5 rounded-full"
+                >Gestión de Beneficios</span
+              >
+            </div></a
+          >
+        </div>
+        <!-- Center: Horizontal Navigation -->
+        <nav class="hidden md:flex items-center gap-1.5">
+          <a
+            aria-current="page"
+            class="font-semibold text-blue-600 bg-blue-50/80 px-3.5 py-1.5 rounded-lg border border-blue-100 text-sm transition-colors flex items-center gap-1.5"
+            href="dashboard.html"
+            ><span class="material-symbols-outlined text-lg">dashboard</span
+            ><span>Dashboard</span></a
+          ><a
+            class="font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 px-3.5 py-1.5 rounded-lg text-sm transition-colors flex items-center gap-1.5"
+            href="empleados.html"
+            ><span class="material-symbols-outlined text-lg">groups</span
+            ><span>Empleados</span></a
+          ><a
+            class="font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 px-3.5 py-1.5 rounded-lg text-sm transition-colors flex items-center gap-1.5"
+            href="gastos.html"
+            ><span class="material-symbols-outlined text-lg">receipt_long</span
+            ><span>Gastos y Aprobaciones</span
+            ><span
+              class="ml-1 bg-amber-100 text-amber-800 text-xs font-semibold px-1.5 py-0.2 rounded-full"
+              >4</span
+            ></a
+          ><a
+            class="font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 px-3.5 py-1.5 rounded-lg text-sm transition-colors flex items-center gap-1.5"
+            href="categorias.html"
+            ><span class="material-symbols-outlined text-lg">category</span
+            ><span>Categorías</span></a
+          >
+        </nav>
+        <!-- Right Side: Currency Switcher Only (Single Admin User) -->
+        <div class="flex items-center gap-3">
+          <div
+            class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200/60 text-xs font-medium"
+          >
+            <button
+              class="px-2.5 py-1 rounded-md bg-white text-slate-900 font-semibold shadow-xs transition-all"
+              type="button"
+            >
+              € EUR</button
+            ><button
+              class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-colors"
+              type="button"
+            >
+              $ USD</button
+            ><button
+              class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-colors"
+              type="button"
+            >
+              £ GBP
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- MAIN FULL-WIDTH CONTAINER -->
+    <main class="w-full flex-1 max-w-7xl mx-auto px-6 py-8">
+      <div class="flex flex-col w-full gap-8">
+        <!-- Header Title Area -->
+        <div
+          class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200/60"
+        >
+          <div class="flex flex-col gap-1">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-blue-600"></span
+              ><span
+                class="text-xs font-semibold text-slate-500 uppercase tracking-wider"
+                >Panel Administrador RRHH</span
+              ><span class="text-xs text-slate-300">•</span
+              ><span class="text-xs font-medium text-slate-500"
+                >Pluxee Enterprise</span
+              >
+            </div>
+            <h1
+              class="font-['Plus_Jakarta_Sans'] text-2xl sm:text-3xl font-bold text-[#091426] tracking-tight"
+            >
+              Dashboard de Control de Beneficios
+            </h1>
+            <p class="text-sm text-slate-600">
+              Supervisión en tiempo real de saldos disponibles, presupuestos y
+              consumos.
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <a
+              href="empleados.html"
+              class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-white hover:bg-slate-50 text-slate-800 text-sm font-semibold shadow-xs border border-slate-300 transition-colors"
+              ><span class="material-symbols-outlined text-lg text-blue-600"
+                >person_add</span
+              ><span>+ Nuevo Empleado</span></a
+            ><a
+              href="gastos.html"
+              class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#091426] hover:bg-[#1e293b] text-white text-sm font-semibold shadow-sm transition-all"
+              ><span class="material-symbols-outlined text-lg">add_circle</span
+              ><span>+ Registrar Gasto</span></a
+            >
+          </div>
+        </div>
+        <!-- Resumen con IA (Funcionalidad de Valor Añadido 6.2) -->
+        <div
+          class="p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-950 text-white shadow-md relative overflow-hidden border border-blue-900/40"
+        >
+          <div
+            class="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10"
+          >
+            <div class="flex items-start gap-3.5">
+              <div
+                class="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-300 shrink-0"
+              >
+                <span class="material-symbols-outlined text-2xl"
+                  >auto_awesome</span
+                >
+              </div>
+              <div class="flex flex-col gap-1">
+                <div class="flex items-center gap-2">
+                  <span
+                    class="font-['Plus_Jakarta_Sans'] text-base font-bold text-white"
+                    >Resumen Inteligente de Saldo con IA</span
+                  ><span
+                    class="px-2 py-0.5 rounded-full bg-blue-400/20 text-blue-200 text-[10px] font-semibold uppercase tracking-wider border border-blue-300/20"
+                    >Google Genkit</span
+                  >
+                </div>
+                <p class="text-xs text-slate-300 max-w-3xl leading-relaxed">
+                  El gasto acumulado (€28.500) representa el 63.3% del
+                  presupuesto asignado (€45.000). Quedan
+                  <strong class="text-emerald-300 font-semibold"
+                    >€16.500 disponibles</strong
+                  >
+                  en total.
+                  <span class="text-amber-300 font-medium">Recomendación:</span>
+                  La categoría <em>Comida</em> presenta un alto ritmo de consumo
+                  (78% agotado), mientras que <em>Salud</em> y
+                  <em>Formación</em> mantienen más del 50% de remanente
+                  disponible.
+                </p>
+              </div>
+            </div>
+            <div class="shrink-0">
+              <button
+                type="button"
+                class="px-3.5 py-2 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-semibold text-white transition-all flex items-center gap-1.5 shadow-xs"
+              >
+                <span class="material-symbols-outlined text-base text-blue-300"
+                  >refresh</span
+                ><span>Actualizar Análisis</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- 3 Clean KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <!-- Card 1: Total Asignado -->
+          <div
+            class="p-6 rounded-xl bg-white shadow-sm border border-slate-200/80 flex flex-col justify-between gap-4 transition-all hover:shadow-md"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex flex-col">
+                <span
+                  class="text-xs font-semibold uppercase tracking-wider text-slate-500"
+                  >Presupuesto Global</span
+                ><span class="text-sm font-semibold text-slate-700"
+                  >Total Asignado</span
+                >
+              </div>
+              <div
+                class="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-xl"
+                  >account_balance_wallet</span
+                >
+              </div>
+            </div>
+            <div>
+              <div
+                class="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#091426] tracking-tight"
+              >
+                €45.000
+              </div>
+              <p class="text-xs text-slate-500 mt-1">
+                Presupuesto activo para el trimestre
+              </p>
+            </div>
+            <div class="space-y-1.5 pt-2 border-t border-slate-100">
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div class="bg-blue-600 h-2 rounded-full w-full"></div>
+              </div>
+              <div
+                class="flex items-center justify-between text-xs text-slate-600"
+              >
+                <span class="font-semibold text-blue-700">100% Planificado</span
+                ><span>124 Empleados Activos</span>
+              </div>
+            </div>
+          </div>
+          <!-- Card 2: Total Gastado -->
+          <div
+            class="p-6 rounded-xl bg-white shadow-sm border border-slate-200/80 flex flex-col justify-between gap-4 transition-all hover:shadow-md"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex flex-col">
+                <span
+                  class="text-xs font-semibold uppercase tracking-wider text-slate-500"
+                  >Consumo Acumulado</span
+                ><span class="text-sm font-semibold text-slate-700"
+                  >Total Gastado</span
+                >
+              </div>
+              <div
+                class="w-10 h-10 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-xl"
+                  >trending_up</span
+                >
+              </div>
+            </div>
+            <div>
+              <div
+                class="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#091426] tracking-tight"
+              >
+                €28.500
+              </div>
+              <p class="text-xs text-slate-500 mt-1">
+                Consumo registrado en el período
+              </p>
+            </div>
+            <div class="space-y-1.5 pt-2 border-t border-slate-100">
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div
+                  class="bg-amber-500 h-2 rounded-full"
+                  style="width: 63.3%"
+                ></div>
+              </div>
+              <div class="flex items-center justify-between text-xs">
+                <span
+                  class="font-semibold text-amber-800 bg-amber-50 border border-amber-200/60 px-2 py-0.5 rounded-full"
+                  >63.3% ejecutado</span
+                ><span class="text-slate-500">En ritmo óptimo proyectado</span>
+              </div>
+            </div>
+          </div>
+          <!-- Card 3: Saldo Disponible -->
+          <div
+            class="p-6 rounded-xl bg-white shadow-sm border border-slate-200/80 flex flex-col justify-between gap-4 transition-all hover:shadow-md"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex flex-col">
+                <span
+                  class="text-xs font-semibold uppercase tracking-wider text-slate-500"
+                  >Remanente Neto</span
+                ><span class="text-sm font-semibold text-slate-700"
+                  >Saldo Disponible Restante</span
+                >
+              </div>
+              <div
+                class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-xl"
+                  >check_circle</span
+                >
+              </div>
+            </div>
+            <div>
+              <div
+                class="font-['Plus_Jakarta_Sans'] text-3xl font-extrabold text-[#091426] tracking-tight"
+              >
+                €16.500
+              </div>
+              <p class="text-xs text-slate-500 mt-1">
+                Remanente utilizable por empleados
+              </p>
+            </div>
+            <div class="space-y-1.5 pt-2 border-t border-slate-100">
+              <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div
+                  class="bg-emerald-600 h-2 rounded-full"
+                  style="width: 36.7%"
+                ></div>
+              </div>
+              <div class="flex items-center justify-between text-xs">
+                <span
+                  class="font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded-full"
+                  >36.7% restante</span
+                ><span class="font-semibold text-emerald-700"
+                  >Solvencia Completa</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Category Breakdown Section -->
+        <div
+          class="bg-white p-6 rounded-xl shadow-sm border border-slate-200/80 flex flex-col gap-5"
+        >
+          <div
+            class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1 border-b border-slate-100"
+          >
+            <div class="flex flex-col">
+              <span
+                class="text-xs font-semibold text-slate-500 uppercase tracking-wider"
+                >Distribución Presupuestaria</span
+              >
+              <h2
+                class="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#091426]"
+              >
+                Gastos por Categoría
+              </h2>
+            </div>
+            <div class="flex items-center gap-2">
+              <span
+                class="text-xs font-medium text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md"
+                >4 categorías activas</span
+              >
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Comida -->
+            <div
+              class="p-4 rounded-xl bg-slate-50/70 border border-slate-200/60 flex flex-col gap-3 hover:bg-white hover:shadow-xs transition-all"
+            >
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-blue-600 text-xl"
+                    >restaurant</span
+                  ><span class="font-semibold text-slate-900 text-sm"
+                    >Comida</span
+                  >
+                </div>
+                <span
+                  class="text-xs font-bold px-2 py-0.5 rounded-full bg-amber-100/70 text-amber-900"
+                  >78%</span
+                >
+              </div>
+              <div class="flex items-baseline justify-between">
+                <span
+                  class="font-['Plus_Jakarta_Sans'] text-xl font-bold text-slate-900"
+                  >€11.700</span
+                ><span class="text-xs text-slate-500">de €15.000</span>
+              </div>
+              <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                <div
+                  class="bg-blue-600 h-2 rounded-full"
+                  style="width: 78%"
+                ></div>
+              </div>
+              <div
+                class="flex items-center justify-between text-xs text-slate-500"
+              >
+                <span>Disponible:</span
+                ><span class="font-semibold text-slate-800">€3.300</span>
+              </div>
+            </div>
+            <!-- Transporte -->
+            <div
+              class="p-4 rounded-xl bg-slate-50/70 border border-slate-200/60 flex flex-col gap-3 hover:bg-white hover:shadow-xs transition-all"
+            >
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-blue-600 text-xl"
+                    >directions_bus</span
+                  ><span class="font-semibold text-slate-900 text-sm"
+                    >Transporte</span
+                  >
+                </div>
+                <span
+                  class="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-800"
+                  >65%</span
+                >
+              </div>
+              <div class="flex items-baseline justify-between">
+                <span
+                  class="font-['Plus_Jakarta_Sans'] text-xl font-bold text-slate-900"
+                  >€7.800</span
+                ><span class="text-xs text-slate-500">de €12.000</span>
+              </div>
+              <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                <div
+                  class="bg-blue-600 h-2 rounded-full"
+                  style="width: 65%"
+                ></div>
+              </div>
+              <div
+                class="flex items-center justify-between text-xs text-slate-500"
+              >
+                <span>Disponible:</span
+                ><span class="font-semibold text-slate-800">€4.200</span>
+              </div>
+            </div>
+            <!-- Formación -->
+            <div
+              class="p-4 rounded-xl bg-slate-50/70 border border-slate-200/60 flex flex-col gap-3 hover:bg-white hover:shadow-xs transition-all"
+            >
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-blue-600 text-xl"
+                    >school</span
+                  ><span class="font-semibold text-slate-900 text-sm"
+                    >Formación</span
+                  >
+                </div>
+                <span
+                  class="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-100/70 text-emerald-900"
+                  >52%</span
+                >
+              </div>
+              <div class="flex items-baseline justify-between">
+                <span
+                  class="font-['Plus_Jakarta_Sans'] text-xl font-bold text-slate-900"
+                  >€5.200</span
+                ><span class="text-xs text-slate-500">de €10.000</span>
+              </div>
+              <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                <div
+                  class="bg-blue-600 h-2 rounded-full"
+                  style="width: 52%"
+                ></div>
+              </div>
+              <div
+                class="flex items-center justify-between text-xs text-slate-500"
+              >
+                <span>Disponible:</span
+                ><span class="font-semibold text-slate-800">€4.800</span>
+              </div>
+            </div>
+            <!-- Salud -->
+            <div
+              class="p-4 rounded-xl bg-slate-50/70 border border-slate-200/60 flex flex-col gap-3 hover:bg-white hover:shadow-xs transition-all"
+            >
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-blue-600 text-xl"
+                    >health_and_safety</span
+                  ><span class="font-semibold text-slate-900 text-sm"
+                    >Salud</span
+                  >
+                </div>
+                <span
+                  class="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-100/70 text-emerald-900"
+                  >47%</span
+                >
+              </div>
+              <div class="flex items-baseline justify-between">
+                <span
+                  class="font-['Plus_Jakarta_Sans'] text-xl font-bold text-slate-900"
+                  >€3.800</span
+                ><span class="text-xs text-slate-500">de €8.000</span>
+              </div>
+              <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                <div
+                  class="bg-blue-600 h-2 rounded-full"
+                  style="width: 47%"
+                ></div>
+              </div>
+              <div
+                class="flex items-center justify-between text-xs text-slate-500"
+              >
+                <span>Disponible:</span
+                ><span class="font-semibold text-slate-800">€4.200</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Tabla de Empleados Recientes -->
+        <div
+          class="bg-white rounded-xl shadow-sm border border-slate-200/80 overflow-hidden flex flex-col"
+        >
+          <div
+            class="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80"
+          >
+            <div class="flex flex-col">
+              <span
+                class="text-xs font-semibold text-slate-500 uppercase tracking-wider"
+                >Actividad de Retribución Flexible</span
+              >
+              <h2
+                class="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#091426]"
+              >
+                Empleados Recientes
+              </h2>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="relative flex items-center">
+                <span
+                  class="material-symbols-outlined absolute left-3 text-slate-400 text-lg"
+                  >search</span
+                ><input
+                  class="pl-9 pr-3 py-1.5 text-sm rounded-lg bg-slate-50 text-slate-900 placeholder-slate-400 outline-none border border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all w-64"
+                  placeholder="Buscar empleado o ID..."
+                  type="text"
+                />
+              </div>
+              <button
+                class="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+                type="button"
+              >
+                <span class="material-symbols-outlined text-sm"
+                  >filter_list</span
+                ><span>Filtrar</span>
+              </button>
+            </div>
+          </div>
+          <div class="overflow-x-auto w-full">
+            <table class="w-full text-left border-collapse">
+              <thead
+                class="bg-slate-50/80 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200/80"
+              >
+                <tr>
+                  <th class="py-3 px-6 font-semibold">Empleado</th>
+                  <th class="py-3 px-4 font-semibold">Categoría Principal</th>
+                  <th class="py-3 px-4 font-semibold text-right">Gastado</th>
+                  <th class="py-3 px-4 font-semibold text-right">
+                    Saldo Restante
+                  </th>
+                  <th class="py-3 px-4 font-semibold">Estado de Cupo</th>
+                  <th class="py-3 px-6 font-semibold text-right">Acción</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-sm text-slate-700">
+                <tr class="hover:bg-slate-50/60 transition-colors">
+                  <td class="py-3.5 px-6">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-9 h-9 rounded-xl bg-blue-100 text-blue-700 font-bold text-xs flex items-center justify-center shrink-0 border border-blue-200/60"
+                      >
+                        SC
+                      </div>
+                      <div class="flex flex-col">
+                        <span class="font-semibold text-slate-900"
+                          >Sofia Chen</span
+                        ><span class="text-xs text-slate-500">Talent Lead</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <span
+                      class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 text-xs font-medium"
+                      >Salud &amp; Bienestar</span
+                    >
+                  </td>
+                  <td
+                    class="py-3.5 px-4 text-right font-semibold text-slate-900"
+                  >
+                    €1.480
+                  </td>
+                  <td class="py-3.5 px-4 text-right font-medium text-slate-500">
+                    €2.120
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <span
+                      class="inline-flex items-center px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-xs font-semibold border border-emerald-200/60"
+                      >41% Consumido</span
+                    >
+                  </td>
+                  <td class="py-3.5 px-6 text-right">
+                    <a
+                      href="empleados.html"
+                      class="inline-block px-3 py-1 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-800 text-xs font-semibold transition-colors"
+                      >Ver Ficha</a
+                    >
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/60 transition-colors">
+                  <td class="py-3.5 px-6">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 font-bold text-xs flex items-center justify-center shrink-0 border border-amber-200/60"
+                      >
+                        CR
+                      </div>
+                      <div class="flex flex-col">
+                        <span class="font-semibold text-slate-900"
+                          >Carlos Ruiz</span
+                        ><span class="text-xs text-slate-500"
+                          >Product Designer</span
+                        >
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <span
+                      class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 text-xs font-medium"
+                      >Comida &amp; Restauración</span
+                    >
+                  </td>
+                  <td
+                    class="py-3.5 px-4 text-right font-semibold text-slate-900"
+                  >
+                    €2.210
+                  </td>
+                  <td class="py-3.5 px-4 text-right font-medium text-slate-500">
+                    €190
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <span
+                      class="inline-flex items-center px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 text-xs font-semibold border border-amber-200/60"
+                      >92% Consumido</span
+                    >
+                  </td>
+                  <td class="py-3.5 px-6 text-right">
+                    <a
+                      href="empleados.html"
+                      class="inline-block px-3 py-1 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-800 text-xs font-semibold transition-colors"
+                      >Ver Ficha</a
+                    >
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/60 transition-colors">
+                  <td class="py-3.5 px-6">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-9 h-9 rounded-xl bg-purple-100 text-purple-700 font-bold text-xs flex items-center justify-center shrink-0 border border-purple-200/60"
+                      >
+                        LM
+                      </div>
+                      <div class="flex flex-col">
+                        <span class="font-semibold text-slate-900"
+                          >Laura Moreno</span
+                        ><span class="text-xs text-slate-500"
+                          >Senior Frontend Eng.</span
+                        >
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <span
+                      class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 text-xs font-medium"
+                      >Formación Continua</span
+                    >
+                  </td>
+                  <td
+                    class="py-3.5 px-4 text-right font-semibold text-slate-900"
+                  >
+                    €1.100
+                  </td>
+                  <td class="py-3.5 px-4 text-right font-medium text-slate-500">
+                    €2.000
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <span
+                      class="inline-flex items-center px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-xs font-semibold border border-emerald-200/60"
+                      >35% Consumido</span
+                    >
+                  </td>
+                  <td class="py-3.5 px-6 text-right">
+                    <a
+                      href="empleados.html"
+                      class="inline-block px-3 py-1 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-800 text-xs font-semibold transition-colors"
+                      >Ver Ficha</a
+                    >
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/60 transition-colors">
+                  <td class="py-3.5 px-6">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center justify-center shrink-0 border border-emerald-200/60"
+                      >
+                        MR
+                      </div>
+                      <div class="flex flex-col">
+                        <span class="font-semibold text-slate-900"
+                          >Mateo Rivas</span
+                        ><span class="text-xs text-slate-500"
+                          >DevOps Specialist</span
+                        >
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <span
+                      class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 text-xs font-medium"
+                      >Transporte &amp; Abono</span
+                    >
+                  </td>
+                  <td
+                    class="py-3.5 px-4 text-right font-semibold text-slate-900"
+                  >
+                    €1.980
+                  </td>
+                  <td class="py-3.5 px-4 text-right font-medium text-slate-500">
+                    €820
+                  </td>
+                  <td class="py-3.5 px-4">
+                    <span
+                      class="inline-flex items-center px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 text-xs font-semibold border border-blue-200/60"
+                      >71% Consumido</span
+                    >
+                  </td>
+                  <td class="py-3.5 px-6 text-right">
+                    <a
+                      href="empleados.html"
+                      class="inline-block px-3 py-1 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-blue-700 text-slate-800 text-xs font-semibold transition-colors"
+                      >Ver Ficha</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div
+            class="px-6 py-3.5 bg-slate-50/80 flex items-center justify-between border-t border-slate-200/80"
+          >
+            <span class="text-xs text-slate-500"
+              >Mostrando 4 de 124 empleados registrados en Pluxee</span
+            >
+            <div class="flex items-center gap-2">
+              <button
+                class="px-3 py-1 rounded-md bg-white border border-slate-200 text-slate-600 hover:text-slate-900 text-xs font-medium shadow-xs transition-colors"
+                type="button"
+              >
+                Anterior</button
+              ><span class="text-xs text-slate-800 font-semibold px-2"
+                >Pág. 1 de 31</span
+              ><button
+                class="px-3 py-1 rounded-md bg-white border border-slate-200 text-slate-900 hover:bg-slate-50 text-xs font-semibold shadow-xs transition-colors"
+                type="button"
+              >
+                Siguiente
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="w-full border-t border-slate-200/70 bg-white py-4 mt-auto">
+      <div
+        class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2"
+      >
+        <div class="flex items-center gap-2">
+          <span class="font-semibold text-slate-700"
+            >Pluxee Enterprise HR Suite</span
+          ><span>•</span><span>Versión 3.4.2</span>
+        </div>
+        <div>
+          <span
+            >© 2024 Pluxee Technologies. Todos los derechos reservados.</span
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
