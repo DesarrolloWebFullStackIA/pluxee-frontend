@@ -54,18 +54,23 @@
   <!-- 3 Clean KPI Cards -->
   <div class="dash-kpi-grid">
     <!-- Card 1: Total Asignado -->
-    <div class="pluxee-kpi-card">
+    <div class="pluxee-kpi-card" id="kpi-total-assigned">
       <div class="kpi-top-row">
         <div class="kpi-label-group">
           <span class="kpi-category-label">Presupuesto Global</span>
           <span class="kpi-main-label">Total Asignado</span>
         </div>
-        <div class="kpi-icon-wrap blue">
-          <span class="material-symbols-outlined">account_balance_wallet</span>
+        <div class="kpi-top-actions">
+          <button type="button" class="btn-icon-edit" id="btn-edit-global-budget" title="Modificar Presupuesto Global" aria-label="Editar Total Asignado">
+            <span class="material-symbols-outlined">edit</span>
+          </button>
+          <div class="kpi-icon-wrap blue">
+            <span class="material-symbols-outlined">account_balance_wallet</span>
+          </div>
         </div>
       </div>
       <div class="kpi-value-group">
-        <div class="kpi-amount">€45.000</div>
+        <div class="kpi-amount" data-budget="limit">€45.000</div>
         <p class="kpi-hint">Presupuesto activo para el trimestre</p>
       </div>
       <div class="kpi-progress-section">
@@ -79,11 +84,11 @@
       </div>
     </div>
 
-    <!-- Card 2: Total Gastado -->
-    <div class="pluxee-kpi-card">
+    <!-- Card 2: Monitor Presupuestario & Semáforo Visual (US-FE-02.2) -->
+    <div class="pluxee-kpi-card" id="budget-monitor-card">
       <div class="kpi-top-row">
         <div class="kpi-label-group">
-          <span class="kpi-category-label">Consumo Acumulado</span>
+          <span class="kpi-category-label">Control Presupuestario</span>
           <span class="kpi-main-label">Total Gastado</span>
         </div>
         <div class="kpi-icon-wrap amber">
@@ -91,22 +96,25 @@
         </div>
       </div>
       <div class="kpi-value-group">
-        <div class="kpi-amount">€28.500</div>
+        <div class="kpi-amount" data-budget="spent">€28.500</div>
         <p class="kpi-hint">Consumo registrado en el período</p>
       </div>
       <div class="kpi-progress-section">
         <div class="dash-kpi-meter">
-          <div class="dash-meter-spent"></div>
+          <div class="dash-meter-spent semaphore-green" style="width: 63.3%;"></div>
         </div>
         <div class="kpi-footer-stats">
-          <span class="badge-status warning">63.3% ejecutado</span>
-          <span class="stat-subtle">En ritmo óptimo proyectado</span>
+          <span class="semaphore-badge semaphore-green">
+            <span class="semaphore-dot"></span>
+            <span>63.3% Nivel Óptimo</span>
+          </span>
+          <span class="stat-subtle">Ritmo proyectado saludable</span>
         </div>
       </div>
     </div>
 
     <!-- Card 3: Saldo Disponible -->
-    <div class="pluxee-kpi-card">
+    <div class="pluxee-kpi-card" id="kpi-total-available">
       <div class="kpi-top-row">
         <div class="kpi-label-group">
           <span class="kpi-category-label">Remanente Neto</span>
@@ -276,7 +284,10 @@
             <td class="text-right font-bold">€1.480</td>
             <td class="text-right text-muted">€2.120</td>
             <td>
-              <span class="badge-status success">41% Consumido</span>
+              <span class="semaphore-badge semaphore-green">
+                <span class="semaphore-dot"></span>
+                <span>41% Consumido</span>
+              </span>
             </td>
             <td class="text-right">
               <a href="#empleados" class="dash-table-view-btn">Ver Ficha</a>
@@ -298,7 +309,10 @@
             <td class="text-right font-bold">€2.210</td>
             <td class="text-right text-muted">€190</td>
             <td>
-              <span class="badge-status warning">92% Consumido</span>
+              <span class="semaphore-badge semaphore-red">
+                <span class="semaphore-dot"></span>
+                <span>92% Alerta Crítica</span>
+              </span>
             </td>
             <td class="text-right">
               <a href="#empleados" class="dash-table-view-btn">Ver Ficha</a>
@@ -320,7 +334,10 @@
             <td class="text-right font-bold">€1.100</td>
             <td class="text-right text-muted">€2.000</td>
             <td>
-              <span class="badge-status success">35% Consumido</span>
+              <span class="semaphore-badge semaphore-green">
+                <span class="semaphore-dot"></span>
+                <span>35% Consumido</span>
+              </span>
             </td>
             <td class="text-right">
               <a href="#empleados" class="dash-table-view-btn">Ver Ficha</a>
@@ -342,7 +359,10 @@
             <td class="text-right font-bold">€1.980</td>
             <td class="text-right text-muted">€820</td>
             <td>
-              <span class="badge-status warning">71% Consumido</span>
+              <span class="semaphore-badge semaphore-amber">
+                <span class="semaphore-dot"></span>
+                <span>71% Advertencia</span>
+              </span>
             </td>
             <td class="text-right">
               <a href="#empleados" class="dash-table-view-btn">Ver Ficha</a>
