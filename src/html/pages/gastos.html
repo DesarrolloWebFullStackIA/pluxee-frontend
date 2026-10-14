@@ -127,7 +127,62 @@
 <button class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-colors" type="button">$ USD</button>
 <button class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-colors" type="button">£ GBP</button>
 </div>
+<!-- Mobile Hamburger Drawer Toggle (US-FE-01.5) -->
+<button
+  id="mobileMenuToggle"
+  type="button"
+  class="md:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+  aria-expanded="false"
+  aria-controls="mobileMenu"
+  aria-label="Abrir menú de navegación"
+>
+  <span id="mobileMenuIcon" class="material-symbols-outlined text-2xl">menu</span>
+</button>
 </div>
+</div>
+
+<!-- Mobile Collapsible Navigation Drawer (US-FE-01.5) -->
+<div
+  id="mobileMenu"
+  class="hidden md:hidden border-t border-slate-200/80 mt-3 pt-3 pb-2 space-y-1 transition-all"
+  aria-label="Navegación móvil"
+>
+  <a
+    data-nav="dashboard"
+    class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 transition-colors"
+    href="dashboard.html"
+  >
+    <span class="material-symbols-outlined text-lg">dashboard</span>
+    <span>Dashboard</span>
+  </a>
+  <a
+    data-nav="empleados"
+    class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 transition-colors"
+    href="empleados.html"
+  >
+    <span class="material-symbols-outlined text-lg">groups</span>
+    <span>Empleados</span>
+  </a>
+  <a
+    aria-current="page"
+    data-nav="gastos"
+    class="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-semibold text-blue-600 bg-blue-50/80 transition-colors"
+    href="gastos.html"
+  >
+    <div class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-lg">receipt_long</span>
+      <span>Gastos y Aprobaciones</span>
+    </div>
+    <span class="bg-amber-100 text-amber-800 text-xs font-semibold px-2 py-0.5 rounded-full">4</span>
+  </a>
+  <a
+    data-nav="categorias"
+    class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 transition-colors"
+    href="categorias.html"
+  >
+    <span class="material-symbols-outlined text-lg">category</span>
+    <span>Categorías</span>
+  </a>
 </div>
 </header><main class="flex-1 w-full"><div class="max-w-7xl mx-auto px-6 py-8 flex flex-col gap-8"><div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2 border-b border-surface-container-high"><div class="flex flex-col gap-2"><div class="flex items-center gap-2"><span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-surface-container-high text-secondary border border-surface-container-highest">MÓDULO DE NÓMINA &amp; COMPENSACIÓN FLEXIBLE</span><span class="text-outline text-xs">•</span><span class="text-outline font-label-sm text-xs">Pluxee Enterprise</span></div><h1 class="font-headline-lg text-2xl sm:text-3xl font-extrabold text-on-surface tracking-tight">Control de Gastos y Aprobaciones</h1><p class="font-body-md text-sm sm:text-base text-on-surface-variant max-w-3xl">Supervisa y valida los comprobantes reportados por los empleados en Pluxee Enterprise de forma centralizada.</p></div><div class="flex items-center gap-3 flex-wrap">
   <button onclick="document.getElementById('modal-nuevo-gasto').classList.remove('hidden')" class="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#091426] hover:bg-[#1e293b] text-white text-xs sm:text-sm font-semibold shadow-xs transition-all" type="button">
@@ -242,4 +297,5 @@
   });
 </script>
 
+<script src="../../js/components/header.js"></script>
 </body></html>
