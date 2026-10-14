@@ -45,7 +45,61 @@
 <button class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-colors" type="button">$ USD</button>
 <button class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-colors" type="button">£ GBP</button>
 </div>
+<!-- Mobile Hamburger Drawer Toggle (US-FE-01.5) -->
+<button
+  id="mobileMenuToggle"
+  type="button"
+  class="md:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+  aria-expanded="false"
+  aria-controls="mobileMenu"
+  aria-label="Abrir menú de navegación"
+>
+  <span id="mobileMenuIcon" class="material-symbols-outlined text-2xl">menu</span>
+</button>
 </div>
+</div>
+
+<!-- Mobile Collapsible Navigation Drawer (US-FE-01.5) -->
+<div
+  id="mobileMenu"
+  class="hidden md:hidden border-t border-slate-200/80 mt-3 pt-3 pb-2 space-y-1 transition-all"
+  aria-label="Navegación móvil"
+>
+  <a
+    data-nav="dashboard"
+    class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 transition-colors"
+    href="dashboard.html"
+  >
+    <span class="material-symbols-outlined text-lg">dashboard</span>
+    <span>Dashboard</span>
+  </a>
+  <a
+    data-nav="empleados"
+    class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-blue-600 bg-blue-50/80 transition-colors"
+    href="empleados.html"
+  >
+    <span class="material-symbols-outlined text-lg">groups</span>
+    <span>Empleados</span>
+  </a>
+  <a
+    data-nav="gastos"
+    class="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 transition-colors"
+    href="gastos.html"
+  >
+    <div class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-lg">receipt_long</span>
+      <span>Gastos y Aprobaciones</span>
+    </div>
+    <span class="bg-amber-100 text-amber-800 text-xs font-semibold px-2 py-0.5 rounded-full">4</span>
+  </a>
+  <a
+    data-nav="categorias"
+    class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 transition-colors"
+    href="categorias.html"
+  >
+    <span class="material-symbols-outlined text-lg">category</span>
+    <span>Categorías</span>
+  </a>
 </div>
 </header>
 <!-- Main Container Centered Layout -->
@@ -670,4 +724,5 @@
 </div>
 </div>
 </footer>
+<script src="../../js/components/header.js"></script>
 </body></html>
