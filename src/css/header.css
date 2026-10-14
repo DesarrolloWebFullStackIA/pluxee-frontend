@@ -1,0 +1,193 @@
+
+
+.header,
+.header *,
+.header *::before,
+.header *::after {
+  box-sizing: border-box;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--pluxee-border-subtle);
+  box-shadow: var(--shadow-xs);
+  padding: 0.875rem 1rem;
+  font-family: var(--font-body);
+}
+
+.header__container {
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+/* --- Marca --- */
+.header__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.header__logo {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  border: 1px solid var(--pluxee-border);
+  box-shadow: var(--shadow-xs);
+}
+
+.header__name {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: -0.025em;
+  color: var(--pluxee-primary);
+  transition: color var(--transition-normal);
+}
+
+.header__name-sub {
+  font-weight: 600;
+  color: var(--pluxee-text-muted);
+}
+
+.header__brand:hover .header__name {
+  color: var(--pluxee-secondary);
+}
+
+.header__tag {
+  display: none;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--pluxee-secondary);
+  background: var(--pluxee-secondary-light);
+  border: 1px solid var(--pluxee-secondary-fixed);
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+
+.header__nav {
+  order: 3;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.header__nav::-webkit-scrollbar {
+  display: none;
+}
+
+.header__link {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.875rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--pluxee-text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--transition-normal), background-color var(--transition-normal);
+}
+
+.header__link:hover {
+  color: var(--pluxee-primary);
+  background: var(--pluxee-surface-container-low);
+}
+
+.header__link.active,
+.header__link[aria-current='page'] {
+  font-weight: 600;
+  color: var(--pluxee-secondary);
+  background: var(--pluxee-secondary-light);
+  border-color: var(--pluxee-secondary-fixed);
+}
+
+.header__link .material-symbols-outlined {
+  font-size: 1.125rem;
+}
+
+.header__badge {
+  margin-left: 0.25rem;
+  padding: 0 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--pluxee-warning-text);
+  background: var(--pluxee-warning-bg);
+  border: 1px solid var(--pluxee-warning-border);
+  border-radius: var(--radius-full);
+}
+
+
+.header__currency {
+  display: flex;
+  align-items: center;
+  padding: 0.125rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: var(--pluxee-surface-container-low);
+  border: 1px solid var(--pluxee-border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.header__currency-btn {
+  padding: 0.25rem 0.625rem;
+  font: inherit;
+  color: var(--pluxee-text-muted);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color var(--transition-normal), background-color var(--transition-normal);
+}
+
+.header__currency-btn:hover {
+  color: var(--pluxee-primary);
+}
+
+.header__currency-btn.is-active {
+  font-weight: 600;
+  color: var(--pluxee-primary);
+  background: var(--pluxee-surface);
+  box-shadow: var(--shadow-xs);
+}
+
+/*Tablet (≥ 640px)*/
+@media (min-width: 640px) {
+  .header__tag {
+    display: inline-block;
+  }
+}
+
+/*Escritorio (≥ 768px)*/
+@media (min-width: 768px) {
+  .header {
+    padding: 0.875rem 1.5rem;
+  }
+
+  .header__container {
+    flex-wrap: nowrap;
+    gap: 1rem;
+  }
+
+  .header__nav {
+    order: 0;
+    width: auto;
+    overflow-x: visible;
+  }
+}
