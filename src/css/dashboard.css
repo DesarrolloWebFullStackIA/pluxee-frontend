@@ -1,10 +1,95 @@
 /**
- * Pluxee Enterprise - Dashboard Page Stylesheet
- * Page-specific styles for src/html/pages/dashboard.html
+ * Pluxee Enterprise - Dashboard View Stylesheet
+ * Native CSS Architecture without Tailwind dependencies
  */
 
 /* ==========================================================================
-   1. AI INTELLIGENT SUMMARY CARD (Google Genkit Integration)
+   1. DASHBOARD PAGE LAYOUT & HEADER
+   ========================================================================== */
+.dash-page-container {
+  width: 100%;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  box-sizing: border-box;
+}
+
+.dash-header-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--pluxee-border);
+}
+
+@media (min-width: 640px) {
+  .dash-header-area {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.dash-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.dash-meta-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--pluxee-text-muted);
+}
+
+.dash-status-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-full);
+  background-color: var(--pluxee-secondary);
+}
+
+.dash-meta-separator {
+  color: var(--pluxee-border-strong);
+}
+
+.dash-meta-brand {
+  color: var(--pluxee-text-muted);
+  font-weight: 500;
+}
+
+.dash-title {
+  font-family: var(--font-headline);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--pluxee-primary);
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.dash-subtitle {
+  font-size: 0.875rem;
+  color: var(--pluxee-text-muted);
+  margin: 0;
+}
+
+.dash-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   2. AI INTELLIGENT SUMMARY CARD (Google Genkit Integration)
    ========================================================================== */
 .ai-summary-card {
   padding: 1.5rem;
@@ -28,6 +113,28 @@
   pointer-events: none;
 }
 
+.ai-summary-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+@media (min-width: 768px) {
+  .ai-summary-content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.ai-summary-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
 .ai-icon-badge {
   width: 2.75rem;
   height: 2.75rem;
@@ -42,6 +149,26 @@
   box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
 }
 
+.ai-text-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.ai-header-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.ai-title {
+  font-family: var(--font-headline);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
 .ai-tag-pill {
   padding: 0.125rem 0.5rem;
   border-radius: var(--radius-full);
@@ -52,6 +179,28 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
   border: 1px solid rgba(147, 197, 253, 0.25);
+}
+
+.ai-description {
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 48rem;
+}
+
+.text-highlight-green {
+  color: #6ee7b7;
+  font-weight: 600;
+}
+
+.text-highlight-amber {
+  color: #fde68a;
+  font-weight: 600;
+}
+
+.ai-action-wrap {
+  flex-shrink: 0;
 }
 
 .ai-refresh-btn {
@@ -76,8 +225,73 @@
 }
 
 /* ==========================================================================
-   2. DASHBOARD KPI CARDS & PROGRESS METERS
+   3. DASHBOARD KPI CARDS & PROGRESS METERS
    ========================================================================== */
+.dash-kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .dash-kpi-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.kpi-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kpi-label-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.kpi-category-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--pluxee-text-muted);
+}
+
+.kpi-main-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.kpi-value-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.kpi-amount {
+  font-family: var(--font-headline);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--pluxee-primary);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.kpi-hint {
+  font-size: 0.75rem;
+  color: var(--pluxee-text-muted);
+  margin: 0.25rem 0 0 0;
+}
+
+.kpi-progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--pluxee-border-subtle);
+}
+
 .dash-kpi-meter {
   width: 100%;
   height: 0.5rem;
@@ -88,7 +302,7 @@
 
 .dash-meter-budget {
   height: 100%;
-  background-color: #2563eb;
+  background-color: var(--pluxee-secondary);
   border-radius: var(--radius-full);
   width: 100%;
 }
@@ -102,14 +316,104 @@
 
 .dash-meter-available {
   height: 100%;
-  background-color: #059669;
+  background-color: var(--pluxee-success);
   border-radius: var(--radius-full);
   width: 36.7%;
 }
 
+.kpi-footer-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.stat-highlight {
+  font-weight: 600;
+}
+
+.stat-highlight.blue {
+  color: var(--pluxee-secondary);
+}
+
+.stat-highlight.green {
+  color: var(--pluxee-success);
+}
+
+.stat-subtle {
+  color: var(--pluxee-text-muted);
+}
+
 /* ==========================================================================
-   3. CATEGORY DISTRIBUTION CARDS
+   4. CATEGORY DISTRIBUTION CARDS
    ========================================================================== */
+.dash-section-card {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.dash-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--pluxee-border-subtle);
+}
+
+@media (min-width: 640px) {
+  .dash-section-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.dash-section-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--pluxee-text-muted);
+}
+
+.dash-section-title {
+  font-family: var(--font-headline);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--pluxee-primary);
+  margin: 0.125rem 0 0 0;
+}
+
+.dash-badge-pill {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #475569;
+  background-color: #f1f5f9;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-md);
+  align-self: flex-start;
+}
+
+.dash-category-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .dash-category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .dash-category-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 .dash-category-card {
   padding: 1rem;
   border-radius: var(--radius-xl);
@@ -128,6 +432,84 @@
   transform: translateY(-1px);
 }
 
+.cat-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cat-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cat-icon {
+  font-size: 1.25rem;
+}
+
+.cat-icon.comida {
+  color: var(--cat-comida, #2563eb);
+}
+
+.cat-icon.transporte {
+  color: var(--cat-transporte, #6366f1);
+}
+
+.cat-icon.formacion {
+  color: var(--cat-formacion, #10b981);
+}
+
+.cat-icon.salud {
+  color: var(--cat-salud, #0d9488);
+}
+
+.cat-name {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--pluxee-text-main);
+}
+
+.cat-percent-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.cat-percent-badge.warning {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.cat-percent-badge.neutral {
+  background-color: #e2e8f0;
+  color: #1e293b;
+}
+
+.cat-percent-badge.success {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.cat-amounts-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.cat-current-amount {
+  font-family: var(--font-headline);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--pluxee-text-main);
+}
+
+.cat-target-amount {
+  font-size: 0.75rem;
+  color: var(--pluxee-text-muted);
+}
+
 .cat-meter-track {
   width: 100%;
   height: 0.5rem;
@@ -139,7 +521,7 @@
 .cat-meter-fill {
   height: 100%;
   border-radius: var(--radius-full);
-  background-color: #2563eb;
+  background-color: var(--pluxee-secondary);
   transition: width var(--transition-slow);
 }
 
@@ -159,9 +541,90 @@
   width: 47%;
 }
 
+.cat-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--pluxee-text-muted);
+}
+
+.cat-footer-row strong {
+  color: var(--pluxee-text-main);
+}
+
 /* ==========================================================================
-   4. RECENT EMPLOYEES TABLE ENHANCEMENTS
+   5. RECENT EMPLOYEES TABLE
    ========================================================================== */
+.dash-table-card {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.dash-table-header {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-bottom: 1px solid var(--pluxee-border);
+}
+
+@media (min-width: 640px) {
+  .dash-table-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.dash-table-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dash-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dash-search-icon {
+  position: absolute;
+  left: 0.75rem;
+  color: var(--pluxee-text-subtle);
+  font-size: 1.125rem;
+  pointer-events: none;
+}
+
+.dash-search-input {
+  padding-left: 2.25rem;
+  padding-right: 0.75rem;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  font-size: 0.8125rem;
+  border-radius: var(--radius-md);
+  background-color: #f8fafc;
+  color: var(--pluxee-text-main);
+  border: 1px solid var(--pluxee-border);
+  outline: none;
+  width: 14rem;
+  transition: all var(--transition-fast);
+}
+
+.dash-search-input:focus {
+  background-color: #ffffff;
+  border-color: var(--pluxee-secondary);
+  box-shadow: 0 0 0 2px rgba(0, 88, 190, 0.15);
+}
+
+.emp-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .dash-table-avatar {
   width: 2.25rem;
   height: 2.25rem;
@@ -173,6 +636,45 @@
   font-size: 0.75rem;
   flex-shrink: 0;
   border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.bg-blue-avatar {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+  border-color: rgba(29, 78, 216, 0.2);
+}
+
+.bg-amber-avatar {
+  background-color: #fef3c7;
+  color: #92400e;
+  border-color: rgba(146, 64, 14, 0.2);
+}
+
+.bg-purple-avatar {
+  background-color: #f3e8ff;
+  color: #7e22ce;
+  border-color: rgba(126, 34, 206, 0.2);
+}
+
+.bg-emerald-avatar {
+  background-color: #d1fae5;
+  color: #065f46;
+  border-color: rgba(6, 95, 70, 0.2);
+}
+
+.emp-cell-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.emp-cell-name {
+  font-weight: 600;
+  color: var(--pluxee-text-main);
+}
+
+.emp-cell-role {
+  font-size: 0.75rem;
+  color: var(--pluxee-text-muted);
 }
 
 .dash-table-view-btn {
@@ -190,4 +692,44 @@
 .dash-table-view-btn:hover {
   background-color: var(--pluxee-secondary-light);
   color: var(--pluxee-secondary);
+}
+
+.dash-table-footer {
+  padding: 0.875rem 1.5rem;
+  background-color: rgba(248, 250, 252, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--pluxee-border);
+  font-size: 0.75rem;
+  color: var(--pluxee-text-muted);
+}
+
+.dash-pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-page {
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-sm);
+  background-color: #ffffff;
+  border: 1px solid var(--pluxee-border);
+  color: #334155;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-page:hover {
+  background-color: #f8fafc;
+  color: var(--pluxee-primary);
+}
+
+.page-indicator {
+  font-weight: 600;
+  color: var(--pluxee-text-main);
+  padding: 0 0.25rem;
 }
