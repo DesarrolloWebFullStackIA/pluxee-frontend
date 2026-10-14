@@ -1,0 +1,122 @@
+/**
+ * Pluxee Enterprise - Employee Detail Page Stylesheet
+ * Page-specific styles for src/html/pages/detalle-empleado.html
+ */
+
+/* ==========================================================================
+   1. EMPLOYEE BENTO PROFILE & SUMMARY CARDS
+   ========================================================================== */
+.employee-profile-avatar {
+  width: 4rem;
+  height: 4rem;
+  border-radius: var(--radius-xl);
+  background-color: #dbeafe;
+  color: #1d4ed8;
+  font-weight: 800;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid #bfdbfe;
+  box-shadow: var(--shadow-xs);
+}
+
+.profile-stat-box {
+  background-color: #ffffff;
+  border: 1px solid var(--pluxee-border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-xs);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* ==========================================================================
+   2. BENEFIT CATEGORY BREAKDOWN CARDS
+   ========================================================================== */
+.employee-category-card {
+  background-color: #ffffff;
+  border: 1px solid var(--pluxee-border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-xs);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all var(--transition-fast);
+}
+
+.employee-category-card:hover {
+  box-shadow: var(--shadow-sm);
+  border-color: #cbd5e1;
+}
+
+.emp-meter-track {
+  width: 100%;
+  height: 0.5rem;
+  border-radius: var(--radius-full);
+  background-color: #e2e8f0;
+  overflow: hidden;
+}
+
+.emp-meter-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background-color: var(--pluxee-secondary);
+  transition: width var(--transition-slow);
+}
+
+/* Specific percentage widths for Sofia Chen's categories */
+.emp-meter-fill.comida {
+  width: 60%;
+}
+
+.emp-meter-fill.transporte {
+  width: 63%;
+}
+
+.emp-meter-fill.formacion {
+  width: 50%;
+}
+
+.emp-meter-fill.salud {
+  width: 32%;
+}
+
+/* ==========================================================================
+   3. FISCAL RECEIPT VISUALIZER MODAL (#receipt-modal)
+   ========================================================================== */
+.receipt-paper-box {
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  background-color: #ffffff;
+  border: 1px solid var(--pluxee-border);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  font-family: 'Inter', monospace, sans-serif;
+}
+
+.receipt-paid-badge {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-xs);
+  background-color: var(--pluxee-success-bg);
+  color: var(--pluxee-success-text);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--pluxee-success-border);
+}
+
+.receipt-checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem;
+  border-radius: var(--radius-md);
+  background-color: #f8fafc;
+  border: 1px solid var(--pluxee-border);
+  font-size: 0.8125rem;
+  color: #334155;
+}
