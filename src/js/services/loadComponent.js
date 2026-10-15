@@ -10,7 +10,7 @@ const CORE_STYLES = ["variable.css", "style.css"];
 const LAST_STYLES = [];
 
 
-const CORE_SCRIPTS = ["services/api.js", "main.js"];
+const CORE_SCRIPTS = ["services/api.js", "main.js", "components/modal.js", "services/currency.js"];
 
 const loadedFiles = new Set();
 
@@ -74,6 +74,8 @@ async function loadView(route) {
   if (route.init && typeof window[route.init] === "function") {
     window[route.init]();
   }
+
+  if (typeof renderMoney === "function") renderMoney();
 }
 
 async function initApp() {
