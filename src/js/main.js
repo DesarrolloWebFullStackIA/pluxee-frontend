@@ -1,8 +1,8 @@
 // Arranca la app cuando todos los componentes están cargados
-document.addEventListener("components:loaded", () => {
+document.addEventListener("components:loaded", async () => {
   initHeader();
   initFooter();
-
+  await initCurrency();
   window.addEventListener("hashchange", router);
   router();
 });
@@ -13,6 +13,7 @@ const ROUTES = {
   empleados: { view: "empleados", scripts: ["services/employeeService.js"], init: "initEmpleadosView" },
   gastos: { view: "gastos", scripts: ["services/expenseService.js"], init: "initGastosView" },
   categorias: { view: "categorias", scripts: ["services/categoryService.js"], init: "initCategoriasView" },
+  demo: { view: "demo", scripts: ["views/demo.js"], init: "initDemoView" },
 };
 
 const DEFAULT_ROUTE = "dashboard";
