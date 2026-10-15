@@ -100,15 +100,18 @@
         <p class="kpi-hint">Consumo registrado en el período</p>
       </div>
       <div class="kpi-progress-section">
+        <div class="budget-dynamic-label-row">
+          <span class="budget-consumed-label" data-budget="consumed-label">Budget Consumed: €28.500 of €45.000 (63.3%)</span>
+        </div>
         <div class="dash-kpi-meter">
-          <div class="dash-meter-spent semaphore-green" style="width: 63.3%;"></div>
+          <div class="dash-meter-spent semaphore-green" data-budget="meter-fill" style="width: 63.3%;"></div>
         </div>
         <div class="kpi-footer-stats">
           <span class="semaphore-badge semaphore-green">
             <span class="semaphore-dot"></span>
-            <span>63.3% Nivel Óptimo</span>
+            <span data-budget="semaphore-text">63.3% Nivel Óptimo</span>
           </span>
-          <span class="stat-subtle">Ritmo proyectado saludable</span>
+          <span class="stat-subtle">Restante: <strong data-budget="remaining">€16.500</strong></span>
         </div>
       </div>
     </div>

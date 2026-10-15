@@ -1,6 +1,7 @@
 /**
- * Pluxee Enterprise - Budget Semaphore Widget (US-FE-02.2)
- * Computes (totalSpent / totalLimit) * 100 and controls the 3-tier traffic light semaphore:
+ * Pluxee Enterprise - Budget Semaphore Widget (US-FE-02.2 & US-FE-02.3)
+ * - Computes (totalSpent / totalLimit) * 100 and controls the 3-tier traffic light semaphore
+ * - Animates progress bar with dynamic label: "Budget Consumed: X€ of Y€ (Z%)"
  * - 🟢 Green: < 70% consumed (Safe, healthy spending level)
  * - 🟡 Amber: 70% - 90% consumed (Warning threshold, approaching budget cap)
  * - 🔴 Red: > 90% or limit reached (Critical alert, limit exceeded or imminent breach)
@@ -67,6 +68,40 @@
   }
 
   /**
+   * Generates dynamic label formatted: "Budget Consumed: X€ of Y€ (Z%)" / "Presupuesto consumido: X€ de Y€ (Z%)"
+   * @param {number} spent
+   * @param {number} limit
+   * @param {number} percentage
+   * @param {Function} formatFn
+   * @param {string} lang - 'es' or 'en'
+   * @returns {string} Formatted label
+   */
+  function generateConsumedLabel(spent, limit, percentage, formatFn, lang = 'es') {
+    const format = formatFn || ((val) => `€${Number(val).toLocaleString('es-ES')}`);
+    const pct = percentage !== undefined ? percentage : (limit > 0 ? Math.round((spent / limit) * 1000) / 10 : 0);
+    if (lang === 'en') {
+      return `Budget Consumed: ${format(spent)} of ${format(limit)} (${pct}%)`;
+    }
+    return `Presupuesto consumido: ${format(spent)} de ${format(limit)} (${pct}%)`;
+  }
+
+  /**
+   * Animates the progress bar width smoothly from 0% or previous value to target percentage
+   * @param {HTMLElement} meterFillEl
+   * @param {number} targetPercentage
+   */
+  function animateProgressBar(meterFillEl, targetPercentage) {
+    if (!meterFillEl) return;
+    const clamped = Math.min(100, Math.max(0, Number(targetPercentage) || 0));
+    meterFillEl.style.width = '0%';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        meterFillEl.style.width = `${clamped}%`;
+      });
+    });
+  }
+
+  /**
    * Generates HTML for an inline semaphore badge (for tables or cards)
    * @param {number} spent
    * @param {number} limit
@@ -83,34 +118,51 @@
   }
 
   /**
-   * Updates a visual budget card element in the DOM
+   * Updates a visual budget card element in the DOM with animated meter and dynamic label (US-FE-02.3)
    * @param {HTMLElement} cardEl - The container element
    * @param {number} spent
    * @param {number} limit
    * @param {Function} formatFn - Optional formatter for currency
+   * @param {Object} options - { lang: 'es'|'en', animate: true }
    */
-  function updateBudgetCard(cardEl, spent, limit, formatFn) {
+  function updateBudgetCard(cardEl, spent, limit, formatFn, options = {}) {
     if (!cardEl) return;
     const status = calculateBudgetStatus(spent, limit);
     const format = formatFn || ((val) => `€${Number(val).toLocaleString('es-ES')}`);
+    const lang = options.lang || 'es';
 
-    // Update meter fill width and class
-    const meterFill = cardEl.querySelector('.dash-meter-spent, .cat-meter-fill');
-    if (meterFill) {
-      meterFill.style.width = `${Math.min(100, status.percentage)}%`;
-      meterFill.classList.remove('semaphore-green', 'semaphore-amber', 'semaphore-red');
-      meterFill.classList.add(status.cssClass);
+    // 1. Update dynamic label "Budget Consumed: X€ of Y€ (Z%)"
+    const dynamicLabelEl = cardEl.querySelector('[data-budget="consumed-label"]');
+    if (dynamicLabelEl) {
+      dynamicLabelEl.textContent = generateConsumedLabel(status.spent, status.limit, status.percentage, format, lang);
     }
 
-    // Update semaphore badge if present
+    // 2. Animate or update progress meter fill
+    const meterFill = cardEl.querySelector('[data-budget="meter-fill"], .dash-meter-spent, .cat-meter-fill');
+    if (meterFill) {
+      meterFill.classList.remove('semaphore-green', 'semaphore-amber', 'semaphore-red');
+      meterFill.classList.add(status.cssClass);
+      if (options.animate !== false) {
+        animateProgressBar(meterFill, status.percentage);
+      } else {
+        meterFill.style.width = `${Math.min(100, status.percentage)}%`;
+      }
+    }
+
+    // 3. Update semaphore badge
     const badgeEl = cardEl.querySelector('.semaphore-badge');
     if (badgeEl) {
       badgeEl.className = `semaphore-badge ${status.cssClass}`;
-      badgeEl.innerHTML = `<span class="semaphore-dot"></span><span>${status.percentage}% ${status.label}</span>`;
+      const textEl = badgeEl.querySelector('[data-budget="semaphore-text"]') || badgeEl.lastElementChild;
+      if (textEl && textEl.tagName !== 'SPAN' || textEl === badgeEl.querySelector('.semaphore-dot')) {
+        badgeEl.innerHTML = `<span class="semaphore-dot"></span><span data-budget="semaphore-text">${status.percentage}% ${status.label}</span>`;
+      } else if (textEl) {
+        textEl.textContent = `${status.percentage}% ${status.label}`;
+      }
       badgeEl.title = status.description;
     }
 
-    // Update remaining or spent amount labels if targets exist
+    // 4. Update data labels if present
     const spentLabel = cardEl.querySelector('[data-budget="spent"]');
     if (spentLabel) spentLabel.textContent = format(status.spent);
 
@@ -123,6 +175,8 @@
 
   window.BudgetWidget = {
     calculateBudgetStatus,
+    generateConsumedLabel,
+    animateProgressBar,
     renderSemaphoreBadge,
     updateBudgetCard,
     CONFIG: SEMAPHORE_CONFIG
