@@ -10,7 +10,14 @@ const CORE_STYLES = ["variable.css", "style.css"];
 const LAST_STYLES = [];
 
 
-const CORE_SCRIPTS = ["services/api.js", "main.js", "components/modal.js", "services/currency.js"];
+const CORE_SCRIPTS = [
+  "services/api.js",
+  "state/store.js",
+  "services/services.js",
+  "main.js",
+  "components/modal.js",
+  "services/currency.js"
+];
 
 const loadedFiles = new Set();
 
