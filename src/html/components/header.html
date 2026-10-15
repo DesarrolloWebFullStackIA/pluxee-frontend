@@ -1,12 +1,12 @@
 <header class="header">
   <div class="header__container">
     <a class="header__brand" href="#dashboard">
-      <img class="header__logo" src="/src/assets/plexus-icon.png" alt="Plexus Logo">
-      <span class="header__name">Plexus <span class="header__name-sub">Enterprise</span></span>
+      <img class="header__logo" src="/src/assets/plexus-icon.png" alt="Pluxee Logo">
+      <span class="header__name">Pluxee <span class="header__name-sub">Enterprise</span></span>
       <span class="header__tag">Gestión de Beneficios</span>
     </a>
 
-    <nav class="header__nav" aria-label="Navegación principal">
+    <nav class="header__nav" id="header-nav" aria-label="Navegación principal">
       <a class="header__link nav-link" href="#dashboard" data-section="Dashboard">
         <span class="material-symbols-outlined">dashboard</span>
         <span>Dashboard</span>
@@ -24,12 +24,24 @@
         <span class="material-symbols-outlined">category</span>
         <span>Categorías</span>
       </a>
+      <a class="header__link nav-link" href="#demo" data-section="Demo">
+        <span>Demo</span>
+      </a>
     </nav>
 
     <div class="header__currency" role="group" aria-label="Moneda">
       <button class="header__currency-btn" type="button" data-currency="EUR">€ EUR</button>
-      <button class="header__currency-btn" type="button" data-currency="USD">$ USD</button>
-      <button class="header__currency-btn" type="button" data-currency="GBP">£ GBP</button>
+      <button class="header__currency-btn" type="button" data-currency="MXN">$ MXN</button>
     </div>
+
+    <button
+      class="header__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="header-nav"
+      aria-label="Abrir menú de navegación"
+    >
+      <span class="material-symbols-outlined header__toggle-icon">menu</span>
+    </button>
   </div>
 </header>
