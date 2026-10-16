@@ -165,16 +165,111 @@
         .join('');
     }
 
-    // 6. Resumen de IA (.ai-description)
-    const aiDesc = document.querySelector('.ai-description');
-    if (aiDesc && typeof store.getAISummary === 'function') {
-      const ai = store.getAISummary();
-      if (ai && ai.summary) {
-        aiDesc.innerHTML = `
-          ${ai.summary}
-          <br><span class="text-highlight-amber">Recomendación:</span> ${ai.recommendation}
-        `;
+    // 6. Resumen Inteligente de IA (Google Genkit - US-FE-09.4)
+    updateAIAdvisor();
+  }
+
+  /**
+   * Cached diagnosis to avoid redundant fetches on fast re-renders
+   */
+  let cachedDiagnosis = null;
+  let isAIGenerating = false;
+
+  /**
+   * Renders the structured 3-part AI diagnosis into the DOM (AC-09.3 / AC-09.4)
+   * @param {Object} diag
+   */
+  function renderAIAdvisor(diag) {
+    if (!diag) return;
+
+    // Bloque 1: Salud Presupuestaria Global
+    const healthSummaryEl = document.getElementById('ai-health-summary');
+    if (healthSummaryEl && diag.health && diag.health.summaryText) {
+      healthSummaryEl.innerHTML = diag.health.summaryText;
+    }
+
+    // Bloque 2: Alertas de Límite y Semáforo (>85%)
+    const alertsListEl = document.getElementById('ai-alerts-list');
+    if (alertsListEl && Array.isArray(diag.alerts)) {
+      alertsListEl.innerHTML = diag.alerts
+        .map((alert) => `
+          <div class="ai-alert-chip ${alert.severity || 'warning'}">
+            <span class="ai-chip-dot"></span>
+            <span class="ai-chip-name">${alert.name}</span>
+            <span class="ai-chip-metric">${alert.metric}</span>
+          </div>
+        `)
+        .join('');
+    }
+
+    // Bloque 3: Recomendaciones de Optimización Estratégica
+    const recSummaryEl = document.getElementById('ai-recommendation-summary');
+    if (recSummaryEl && diag.recommendations && diag.recommendations.summaryText) {
+      recSummaryEl.innerHTML = diag.recommendations.summaryText;
+    }
+  }
+
+  /**
+   * Synchronizes AI Advisor with current currency and store metrics without animation delay
+   */
+  function updateAIAdvisor() {
+    if (isAIGenerating) return;
+    if (window.PluxeeGenkitService && typeof window.PluxeeGenkitService.computeDiagnosticOutput === 'function') {
+      const store = window.PluxeeStore;
+      const metrics = store?.getGlobalBudgetMetrics?.();
+      if (metrics) {
+        cachedDiagnosis = window.PluxeeGenkitService.computeDiagnosticOutput(metrics);
+        renderAIAdvisor(cachedDiagnosis);
       }
+    }
+  }
+
+  /**
+   * Generates or refreshes the AI Budget Diagnosis with Skeleton Loader animation (AC-09.2)
+   * @param {boolean} isManual
+   */
+  async function generateAIInsights(isManual = false) {
+    const aiBtn = document.getElementById('btn-generate-ai-insights') || document.querySelector('.ai-refresh-btn');
+    const skeletonEl = document.getElementById('ai-skeleton-loader');
+    const resultsEl = document.getElementById('ai-results-content');
+
+    if (!window.PluxeeGenkitService) {
+      console.warn('[DashboardView] PluxeeGenkitService is not loaded.');
+      return;
+    }
+
+    isAIGenerating = true;
+
+    // Activar estado de carga y skeleton con shimmer
+    if (skeletonEl && resultsEl) {
+      skeletonEl.hidden = false;
+      resultsEl.hidden = true;
+    }
+    if (aiBtn) {
+      aiBtn.classList.add('rotating');
+      aiBtn.setAttribute('disabled', 'true');
+    }
+
+    try {
+      const diag = await window.PluxeeGenkitService.generateBudgetDiagnosis({
+        delayMs: isManual ? 1100 : 300,
+        forceRefresh: true
+      });
+      cachedDiagnosis = diag;
+      renderAIAdvisor(diag);
+    } catch (err) {
+      console.error('[DashboardView] Error generating AI insights:', err);
+    } finally {
+      // Restaurar estado visual tras el procesamiento
+      if (skeletonEl && resultsEl) {
+        skeletonEl.hidden = true;
+        resultsEl.hidden = false;
+      }
+      if (aiBtn) {
+        aiBtn.classList.remove('rotating');
+        aiBtn.removeAttribute('disabled');
+      }
+      isAIGenerating = false;
     }
   }
 
@@ -199,7 +294,7 @@
   }
 
   /**
-   * Initializes the Dashboard view controller (US-FE-02.5)
+   * Initializes the Dashboard view controller (US-FE-02.5 / US-FE-09.4)
    */
   function initDashboardView() {
     // Renderizado inicial con métricas del Store
@@ -211,15 +306,12 @@
       editBtn.onclick = handleEditGlobalBudget;
     }
 
-    // Evento botón actualizar análisis IA
-    const aiBtn = document.querySelector('.ai-refresh-btn');
+    // Evento botón generar/actualizar análisis IA con Skeleton Loader (AC-09.2)
+    const aiBtn = document.getElementById('btn-generate-ai-insights') || document.querySelector('.ai-refresh-btn');
     if (aiBtn) {
-      aiBtn.onclick = () => {
-        aiBtn.classList.add('rotating');
-        setTimeout(() => {
-          renderDashboard();
-          aiBtn.classList.remove('rotating');
-        }, 300);
+      aiBtn.onclick = (e) => {
+        e.preventDefault();
+        generateAIInsights(true);
       };
     }
 
