@@ -266,6 +266,11 @@
   animation: ai-shimmer-wave 1.6s infinite ease-in-out;
 }
 
+.ai-skeleton-container[hidden],
+.ai-results-container[hidden] {
+  display: none !important;
+}
+
 .ai-skeleton-container {
   display: grid;
   grid-template-columns: 1fr;
