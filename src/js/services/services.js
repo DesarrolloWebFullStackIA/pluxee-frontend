@@ -45,9 +45,12 @@
       getSummary: () => store.getAISummary()
     },
 
-    // --- Métricas Globales ---
+    // --- Métricas Globales (US-FE-02.4) ---
     dashboard: {
-      getMetrics: () => store.getDashboardMetrics()
+      getMetrics: () => (window.PluxeeStore ? window.PluxeeStore.getDashboardMetrics() : {}),
+      getGlobalBudgetMetrics: () => (window.PluxeeStore ? window.PluxeeStore.getGlobalBudgetMetrics() : {}),
+      getGlobalBudgetCap: () => (window.PluxeeStore ? window.PluxeeStore.getGlobalBudgetCap() : 45000),
+      setGlobalBudgetCap: (amount) => (window.PluxeeStore ? window.PluxeeStore.setGlobalBudgetCap(amount) : { success: false })
     },
 
     // --- Divisas ---

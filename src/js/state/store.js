@@ -8,66 +8,74 @@
 (function (window) {
   'use strict';
 
-  const STORAGE_KEY = 'pluxee_store_v1';
+  const STORAGE_KEY = 'pluxee_store_v2';
 
   const DEFAULT_CATEGORIES = [
-    { id: 'comida', name: 'Comida', icon: 'restaurant', color: 'blue' },
-    { id: 'transporte', name: 'Transporte', icon: 'directions_bus', color: 'indigo' },
-    { id: 'formacion', name: 'Formación', icon: 'school', color: 'emerald' },
-    { id: 'salud', name: 'Salud', icon: 'health_and_safety', color: 'teal' },
-    { id: 'guarderia', name: 'Guardería', icon: 'child_care', color: 'amber' }
+    { id: 'comida', name: 'Comida', icon: 'restaurant', color: 'blue', budgetCap: 15000 },
+    { id: 'transporte', name: 'Transporte', icon: 'directions_bus', color: 'indigo', budgetCap: 12000 },
+    { id: 'formacion', name: 'Formación', icon: 'school', color: 'emerald', budgetCap: 10000 },
+    { id: 'salud', name: 'Salud', icon: 'health_and_safety', color: 'teal', budgetCap: 8000 }
   ];
 
   const DEFAULT_EMPLOYEES = [
-    { id: 'emp-1', name: 'Mateo Rivas', role: 'Tech Lead', department: 'Tecnología', email: 'mateo.rivas@pluxee.io', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100' },
-    { id: 'emp-2', name: 'Laura Méndez', role: 'Product Designer', department: 'Diseño', email: 'laura.mendez@pluxee.io', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100' },
-    { id: 'emp-3', name: 'Carlos Fuentes', role: 'DevOps Specialist', department: 'Tecnología', email: 'carlos.fuentes@pluxee.io', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100' },
-    { id: 'emp-4', name: 'Sofía Alarcón', role: 'People Partner', department: 'RRHH', email: 'sofia.alarcon@pluxee.io', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100' },
-    { id: 'emp-5', name: 'Javier Soler', role: 'Data Engineer', department: 'Tecnología', email: 'javier.soler@pluxee.io', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100' },
-    { id: 'emp-6', name: 'Nuria Casals', role: 'Finance Lead', department: 'Finanzas', email: 'nuria.casals@pluxee.io', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100' }
+    { id: 'emp-1', name: 'Sofia Chen', role: 'Talent Lead', department: 'RRHH', email: 'sofia.chen@pluxee.io', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100' },
+    { id: 'emp-2', name: 'Carlos Ruiz', role: 'Product Designer', department: 'Diseño', email: 'carlos.ruiz@pluxee.io', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100' },
+    { id: 'emp-3', name: 'Laura Moreno', role: 'Senior Frontend Eng.', department: 'Tecnología', email: 'laura.moreno@pluxee.io', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100' },
+    { id: 'emp-4', name: 'Mateo Rivas', role: 'DevOps Specialist', department: 'Tecnología', email: 'mateo.rivas@pluxee.io', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100' },
+    { id: 'emp-5', name: 'Nuria Casals', role: 'Finance Lead', department: 'Finanzas', email: 'nuria.casals@pluxee.io', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100' },
+    { id: 'emp-6', name: 'Javier Soler', role: 'Data Engineer', department: 'Tecnología', email: 'javier.soler@pluxee.io', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100' }
   ];
 
   const DEFAULT_BENEFITS = [
-    { id: 'b-1', employeeId: 'emp-1', categoryId: 'transporte', amount: 150 },
-    { id: 'b-2', employeeId: 'emp-1', categoryId: 'comida', amount: 200 },
-    { id: 'b-3', employeeId: 'emp-2', categoryId: 'comida', amount: 180 },
-    { id: 'b-4', employeeId: 'emp-2', categoryId: 'formacion', amount: 300 },
-    { id: 'b-5', employeeId: 'emp-3', categoryId: 'formacion', amount: 400 },
-    { id: 'b-6', employeeId: 'emp-3', categoryId: 'salud', amount: 100 },
-    { id: 'b-7', employeeId: 'emp-4', categoryId: 'guarderia', amount: 250 },
-    { id: 'b-8', employeeId: 'emp-4', categoryId: 'comida', amount: 150 },
-    { id: 'b-9', employeeId: 'emp-5', categoryId: 'transporte', amount: 100 },
-    { id: 'b-10', employeeId: 'emp-6', categoryId: 'salud', amount: 120 }
+    { id: 'b-1', employeeId: 'emp-1', categoryId: 'salud', amount: 3600 },
+    { id: 'b-2', employeeId: 'emp-2', categoryId: 'comida', amount: 2400 },
+    { id: 'b-3', employeeId: 'emp-3', categoryId: 'formacion', amount: 3100 },
+    { id: 'b-4', employeeId: 'emp-4', categoryId: 'transporte', amount: 2800 },
+    { id: 'b-5', employeeId: 'emp-5', categoryId: 'salud', amount: 1800 },
+    { id: 'b-6', employeeId: 'emp-5', categoryId: 'formacion', amount: 2000 },
+    { id: 'b-7', employeeId: 'emp-6', categoryId: 'transporte', amount: 2200 },
+    { id: 'b-8', employeeId: 'emp-6', categoryId: 'comida', amount: 1800 }
   ];
 
   const DEFAULT_EXPENSES = [
-    { id: 'exp-1', employeeId: 'emp-1', categoryId: 'transporte', concept: 'Abono Renfe Cercanías Madrid', amount: 54.00, date: '2026-10-10', status: 'pendiente', voucherName: 'factura_transporte.pdf' },
-    { id: 'exp-2', employeeId: 'emp-2', categoryId: 'comida', concept: 'Almuerzo de trabajo sprint design', amount: 32.50, date: '2026-10-09', status: 'pendiente', voucherName: 'ticket_restaurante.jpg' },
-    { id: 'exp-3', employeeId: 'emp-3', categoryId: 'formacion', concept: 'Certificación AWS Solutions Architect', amount: 210.00, date: '2026-10-05', status: 'aprobado', voucherName: 'factura_aws.pdf' },
-    { id: 'exp-4', employeeId: 'emp-4', categoryId: 'guarderia', concept: 'Cuota mensual guardería', amount: 240.00, date: '2026-10-04', status: 'rechazado', voucherName: 'recibo_guarderia.pdf' },
-    { id: 'exp-5', employeeId: 'emp-5', categoryId: 'transporte', concept: 'Recarga tarjeta Consorcio Metro', amount: 21.80, date: '2026-10-02', status: 'pendiente', voucherName: 'recibo_metro.png' },
-    { id: 'exp-6', employeeId: 'emp-6', categoryId: 'salud', concept: 'Copago póliza dental ampliada', amount: 38.00, date: '2026-10-01', status: 'aprobado', voucherName: 'recibo_dental.pdf' }
+    { id: 'exp-1', employeeId: 'emp-1', categoryId: 'salud', concept: 'Póliza seguro médico familiar Adeslas', amount: 1480.00, date: '2026-10-12', status: 'aprobado', voucherName: 'poliza_adeslas.pdf' },
+    { id: 'exp-2', employeeId: 'emp-2', categoryId: 'comida', concept: 'Tarjeta Gourmet restaurante y catering', amount: 2210.00, date: '2026-10-10', status: 'aprobado', voucherName: 'recibo_gourmet.pdf' },
+    { id: 'exp-3', employeeId: 'emp-3', categoryId: 'formacion', concept: 'Bootcamp avanzado TypeScript y Arquitectura', amount: 1100.00, date: '2026-10-08', status: 'aprobado', voucherName: 'factura_bootcamp.pdf' },
+    { id: 'exp-4', employeeId: 'emp-4', categoryId: 'transporte', concept: 'Abono Renfe Alta Velocidad y cercanías', amount: 1980.00, date: '2026-10-05', status: 'aprobado', voucherName: 'factura_renfe.pdf' },
+    { id: 'exp-5', employeeId: 'emp-5', categoryId: 'salud', concept: 'Tratamiento bucodental y chequeo anual', amount: 920.00, date: '2026-10-03', status: 'aprobado', voucherName: 'recibo_dental.pdf' },
+    { id: 'exp-6', employeeId: 'emp-5', categoryId: 'formacion', concept: 'Curso Financial Modeling & Forecasting', amount: 850.00, date: '2026-10-02', status: 'pendiente', voucherName: 'factura_curso.pdf' },
+    { id: 'exp-7', employeeId: 'emp-6', categoryId: 'transporte', concept: 'Tarjeta Consorcio Regional Transportes', amount: 1450.00, date: '2026-10-01', status: 'aprobado', voucherName: 'recibo_consorcio.png' },
+    { id: 'exp-8', employeeId: 'emp-6', categoryId: 'comida', concept: 'Subsidio comidas de equipo ingeniería', amount: 1200.00, date: '2026-09-28', status: 'aprobado', voucherName: 'factura_catering.pdf' },
+    // Fondo corporativo plantilla (124 empleados)
+    { id: 'exp-corp-1', employeeId: 'emp-pool', categoryId: 'comida', concept: 'Fondo corporativo vales restaurante plantilla (118 empleados)', amount: 8290.00, date: '2026-10-01', status: 'aprobado', voucherName: 'consolidado_comida.pdf' },
+    { id: 'exp-corp-2', employeeId: 'emp-pool', categoryId: 'transporte', concept: 'Fondo corporativo abonos transporte plantilla', amount: 4370.00, date: '2026-10-01', status: 'aprobado', voucherName: 'consolidado_transporte.pdf' },
+    { id: 'exp-corp-3', employeeId: 'emp-pool', categoryId: 'formacion', concept: 'Licencias corporativas O\'Reilly Learning & Cloud', amount: 3250.00, date: '2026-10-01', status: 'aprobado', voucherName: 'consolidado_formacion.pdf' },
+    { id: 'exp-corp-4', employeeId: 'emp-pool', categoryId: 'salud', concept: 'Póliza colectiva bienestar y fisioterapia', amount: 1400.00, date: '2026-10-01', status: 'aprobado', voucherName: 'consolidado_salud.pdf' }
   ];
 
   const CURRENCIES = {
     EUR: { symbol: '€', rate: 1.0, label: 'EUR' },
-    USD: { symbol: '$', rate: 1.08, label: 'USD' },
-    GBP: { symbol: '£', rate: 0.86, label: 'GBP' }
+    MXN: { symbol: '$', rate: 21.5, label: 'MXN' }
   };
 
   class PluxeeStore {
     constructor() {
-      this.state = this.loadState();
       this.listeners = [];
+      this.state = this.loadState();
     }
 
     loadState() {
       try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (parsed && parsed.employees && parsed.categories) {
-            return parsed;
+        if (typeof localStorage !== 'undefined') {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (parsed && parsed.employees && parsed.categories) {
+              if (!parsed.globalBudgetCap) {
+                parsed.globalBudgetCap = 45000;
+              }
+              return parsed;
+            }
           }
         }
       } catch (e) {
@@ -79,7 +87,8 @@
         employees: DEFAULT_EMPLOYEES,
         benefits: DEFAULT_BENEFITS,
         expenses: DEFAULT_EXPENSES,
-        currency: 'EUR'
+        currency: 'EUR',
+        globalBudgetCap: 45000
       };
       this.saveState(initial);
       return initial;
@@ -87,7 +96,9 @@
 
     saveState(state = this.state) {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
       } catch (e) {
         console.warn('Could not write to localStorage', e);
       }
@@ -102,7 +113,35 @@
     }
 
     notify() {
-      this.listeners.forEach(fn => fn(this.state));
+      if (Array.isArray(this.listeners)) {
+        this.listeners.forEach(fn => {
+          try {
+            fn(this.state);
+          } catch (err) {
+            console.error('Error in store subscriber:', err);
+          }
+        });
+      }
+    }
+
+    // --- Control de Presupuesto Global (US-FE-02.4) ---
+    getGlobalBudgetCap() {
+      return Number(this.state.globalBudgetCap) || 45000;
+    }
+
+    setGlobalBudgetCap(amount) {
+      const parsed = parseFloat(amount);
+      if (isNaN(parsed) || parsed <= 0) {
+        return { success: false, error: 'El importe del presupuesto global debe ser un número positivo mayor que cero.' };
+      }
+      this.state.globalBudgetCap = parsed;
+      this.saveState();
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('budget:updated', {
+          detail: { globalBudgetCap: parsed, metrics: this.getGlobalBudgetMetrics() }
+        }));
+      }
+      return { success: true, globalBudgetCap: parsed };
     }
 
     // --- Multidivisa ---
@@ -118,19 +157,21 @@
     }
 
     formatMoney(amountInEUR) {
+      if (typeof window !== 'undefined' && typeof window.formatMoney === 'function') {
+        return window.formatMoney(Number(amountInEUR) || 0);
+      }
       const curr = this.getCurrency();
       const info = CURRENCIES[curr] || CURRENCIES.EUR;
-      const converted = (amountInEUR * info.rate).toFixed(2);
-      // Format as 1.234,56 € or $ 1,234.56
+      const converted = ((Number(amountInEUR) || 0) * info.rate).toFixed(2);
       if (curr === 'EUR') {
-        const formatted = new Intl.NumberFormat('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(converted);
-        return `${formatted} €`;
-      } else if (curr === 'USD') {
-        const formatted = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(converted);
+        const formatted = new Intl.NumberFormat('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(converted);
+        return `€${formatted}`;
+      } else if (curr === 'MXN') {
+        const formatted = new Intl.NumberFormat('es-MX', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(converted);
         return `$${formatted}`;
       } else {
-        const formatted = new Intl.NumberFormat('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(converted);
-        return `£${formatted}`;
+        const formatted = new Intl.NumberFormat('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(converted);
+        return `€${formatted}`;
       }
     }
 
@@ -144,7 +185,7 @@
       if (this.state.categories.some(c => c.id === id)) {
         return { success: false, error: 'La categoría ya existe.' };
       }
-      const newCat = { id, name, icon, color };
+      const newCat = { id, name, icon, color, budgetCap: 5000 };
       this.state.categories.push(newCat);
       this.saveState();
       return { success: true, category: newCat };
@@ -152,7 +193,7 @@
 
     // --- Gestión de Empleados ---
     getEmployees() {
-      return this.state.employees;
+      return this.state.employees.filter(e => e.id !== 'emp-pool');
     }
 
     getEmployee(id) {
@@ -314,47 +355,85 @@
       });
     }
 
-    // --- Métricas del Dashboard de Control ---
-    getDashboardMetrics() {
-      const totalAssigned = this.state.benefits.reduce((sum, b) => sum + b.amount, 0);
+    // --- Métricas Globales del Dashboard de Control (US-FE-02.4) ---
+    getGlobalBudgetMetrics() {
+      const globalBudgetCap = this.getGlobalBudgetCap();
       const activeExpenses = this.state.expenses.filter(x => x.status !== 'rechazado');
       const totalSpent = activeExpenses.reduce((sum, x) => sum + x.amount, 0);
-      const totalAvailable = Math.max(0, totalAssigned - totalSpent);
-      const executionRate = totalAssigned > 0 ? ((totalSpent / totalAssigned) * 100).toFixed(1) : 0;
+      const totalAvailable = Math.max(0, globalBudgetCap - totalSpent);
+      const executionRate = globalBudgetCap > 0 ? Number(((totalSpent / globalBudgetCap) * 100).toFixed(1)) : 0;
+      const remainingPercentage = globalBudgetCap > 0 ? Math.max(0, Number((100 - (totalSpent / globalBudgetCap) * 100).toFixed(1))) : 100;
 
-      // Desglose por categorías
+      // Status semáforo usando BudgetWidget si está disponible
+      const semaphoreStatus = (window.BudgetWidget && typeof window.BudgetWidget.calculateBudgetStatus === 'function')
+        ? window.BudgetWidget.calculateBudgetStatus(totalSpent, globalBudgetCap)
+        : {
+            spent: totalSpent,
+            limit: globalBudgetCap,
+            remaining: totalAvailable,
+            percentage: executionRate,
+            tier: executionRate < 70 ? 'green' : executionRate <= 90 ? 'amber' : 'red',
+            cssClass: executionRate < 70 ? 'semaphore-green' : executionRate <= 90 ? 'semaphore-amber' : 'semaphore-red',
+            label: executionRate < 70 ? 'Nivel Óptimo' : executionRate <= 90 ? 'Tope Próximo' : 'Alerta Crítica',
+            description: executionRate < 70
+              ? 'Presupuesto saludable y dentro de los parámetros previstos'
+              : executionRate <= 90
+              ? 'Atención: consumo acercándose al techo presupuestario'
+              : 'Riesgo de sobrecoste o límite presupuestario excedido'
+          };
+
+      // Desglose por categorías dinámicas
       const categoryBreakdown = this.state.categories.map(cat => {
         const catBenefits = this.state.benefits.filter(b => b.categoryId === cat.id);
-        const assigned = catBenefits.reduce((sum, b) => sum + b.amount, 0);
+        const assigned = cat.budgetCap || catBenefits.reduce((sum, b) => sum + b.amount, 0);
         const catExpenses = activeExpenses.filter(x => x.categoryId === cat.id);
         const spent = catExpenses.reduce((sum, x) => sum + x.amount, 0);
         const available = Math.max(0, assigned - spent);
         const pct = assigned > 0 ? Math.min(100, Math.round((spent / assigned) * 100)) : 0;
+        const tier = pct < 70 ? 'green' : pct <= 90 ? 'amber' : 'red';
+        const cssClass = pct < 70 ? 'semaphore-green' : pct <= 90 ? 'semaphore-amber' : 'semaphore-red';
         return {
           ...cat,
           assigned,
           spent,
           available,
-          pct
+          pct,
+          tier,
+          cssClass
         };
       });
 
-      // Lista de empleados con total gastado y disponible
+      // Resumen de empleados y semáforo individual
       const employeeSummary = this.state.employees.map(emp => {
         const empBenefits = this.state.benefits.filter(b => b.employeeId === emp.id);
         const assigned = empBenefits.reduce((sum, b) => sum + b.amount, 0);
         const empExpenses = activeExpenses.filter(x => x.employeeId === emp.id);
         const spent = empExpenses.reduce((sum, x) => sum + x.amount, 0);
         const available = Math.max(0, assigned - spent);
-        const pct = assigned > 0 ? Math.min(100, Math.round((spent / assigned) * 100)) : 0;
+        const pct = assigned > 0 ? Math.round((spent / assigned) * 100) : 0;
 
-        // Categoría con mayor asignación
         let topCategory = 'Sin beneficios';
+        let topCategoryId = null;
         if (empBenefits.length > 0) {
           const sorted = [...empBenefits].sort((a, b) => b.amount - a.amount);
           const found = this.state.categories.find(c => c.id === sorted[0].categoryId);
-          if (found) topCategory = found.name;
+          if (found) {
+            topCategory = found.name;
+            topCategoryId = found.id;
+          }
         }
+
+        const semaphore = (window.BudgetWidget && typeof window.BudgetWidget.calculateBudgetStatus === 'function')
+          ? window.BudgetWidget.calculateBudgetStatus(spent, assigned)
+          : {
+              spent,
+              limit: assigned,
+              remaining: available,
+              percentage: pct,
+              tier: pct < 70 ? 'green' : pct <= 90 ? 'amber' : 'red',
+              cssClass: pct < 70 ? 'semaphore-green' : pct <= 90 ? 'semaphore-amber' : 'semaphore-red',
+              label: pct < 70 ? `${pct}% Consumido` : pct <= 90 ? `${pct}% Advertencia` : `${pct}% Alerta Crítica`
+            };
 
         return {
           ...emp,
@@ -363,33 +442,52 @@
           available,
           pct,
           topCategory,
+          topCategoryId,
+          semaphore,
           benefitsCount: empBenefits.length
         };
       });
 
+      // Top empleados ordenados por gasto descendente (AC-02.4)
+      const topConsumingEmployees = [...employeeSummary]
+        .filter(e => e.id !== 'emp-pool')
+        .sort((a, b) => b.spent - a.spent);
+
       return {
-        totalAssigned,
+        globalBudgetCap,
+        totalAssigned: globalBudgetCap,
+        totalBenefitsAssigned: this.state.benefits.reduce((sum, b) => sum + b.amount, 0),
         totalSpent,
         totalAvailable,
         executionRate,
+        remainingPercentage,
+        semaphoreStatus,
         categoryBreakdown,
         employeeSummary,
+        topConsumingEmployees,
+        totalEmployees: this.state.employees.filter(e => e.id !== 'emp-pool').length,
+        activeEmployeesCount: 124,
         pendingCount: this.state.expenses.filter(x => x.status === 'pendiente').length,
         approvedCount: this.state.expenses.filter(x => x.status === 'aprobado').length,
         rejectedCount: this.state.expenses.filter(x => x.status === 'rechazado').length
       };
     }
 
+    // Delegación compatible con llamadas existentes a getDashboardMetrics
+    getDashboardMetrics() {
+      return this.getGlobalBudgetMetrics();
+    }
+
     // --- Resumen con IA en Dashboard ---
     getAISummary() {
-      const m = this.getDashboardMetrics();
+      const m = this.getGlobalBudgetMetrics();
       const topCat = [...m.categoryBreakdown].sort((a, b) => b.pct - a.pct)[0];
       const lowestCat = [...m.categoryBreakdown].filter(c => c.assigned > 0).sort((a, b) => a.pct - b.pct)[0];
 
       return {
         title: 'Resumen Inteligente de Saldo con IA',
         model: 'Google Genkit',
-        summary: `El gasto acumulado (${this.formatMoney(m.totalSpent)}) representa el ${m.executionRate}% del presupuesto total asignado (${this.formatMoney(m.totalAssigned)}). Quedan ${this.formatMoney(m.totalAvailable)} de saldo disponible sin caducidad.`,
+        summary: `El gasto acumulado (${this.formatMoney(m.totalSpent)}) representa el ${m.executionRate}% del presupuesto asignado (${this.formatMoney(m.totalAssigned)}). Quedan ${this.formatMoney(m.totalAvailable)} disponibles en total.`,
         recommendation: topCat
           ? `La categoría ${topCat.name} presenta el mayor consumo (${topCat.pct}% agotado), mientras que ${lowestCat ? lowestCat.name : 'otras categorías'} mantiene suficiente remanente. Se recomienda supervisar nuevos registros en ${topCat.name} para mantener la solvencia.`
           : 'Presupuesto equilibrado en todas las verticales activas.'
