@@ -1,0 +1,438 @@
+
+<!-- Vista: directorio de empleados -->
+<section class="employees-page" aria-labelledby="employees-title">
+  <div class="employees-page__content">
+    <!-- Cabecera y resumen -->
+    <header class="employees-header">
+      <div class="employees-header__content">
+        <h1 class="employees-header__title">
+          Directorio de empleados y asignación de beneficios
+        </h1>
+
+        <p class="employees-header__description">
+          Gestiona la plantilla activa, asigna beneficios y controla
+          los límites presupuestarios de cada empleado.
+        </p>
+
+        <section
+          class="employees-summary"
+          aria-label="Resumen presupuestario"
+        >
+          <p class="summary-pill">
+            <span class="summary-pill__status" aria-hidden="true"></span>
+            <span>
+              <strong id="employees-active-count">24</strong>
+              empleados activos
+            </span>
+          </p>
+
+          <p class="summary-pill">
+            <span class="summary-pill__label">Presupuesto global:</span>
+            <strong
+              id="employees-total-budget"
+              class="summary-pill__value"
+              data-eur="45000"
+            >
+            </strong>
+          </p>
+
+          <p class="summary-pill summary-pill--highlight">
+            <span
+              class="material-symbols-outlined summary-pill__icon"
+              aria-hidden="true"
+            >pie_chart</span>
+
+            <span>
+              Consumo total:
+              <strong
+                id="employees-total-consumed"
+                class="summary-pill__value"
+                data-eur="30000"
+              >   
+              </strong>
+            </span>
+          </p>
+        </section>
+      </div>
+
+      <div class="employees-header__actions">
+        <button
+          type="button"
+          class="button button--primary"
+          data-action="create-employee"
+        >
+          <span class="material-symbols-outlined" aria-hidden="true">
+            person_add
+          </span>
+          <span>Nuevo empleado</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Directorio -->
+    <section
+      class="employees-directory"
+      aria-labelledby="employees-directory-title"
+    >
+      <h2 id="employees-directory-title" class="visually-hidden">
+        Directorio y presupuestos de empleados
+      </h2>
+
+      <!-- Búsqueda y filtros -->
+      <form
+        class="employees-toolbar"
+        role="search"
+        onsubmit="return false"
+      >
+        <div class="employees-search">
+          <label for="employee-search" class="visually-hidden">
+            Buscar empleados
+          </label>
+
+          <span
+            class="material-symbols-outlined employees-search__icon"
+            aria-hidden="true"
+          >search</span>
+
+          <input
+            id="employee-search"
+            name="search"
+            class="employees-search__input"
+            type="search"
+            autocomplete="off"
+            placeholder="Buscar por nombre, email o cargo..."
+          >
+        </div>
+
+        <fieldset class="employees-filters">
+          <legend class="visually-hidden">
+            Filtrar empleados por departamento
+          </legend>
+
+          <button
+            type="button"
+            class="filter-button is-active"
+            data-department="all"
+            aria-pressed="true"
+          >
+            Todos
+          </button>
+
+          <button
+            type="button"
+            class="filter-button"
+            data-department="Tecnología"
+            aria-pressed="false"
+          >
+            Tecnología
+          </button>
+
+          <button
+            type="button"
+            class="filter-button"
+            data-department="Marketing"
+            aria-pressed="false"
+          >
+            Marketing
+          </button>
+
+          <button
+            type="button"
+            class="filter-button"
+            data-department="RRHH"
+            aria-pressed="false"
+          >
+            RRHH
+          </button>
+
+          <button
+            type="button"
+            class="filter-button"
+            data-department="Ventas"
+            aria-pressed="false"
+          >
+            Ventas
+          </button>
+        </fieldset>
+      </form>
+
+      <!-- Tabla -->
+      <div class="employees-table-card">
+        <header class="employees-table-card__header">
+          <div class="employees-table-card__heading">
+            <h2>Plantilla y presupuestos</h2>
+
+            <span
+              id="employees-results-count"
+              class="results-badge"
+              aria-live="polite"
+            >
+              3 empleados
+            </span>
+          </div>
+
+          <p class="employees-table-card__updated">
+            <span
+              class="material-symbols-outlined"
+              aria-hidden="true"
+            >schedule</span>
+            Datos de ejemplo
+          </p>
+        </header>
+
+        <div class="employees-table-scroll">
+          <table class="employees-table">
+            <caption class="visually-hidden">
+              Empleados, departamentos, beneficios asignados,
+              límites globales, consumo y saldo disponible.
+            </caption>
+
+            <thead>
+              <tr>
+                <th scope="col">Empleado</th>
+                <th scope="col">Departamento</th>
+                <th scope="col">Beneficios activos</th>
+                <th scope="col" class="text-right">Límite global</th>
+                <th scope="col" class="text-right">Total consumido</th>
+                <th scope="col" class="text-right">Saldo disponible</th>
+                <th scope="col" class="text-center">Acciones</th>
+              </tr>
+            </thead>
+
+            <!--
+              Datos provisionales.
+              En la integración con Axios, el controlador reemplazará
+              estas filas por las recibidas desde la API.
+            -->
+            <tbody id="employees-table-body">
+
+              <tr data-employee-id="1">
+                <th scope="row" class="employee-cell">
+                  <span class="employee-avatar employee-avatar--blue"
+                        aria-hidden="true">LG</span>
+                  <span class="employee-info">
+                    <span class="employee-info__name">Laura Gil</span>
+                    <span class="employee-info__email">
+                      laura.gil@pluxee.io
+                    </span>
+                  </span>
+                </th>
+
+                <td>
+                  <span class="department-badge">Tecnología</span>
+                </td>
+
+                <td>
+                  <div class="benefit-list">
+                    <span class="benefit-chip benefit-chip--food">
+                      Comida &nbsp;
+                      <span data-eur="150"></span>
+                    </span>
+                    <span class="benefit-chip benefit-chip--transport">
+                      Transporte &nbsp;<span data-eur="50"></span>
+                    </span>
+                    <span class="benefit-chip benefit-chip--training">
+                      Formación &nbsp;<span data-eur="200"></span>
+                    </span>
+                  </div>
+                </td>
+
+                <td class="money-cell" data-field="max-budget" data-eur="1000">
+                </td>
+                <td class="money-cell" data-field="total-consumed" data-eur="250">
+                </td>
+                <td class="money-cell money-cell--available"
+                    data-field="available-balance" data-eur="750">
+                </td>
+
+                <td class="actions-cell">
+                  <button
+                    type="button"
+                    class="button button--secondary button--small"
+                    data-action="edit-allocation"
+                    data-employee-id="1"
+                    aria-label="Editar límite de Laura Gil"
+                  >
+                    <span class="material-symbols-outlined"
+                          aria-hidden="true">edit</span>
+                    Editar límite
+                  </button>
+                </td>
+              </tr>
+
+              <tr data-employee-id="2">
+                <th scope="row" class="employee-cell">
+                  <span class="employee-avatar employee-avatar--slate"
+                        aria-hidden="true">MS</span>
+                  <span class="employee-info">
+                    <span class="employee-info__name">Marcos Soria</span>
+                    <span class="employee-info__email">
+                      marcos.soria@pluxee.io
+                    </span>
+                  </span>
+                </th>
+
+                <td><span class="department-badge">RRHH</span></td>
+
+                <td>
+                  <div class="benefit-list">
+                    <span class="benefit-chip benefit-chip--food">
+                      Comida &nbsp;<span data-eur="150"></span>
+                    </span>
+                    <span class="benefit-chip benefit-chip--health">
+                      Seguro &nbsp;<span data-eur="85"></span>
+                    </span>
+                  </div>
+                </td>
+
+                <td class="money-cell" data-field="max-budget" data-eur="800">
+                </td>
+                <td class="money-cell" data-field="total-consumed" data-eur="180">
+                </td>
+                <td class="money-cell money-cell--available"
+                    data-field="available-balance" data-eur="620">
+                </td>
+
+                <td class="actions-cell">
+                  <button
+                    type="button"
+                    class="button button--secondary button--small"
+                    data-action="edit-allocation"
+                    data-employee-id="2"
+                    aria-label="Editar límite de Marcos Soria"
+                  >
+                    <span class="material-symbols-outlined"
+                          aria-hidden="true">edit</span>
+                    Editar límite
+                  </button>
+                </td>
+              </tr>
+
+              <tr data-employee-id="3">
+                <th scope="row" class="employee-cell">
+                  <span class="employee-avatar employee-avatar--purple"
+                        aria-hidden="true">CV</span>
+                  <span class="employee-info">
+                    <span class="employee-info__name">Cristina Valero</span>
+                    <span class="employee-info__email">
+                      c.valero@pluxee.io
+                    </span>
+                  </span>
+                </th>
+
+                <td><span class="department-badge">Marketing</span></td>
+
+                <td>
+                  <div class="benefit-list">
+                    <span class="benefit-chip benefit-chip--nursery">
+                      Guardería &nbsp;<span data-eur="200"></span>
+                    </span>
+                    <span class="benefit-chip benefit-chip--transport">
+                      Transporte &nbsp;<span data-eur="50"></span>
+                    </span>
+                  </div>
+                </td>
+
+                <td class="money-cell" data-field="max-budget" data-eur="900">
+                </td>
+                <td class="money-cell" data-field="total-consumed" data-eur="320">
+                  
+                </td>
+                <td class="money-cell money-cell--available"
+                    data-field="available-balance" data-eur="580">
+                </td>
+
+                <td class="actions-cell">
+                  <button
+                    type="button"
+                    class="button button--secondary button--small"
+                    data-action="edit-allocation"
+                    data-employee-id="3"
+                    aria-label="Editar límite de Cristina Valero"
+                  >
+                    <span class="material-symbols-outlined"
+                          aria-hidden="true">edit</span>
+                    Editar límite
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Estados de carga, error y lista vacía -->
+        <p
+          id="employees-status"
+          class="employees-message"
+          role="status"
+          aria-live="polite"
+          hidden
+        ></p>
+
+        <div
+          id="employees-empty-state"
+          class="employees-empty-state"
+          role="status"
+          hidden
+        >
+          <span class="material-symbols-outlined" aria-hidden="true">
+            search_off
+          </span>
+          <p>No se han encontrado empleados.</p>
+          <span>Prueba con otro nombre o cambia los filtros.</span>
+        </div>
+
+        <p
+          id="employees-error"
+          class="employees-message employees-message--error"
+          role="alert"
+          hidden
+        ></p>
+
+        <!-- Paginación: preparada para conectarla con la API -->
+        <nav
+          id="employees-pagination"
+          class="employees-pagination"
+          aria-label="Paginación de empleados"
+        >
+          <p id="employees-pagination-info" aria-live="polite">
+            Mostrando 3 empleados de ejemplo
+          </p>
+
+          <div class="employees-pagination__controls">
+            <button
+              type="button"
+              class="pagination-button"
+              data-page-action="previous"
+              disabled
+            >
+              Anterior
+            </button>
+
+            <div
+              id="employees-pagination-pages"
+              class="employees-pagination__pages"
+            >
+              <button
+                type="button"
+                class="pagination-button is-current"
+                aria-current="page"
+              >
+                1
+              </button>
+            </div>
+
+            <button
+              type="button"
+              class="pagination-button"
+              data-page-action="next"
+              disabled
+            >
+              Siguiente
+            </button>
+          </div>
+        </nav>
+      </div>
+    </section>
+  </div>
+</section>
