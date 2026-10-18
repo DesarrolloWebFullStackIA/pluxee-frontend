@@ -1,0 +1,150 @@
+<section class="gastos">
+
+  <!-- Cabecera -->
+  <header class="gastos-head">
+    <div class="gastos-head__text">
+      <div class="gastos-eyebrow">
+        <span class="gastos-eyebrow__tag">Módulo de nómina &amp; compensación flexible</span>
+        <span class="gastos-eyebrow__sep">•</span>
+        <span class="gastos-eyebrow__brand">Pluxee Enterprise</span>
+      </div>
+      <h1 class="gastos-title">Control de Gastos y Aprobaciones</h1>
+      <p class="gastos-subtitle">
+        Supervisa y valida los comprobantes reportados por los empleados en Pluxee Enterprise de forma centralizada.
+      </p>
+    </div>
+
+    <div class="gastos-head__actions">
+      <button type="button" id="btn-nuevo-gasto" class="gastos-btn-new">
+        <span class="material-symbols-outlined">add_circle</span>
+        <span>Registrar nuevo gasto</span>
+      </button>
+
+      <span class="gastos-pill gastos-pill--pending">
+        <span class="gastos-pill__dot"></span>
+        <span><span data-count="pending">0</span> Pendientes</span>
+      </span>
+      <span class="gastos-pill gastos-pill--approved">
+        <span class="gastos-pill__dot"></span>
+        <span><span data-count="approved">0</span> Aprobados</span>
+      </span>
+      <span class="gastos-pill gastos-pill--rejected">
+        <span class="gastos-pill__dot"></span>
+        <span><span data-count="rejected">0</span> Rechazados</span>
+      </span>
+    </div>
+  </header>
+
+  <!-- KPIs -->
+  <div class="gastos-kpis">
+    <article class="gastos-kpi">
+      <div class="gastos-kpi__top">
+        <span class="gastos-kpi__label">Total tramitado</span>
+        <span class="material-symbols-outlined gastos-kpi__icon">payments</span>
+      </div>
+      <div class="gastos-kpi__bottom">
+        <span class="gastos-kpi__value"><span data-count="all">0</span> gastos</span>
+        <span class="gastos-kpi__sub gastos-kpi__sub--blue" id="kpi-total-amount" data-eur="0" data-decimals="2"></span>
+      </div>
+    </article>
+
+    <article class="gastos-kpi">
+      <div class="gastos-kpi__top">
+        <span class="gastos-kpi__label">Pendientes de visado</span>
+        <span class="material-symbols-outlined gastos-kpi__icon gastos-kpi__icon--amber">pending_actions</span>
+      </div>
+      <div class="gastos-kpi__bottom">
+        <span class="gastos-kpi__value gastos-kpi__value--amber"><span data-count="pending">0</span> recibos</span>
+        <span class="gastos-kpi__sub gastos-kpi__sub--amber" id="kpi-pending-amount" data-eur="0" data-decimals="2"></span>
+      </div>
+    </article>
+
+    <!-- Pendiente de backend: estos dos KPI son datos fijos de ejemplo -->
+    <article class="gastos-kpi">
+      <div class="gastos-kpi__top">
+        <span class="gastos-kpi__label">Consumo flexible</span>
+        <span class="material-symbols-outlined gastos-kpi__icon">pie_chart</span>
+      </div>
+      <div class="gastos-kpi__bottom">
+        <span class="gastos-kpi__value">78.4%</span>
+        <span class="gastos-kpi__sub">de <span data-eur="181500" data-decimals="0">181.500 €</span></span>
+      </div>
+    </article>
+
+    <article class="gastos-kpi">
+      <div class="gastos-kpi__top">
+        <span class="gastos-kpi__label">Tiempo medio de aprobación</span>
+        <span class="material-symbols-outlined gastos-kpi__icon gastos-kpi__icon--green">avg_pace</span>
+      </div>
+      <div class="gastos-kpi__bottom">
+        <span class="gastos-kpi__value">3.8h</span>
+        <span class="gastos-kpi__sub gastos-kpi__sub--green">-22% vs anterior</span>
+      </div>
+    </article>
+  </div>
+
+  <!-- Historial -->
+  <div class="gastos-card">
+    <div class="gastos-toolbar">
+      <div class="gastos-toolbar__left">
+        <div class="gastos-toolbar__title">
+          <h2>Historial de gastos</h2>
+          <span class="gastos-count"><span data-count="all">0</span> registros</span>
+        </div>
+
+        <div class="gastos-tabs" role="group" aria-label="Filtrar por estado">
+          <button type="button" class="gastos-tabs__btn is-active" data-filter="all" aria-pressed="true">
+            Todos (<span data-count="all">0</span>)
+          </button>
+          <button type="button" class="gastos-tabs__btn" data-filter="pending" aria-pressed="false">
+            Pendientes (<span data-count="pending">0</span>)
+            <span class="gastos-tabs__dot"></span>
+          </button>
+          <button type="button" class="gastos-tabs__btn" data-filter="approved" aria-pressed="false">
+            Aprobados (<span data-count="approved">0</span>)
+          </button>
+          <button type="button" class="gastos-tabs__btn" data-filter="rejected" aria-pressed="false">
+            Rechazados (<span data-count="rejected">0</span>)
+          </button>
+        </div>
+      </div>
+
+      <div class="gastos-search">
+        <span class="material-symbols-outlined">search</span>
+        <input
+          id="expenses-search"
+          type="search"
+          placeholder="Buscar empleado o concepto..."
+          aria-label="Buscar gastos"
+        />
+      </div>
+    </div>
+
+    <div class="gastos-table-wrap">
+      <table class="gastos-table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Empleado</th>
+            <th>Categoría</th>
+            <th>Concepto</th>
+            <th class="is-right">Importe</th>
+            <th class="is-center">Comprobante</th>
+            <th class="is-center">Estado</th>
+            <th class="is-right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="expenses-body"></tbody>
+      </table>
+    </div>
+
+    <div class="gastos-footer">
+      <span id="expenses-info">Sin transacciones</span>
+      <div class="gastos-pager">
+        <button type="button" id="page-prev" class="gastos-pager__btn" disabled>Anterior</button>
+        <button type="button" id="page-next" class="gastos-pager__btn" disabled>Siguiente</button>
+      </div>
+    </div>
+  </div>
+
+</section>
