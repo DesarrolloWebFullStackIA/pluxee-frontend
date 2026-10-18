@@ -32,6 +32,13 @@
   gap: 8px;
 }
 
+.gastos-head__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
 .gastos-eyebrow {
   display: flex;
   align-items: center;
@@ -575,7 +582,14 @@
 
 .gastos-title,
 .gastos-kpi__value { margin-top: 0; }
+.gastos-head__actions {
+  width: 100%;
+}
 
+.gastos-btn-new {
+  width: 100%;
+  justify-content: center;
+}
 
 @keyframes gastos-pulse {
   0%, 100% { opacity: 1; }
@@ -589,6 +603,10 @@
   .gastos-title { font-size: 30px; }
   .gastos-subtitle { font-size: 16px; }
   .gastos-search { width: 256px; }
+  .gastos-head__actions,
+  .gastos-btn-new {
+    width: auto;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -596,6 +614,15 @@
     flex-direction: row;
     align-items: flex-end;
     justify-content: space-between;
+  }
+
+  .gastos-head__text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .gastos-head__actions {
+    flex-shrink: 0;
   }
 
   .gastos-kpis { grid-template-columns: repeat(4, 1fr); }
