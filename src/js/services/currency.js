@@ -1,3 +1,5 @@
+
+
 const RATE_URL = "https://api.frankfurter.dev/v2/rate/eur/mxn";
 const RATE_CACHE_KEY = "eurMxnRate";
 const CURRENCY_KEY = "currency";
@@ -5,7 +7,7 @@ const CURRENCY_KEY = "currency";
 const LOCALES = { EUR: "es-ES", MXN: "es-MX" };
 
 let currentCurrency = "EUR";
-let eurToMxn = 20;
+let eurToMxn = 20; 
 
 function readRateCache() {
   try {
@@ -40,20 +42,25 @@ async function loadRate() {
 }
 
 
-function formatMoney(amountEur) {
+function formatMoney(amountEur, decimals = 0) {
   const value = currentCurrency === "MXN" ? amountEur * eurToMxn : amountEur;
 
   return new Intl.NumberFormat(LOCALES[currentCurrency], {
     style: "currency",
     currency: currentCurrency,
-    maximumFractionDigits: 0
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals
   }).format(value);
 }
 
 
 function renderMoney(root = document) {
   root.querySelectorAll("[data-eur]").forEach((element) => {
-    element.textContent = formatMoney(Number(element.dataset.eur));
+  
+    element.textContent = formatMoney(
+      Number(element.dataset.eur),
+      Number(element.dataset.decimals ?? 0)
+    );
   });
 }
 
@@ -74,13 +81,18 @@ function setCurrency(code) {
 
   renderMoney();
 
- 
+
   document.dispatchEvent(
     new CustomEvent("currencychange", { detail: { currency: code } })
   );
 }
 
+let currencyInitialized = false;
+
 async function initCurrency() {
+  if (currencyInitialized) return;
+  currencyInitialized = true;
+
   await loadRate();
 
   document.querySelectorAll("[data-currency]").forEach((button) => {
@@ -118,9 +130,3 @@ window.bindConversionPreview = bindConversionPreview;
 window.formatMoney = formatMoney;
 window.renderMoney = renderMoney;
 
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initCurrency);
-} else {
-  initCurrency();
-}
