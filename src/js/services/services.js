@@ -40,9 +40,10 @@
       create: (name, icon, color) => store.addCategory(name, icon, color)
     },
 
-    // --- Inteligencia Artificial ---
+    // --- Inteligencia Artificial (Google Genkit - US-INT-10.5) ---
     ai: {
-      getSummary: () => store.getAISummary()
+      getSummary: () => store.getAISummary(),
+      getInsights: (options) => (window.PluxeeGenkitService ? window.PluxeeGenkitService.generateBudgetDiagnosis(options) : Promise.resolve(null))
     },
 
     // --- Métricas Globales (US-FE-02.4) ---
