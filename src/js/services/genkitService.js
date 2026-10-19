@@ -26,39 +26,44 @@
    */
   const PluxeeGenkitService = {
     /**
-     * Endpoint configuration for Sprint 2 Genkit Backend
+     * Endpoint configuration for Sprint 2 Genkit Backend (US-INT-10.5)
      */
-    apiEndpoint: '/api/v1/genkit/insights',
-    isBackendAvailable: false,
+    apiEndpoint: '/ai/insights',
+    isBackendAvailable: true,
 
     /**
      * Generates a context-aware budget diagnosis based on store metrics.
-     * Simulates async processing latency (shimmer state) during Sprint 1.
+     * Uses centralized Axios client to query FastAPI Genkit backend, with automatic
+     * heuristic fallback if backend is unreachable.
      * 
      * @param {Object} [options]
      * @param {number} [options.delayMs=900] - Artificial latency to display skeleton animation
      * @param {boolean} [options.forceRefresh=false]
-     * @returns {Promise<Object>} Structured 3-part diagnostic output (AC-09.3)
+     * @returns {Promise<Object>} Structured 3-part diagnostic output (CA-INT-10.4 / CA-INT-10.5)
      */
     async generateBudgetDiagnosis(options = {}) {
       const delay = typeof options.delayMs === 'number' ? options.delayMs : 900;
 
-      // Sprint 2 hook: If backend endpoint is live, query the real Genkit agent
-      if (this.isBackendAvailable) {
+      // Sprint 2: Query real FastAPI Genkit backend using centralized Axios client
+      if (this.isBackendAvailable && window.api && typeof window.api.post === 'function') {
         try {
-          const res = await fetch(this.apiEndpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              metrics: window.PluxeeStore?.getGlobalBudgetMetrics?.() || {}
-            })
+          const store = window.PluxeeStore;
+          const metrics = store?.getGlobalBudgetMetrics?.() || {};
+          const currency = typeof store?.getCurrency === 'function' ? store.getCurrency() : 'EUR';
+
+          const data = await window.api.post(this.apiEndpoint, {
+            metrics,
+            currency
           });
-          if (res.ok) {
-            const data = await res.json();
+
+          if (data && data.success && data.health) {
             return data;
           }
         } catch (err) {
-          console.warn('[GenkitService] Backend unreachable, falling back to local reasoning engine:', err.message);
+          console.warn(
+            '[GenkitService] FastAPI backend unreachable or error, falling back to local reasoning engine:',
+            err.userMessage || err.message || err
+          );
         }
       }
 
