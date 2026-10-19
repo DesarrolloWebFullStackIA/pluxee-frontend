@@ -12,7 +12,7 @@ const ROUTES = {
   dashboard: { view: "dashboard", scripts: ["components/budgetWidget.js", "services/genkitService.js", "views/dashboard.js"], init: "initDashboardView" },
   empleados: { view: "empleados", scripts: ["services/employeeService.js"], init: "initEmpleadosView" },
   gastos: { view: "gastos", scripts: ["services/expenseService.js", "views/gastos.js"], init: "initGastosView" },
-  categorias: { view: "categorias", scripts: ["services/categoryService.js"], init: "initCategoriasView" },
+  categorias: { view: "categories", scripts: ["services/categoryServices.js"], init: "initCategoriasView" },
   demo: { view: "demo", scripts: ["views/demo.js"], init: "initDemoView" },
 };
 

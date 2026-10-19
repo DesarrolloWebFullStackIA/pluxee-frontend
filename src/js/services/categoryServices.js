@@ -122,7 +122,6 @@
 			</div>
 			<div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
 				<button data-category-action="edit" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200/70 transition-colors" type="button">Editar</button>
-				<button data-category-action="configure" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors" type="button">Configurar</button>
 				<button data-category-action="delete" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-rose-700 hover:bg-rose-50 transition-colors" type="button">Eliminar</button>
 			</div>
 		`;
@@ -137,7 +136,7 @@
 		const kpiCount = document.getElementById("categorias-kpi-count");
 		const catalogCount = document.getElementById("categorias-count");
 
-		if (kpiCount) kpiCount.textContent = `${activeCount} Categorías Activas`;
+		if (kpiCount) kpiCount.textContent = `${activeCount} categorías activas`;
 		if (catalogCount) catalogCount.textContent = `${activeCount} de ${categories.length} categorías activas`;
 	}
 
@@ -172,7 +171,7 @@
 					<option value="inactive">Inactiva</option>
 				</select>
 			</div>
-			<div class="modal-info">La categoría se añadirá al catálogo y quedará guardada en este navegador.</div>
+			<div class="modal-info">${mode === "create" ? "La categoría se añadirá al catálogo y quedará guardada en este navegador." : "Los cambios se guardarán en este navegador."}</div>
 		`;
 
 		form.elements.namedItem("name").value = category?.name || "";
@@ -181,11 +180,7 @@
 		form.elements.namedItem("description").value = category?.description || "";
 		form.elements.namedItem("status").value = category?.active === false ? "inactive" : "active";
 
-		if (mode === "configure") {
-			form.querySelector('[data-category-field="details"]').hidden = true;
-			form.querySelector('[data-category-field="icon"]').hidden = true;
-			form.querySelector('[data-category-field="description"]').hidden = true;
-		} else {
+		if (mode === "create") {
 			form.querySelector('[data-category-field="status"]').hidden = true;
 		}
 
@@ -264,12 +259,10 @@
 		const form = createCategoryForm(category, mode);
 		const nameInput = form.elements.namedItem("name");
 		const resultPromise = window.openDynamicModal({
-			title: mode === "create" ? "Nueva categoría" : mode === "edit" ? "Editar categoría" : "Configurar categoría",
-			subtitle: mode === "configure"
-				? "Ajusta el presupuesto y el estado de esta categoría."
-				: mode === "edit"
-					? "Modifica los datos de esta categoría."
-					: "Completa los datos de la nueva vertical de beneficios.",
+			title: mode === "create" ? "Nueva categoría" : "Editar categoría",
+			subtitle: mode === "create"
+				? "Completa los datos de la nueva categoría de beneficios."
+				: "Modifica los datos, el presupuesto y el estado de esta categoría.",
 			content: form,
 			confirmText: mode === "create" ? "Crear categoría" : "Guardar cambios",
 			cancelText: "Cancelar",
@@ -277,7 +270,7 @@
 			icon: "category"
 		});
 
-		if (mode !== "configure") {
+		if (mode === "create" || mode === "edit") {
 			nameInput.addEventListener("input", () => {
 				const normalizedName = nameInput.value.trim().toLocaleLowerCase("es");
 				const duplicate = [...catalog.querySelectorAll("[data-category-card]")].some((item) => {
@@ -305,19 +298,14 @@
 				isCustom: true
 			};
 			renderCategory(updatedCategory, catalog);
-		} else if (mode === "configure") {
-			updatedCategory = {
-				...category,
-				budget: Number(result.data.budget),
-				active: result.data.status === "active"
-			};
 		} else {
 			updatedCategory = {
 				...category,
 				name: result.data.name.trim(),
 				icon: result.data.icon,
 				budget: Number(result.data.budget),
-				description: result.data.description.trim()
+				description: result.data.description.trim(),
+				active: result.data.status === "active"
 			};
 		}
 

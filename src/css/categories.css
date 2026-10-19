@@ -1,6 +1,6 @@
 /**
  * Pluxee Enterprise - Categories Management Stylesheet
- * Page-specific styles for src/html/pages/categorias.html
+ * Page-specific styles for src/html/pages/categories.html
  */
 
 /* ==========================================================================
@@ -99,6 +99,7 @@
 }
 
 /* ==========================================================================
+   2. "NUEVA CATEGORÍA" DASHED PLACEHOLDER CARD
    2. "NUEVA CATEGORIA" DASHED PLACEHOLDER CARD
    ========================================================================== */
 .card-add-category {
