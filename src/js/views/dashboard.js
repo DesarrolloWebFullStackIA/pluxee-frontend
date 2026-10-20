@@ -77,10 +77,10 @@
       }
       const highlight = cardAvailable.querySelector('.stat-highlight');
       if (highlight) {
-        if (m.remainingPercentage >= 30) {
+        if (m.remainingPercentage > 66) {
           highlight.textContent = 'Solvencia Completa';
           highlight.className = 'stat-highlight green';
-        } else if (m.remainingPercentage >= 10) {
+        } else if (m.remainingPercentage >= 34) {
           highlight.textContent = 'Margen Moderado';
           highlight.className = 'stat-highlight amber';
         } else {
@@ -113,7 +113,7 @@
           const percentBadge = catCard.querySelector('.cat-percent-badge');
           if (percentBadge) {
             percentBadge.textContent = `${cat.pct}%`;
-            percentBadge.className = `cat-percent-badge ${cat.pct >= 90 ? 'danger' : cat.pct >= 70 ? 'warning' : 'success'}`;
+            percentBadge.className = `cat-percent-badge ${cat.pct > 66 ? 'danger' : cat.pct > 33 ? 'warning' : 'success'}`;
           }
           const meterFill = catCard.querySelector('.cat-meter-fill');
           if (meterFill) {
@@ -275,21 +275,126 @@
 
   /**
    * Action handler for editing the global budget cap (Total Asignado)
+   * Integrates standard dynamic modal identical to demo component
    */
-  function handleEditGlobalBudget() {
+  async function handleEditGlobalBudget() {
     const store = window.PluxeeStore;
-    if (!store) return;
-    const current = store.getGlobalBudgetCap();
-    const input = window.prompt(
-      'Modificar Presupuesto Global Asignado (EUR):\nIntroduce el nuevo límite total para la organización:',
-      current
-    );
-    if (input !== null && input.trim() !== '') {
-      const val = parseFloat(input.trim());
-      const res = store.setGlobalBudgetCap(val);
-      if (res && !res.success) {
-        alert(res.error || 'Importe no válido.');
-      }
+    if (!store || typeof window.openDynamicModal !== 'function') return;
+
+    const currentCap = store.getGlobalBudgetCap();
+    const metrics = typeof store.getGlobalBudgetMetrics === 'function' ? store.getGlobalBudgetMetrics() : null;
+    const currentSpent = metrics ? metrics.totalSpent : 0;
+    const minBudget = currentSpent > 0 ? currentSpent : 1;
+
+    const form = document.createElement('form');
+    form.innerHTML = `
+      <div class="form-field">
+        <label for="budget-amount">Nuevo Total Asignado (€ EUR)</label>
+        <input
+          id="budget-amount"
+          name="amount"
+          type="number"
+          min="${minBudget}"
+          step="any"
+          required
+          value="${currentCap}"
+          placeholder="Mínimo ${minBudget}"
+        />
+        <span id="budget-error-msg" style="color: #dc2626; font-size: 11px; font-weight: 500; display: none; margin-top: 4px;"></span>
+      </div>
+
+      <div class="modal-info" style="background-color: #f8fafc; border-color: #cbd5e1;">
+        <div style="display: flex; gap: 8px; align-items: flex-start;">
+          <span class="material-symbols-outlined" style="font-size: 18px; color: #d97706; flex-shrink: 0; margin-top: 1px;">lock</span>
+          <div>
+            <div style="font-weight: 600; color: #0f172a; margin-bottom: 2px;">Restricción Contable: Mínimo ${formatAmount(currentSpent)}</div>
+            <div style="color: #64748b; font-size: 12px; line-height: 1.4;">
+              La organización ya ha ejecutado <strong>${formatAmount(currentSpent)}</strong> en beneficios durante este ciclo. No se permite fijar un presupuesto inferior al gasto consolidado.
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Validación interactiva en tiempo real sobre el input
+    const inputEl = form.querySelector('#budget-amount');
+    const errorSpan = form.querySelector('#budget-error-msg');
+    if (inputEl) {
+      const validateInput = () => {
+        const val = parseFloat(inputEl.value);
+        if (!isNaN(val) && val < currentSpent) {
+          inputEl.setCustomValidity(`El presupuesto no puede ser inferior al gasto acumulado (${formatAmount(currentSpent)}).`);
+          if (errorSpan) {
+            errorSpan.textContent = `⚠️ No puedes asignar menos de ${formatAmount(currentSpent)} (gasto ya ejecutado).`;
+            errorSpan.style.display = 'block';
+          }
+        } else {
+          inputEl.setCustomValidity('');
+          if (errorSpan) {
+            errorSpan.style.display = 'none';
+          }
+        }
+      };
+      inputEl.addEventListener('input', validateInput);
+      inputEl.addEventListener('change', validateInput);
+    }
+
+    const result = await window.openDynamicModal({
+      title: 'Modificar Presupuesto Global',
+      subtitle: 'Ajusta el límite total asignado a la organización para este ciclo.',
+      icon: 'account_balance_wallet',
+      content: form,
+      confirmText: 'Guardar Presupuesto',
+      cancelText: 'Cancelar',
+      size: 'medium'
+    });
+
+    if (!result.confirmed || !result.data) {
+      return;
+    }
+
+    const newAmount = parseFloat(result.data.amount);
+    if (isNaN(newAmount) || newAmount <= 0) {
+      return;
+    }
+
+    // Doble validación en backend de cliente
+    if (newAmount < currentSpent) {
+      const errorContent = document.createElement('div');
+      errorContent.className = 'modal-info';
+      errorContent.style.borderColor = 'rgb(254 202 202)';
+      errorContent.style.background = 'rgb(254 242 242)';
+      errorContent.style.color = '#991b1b';
+      errorContent.textContent = `Operación bloqueada: El presupuesto asignado (${formatAmount(newAmount)}) no puede ser inferior al gasto ya ejecutado (${formatAmount(currentSpent)}).`;
+      await window.openDynamicModal({
+        title: 'Presupuesto no permitido',
+        subtitle: 'El importe introducido generaría déficit presupuestario.',
+        icon: 'warning',
+        content: errorContent,
+        confirmText: 'Entendido',
+        showCancel: false,
+        size: 'small'
+      });
+      return;
+    }
+
+    const res = store.setGlobalBudgetCap(newAmount);
+    if (res && !res.success) {
+      const errorContent = document.createElement('div');
+      errorContent.className = 'modal-info';
+      errorContent.style.borderColor = 'rgb(254 202 202)';
+      errorContent.style.background = 'rgb(254 242 242)';
+      errorContent.style.color = '#991b1b';
+      errorContent.textContent = res.error || 'Importe no válido.';
+      await window.openDynamicModal({
+        title: 'Error al actualizar',
+        subtitle: 'No se pudo guardar el nuevo presupuesto.',
+        icon: 'error',
+        content: errorContent,
+        confirmText: 'Entendido',
+        showCancel: false,
+        size: 'small'
+      });
     }
   }
 
