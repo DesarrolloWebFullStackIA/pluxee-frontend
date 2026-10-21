@@ -176,6 +176,14 @@
       if (isNaN(parsed) || parsed <= 0) {
         return { success: false, error: 'El importe del presupuesto global debe ser un número positivo mayor que cero.' };
       }
+      const activeExpenses = this.state.expenses.filter(x => x.status !== 'rechazado');
+      const totalSpent = activeExpenses.reduce((sum, x) => sum + x.amount, 0);
+      if (parsed < totalSpent) {
+        return {
+          success: false,
+          error: `El presupuesto asignado (${this.formatMoney(parsed)}) no puede ser inferior al gasto ya ejecutado (${this.formatMoney(totalSpent)}).`
+        };
+      }
       this.state.globalBudgetCap = parsed;
       this.saveState();
       if (typeof window !== 'undefined') {
@@ -414,12 +422,12 @@
             limit: globalBudgetCap,
             remaining: totalAvailable,
             percentage: executionRate,
-            tier: executionRate < 70 ? 'green' : executionRate <= 90 ? 'amber' : 'red',
-            cssClass: executionRate < 70 ? 'semaphore-green' : executionRate <= 90 ? 'semaphore-amber' : 'semaphore-red',
-            label: executionRate < 70 ? 'Nivel Óptimo' : executionRate <= 90 ? 'Tope Próximo' : 'Alerta Crítica',
-            description: executionRate < 70
+            tier: executionRate <= 33 ? 'green' : executionRate <= 66 ? 'amber' : 'red',
+            cssClass: executionRate <= 33 ? 'semaphore-green' : executionRate <= 66 ? 'semaphore-amber' : 'semaphore-red',
+            label: executionRate <= 33 ? 'Nivel Óptimo' : executionRate <= 66 ? 'Tope Próximo' : 'Alerta Crítica',
+            description: executionRate <= 33
               ? 'Presupuesto saludable y dentro de los parámetros previstos'
-              : executionRate <= 90
+              : executionRate <= 66
               ? 'Atención: consumo acercándose al techo presupuestario'
               : 'Riesgo de sobrecoste o límite presupuestario excedido'
           };
@@ -432,8 +440,8 @@
         const spent = catExpenses.reduce((sum, x) => sum + x.amount, 0);
         const available = Math.max(0, assigned - spent);
         const pct = assigned > 0 ? Math.min(100, Math.round((spent / assigned) * 100)) : 0;
-        const tier = pct < 70 ? 'green' : pct <= 90 ? 'amber' : 'red';
-        const cssClass = pct < 70 ? 'semaphore-green' : pct <= 90 ? 'semaphore-amber' : 'semaphore-red';
+        const tier = pct <= 33 ? 'green' : pct <= 66 ? 'amber' : 'red';
+        const cssClass = pct <= 33 ? 'semaphore-green' : pct <= 66 ? 'semaphore-amber' : 'semaphore-red';
         return {
           ...cat,
           assigned,
@@ -472,8 +480,8 @@
               limit: assigned,
               remaining: available,
               percentage: pct,
-              tier: pct < 70 ? 'green' : pct <= 90 ? 'amber' : 'red',
-              cssClass: pct < 70 ? 'semaphore-green' : pct <= 90 ? 'semaphore-amber' : 'semaphore-red',
+              tier: pct <= 33 ? 'green' : pct <= 66 ? 'amber' : 'red',
+              cssClass: pct <= 33 ? 'semaphore-green' : pct <= 66 ? 'semaphore-amber' : 'semaphore-red',
               label: pct < 70 ? `${pct}% Consumido` : pct <= 90 ? `${pct}% Advertencia` : `${pct}% Alerta Crítica`
             };
 

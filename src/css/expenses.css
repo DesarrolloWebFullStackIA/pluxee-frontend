@@ -451,6 +451,68 @@
   font-weight: 700;
 }
 
+.gastos-balance {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #475569;
+}
+
+.gastos-balance__icon {
+  font-size: 20px;
+  color: #64748b;
+}
+
+.gastos-balance__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+}
+
+.gastos-balance__text strong {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.gastos-balance__badge {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.gastos-balance__badge:empty {
+  display: none;
+}
+
+.gastos-balance--ok {
+  background: rgb(236 253 245 / 80%);
+  border-color: rgb(167 243 208 / 80%);
+  color: #047857;
+}
+
+.gastos-balance--ok strong { color: #064e3b; }
+.gastos-balance--ok .gastos-balance__icon { color: #059669; }
+.gastos-balance--ok .gastos-balance__badge { background: #d1fae5; color: #065f46; }
+
+.gastos-balance--error {
+  background: #fff1f2;
+  border-color: #fecdd3;
+  color: #be123c;
+}
+
+.gastos-balance--error strong { color: #881337; }
+.gastos-balance--error .gastos-balance__icon { color: #e11d48; }
+.gastos-balance--error .gastos-balance__badge { background: #ffe4e6; color: #9f1239; }
+
 .gastos-badge::before {
   content: "";
   width: 6px;
@@ -590,6 +652,19 @@
   width: 100%;
   justify-content: center;
 }
+
+.chat-pdf-link {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 8px 14px;
+  background: #2563eb;
+  color: #fff !important;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+.chat-pdf-link:hover { background: #1d4ed8; }
 
 @keyframes gastos-pulse {
   0%, 100% { opacity: 1; }

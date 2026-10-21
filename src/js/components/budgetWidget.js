@@ -2,9 +2,9 @@
  * Pluxee Enterprise - Budget Semaphore Widget (US-FE-02.2 & US-FE-02.3)
  * - Computes (totalSpent / totalLimit) * 100 and controls the 3-tier traffic light semaphore
  * - Animates progress bar with dynamic label: "Budget Consumed: X€ of Y€ (Z%)"
- * - 🟢 Green: < 70% consumed (Safe, healthy spending level)
- * - 🟡 Amber: 70% - 90% consumed (Warning threshold, approaching budget cap)
- * - 🔴 Red: > 90% or limit reached (Critical alert, limit exceeded or imminent breach)
+ * - 🟢 Green: <= 33% consumed (Safe, healthy spending level)
+ * - 🟡 Amber: 33% - 66% consumed (Warning threshold, approaching budget cap)
+ * - 🔴 Red: > 66% or limit reached (Critical alert, limit exceeded or imminent breach)
  */
 
 (function (window) {
@@ -12,14 +12,14 @@
 
   const SEMAPHORE_CONFIG = {
     GREEN: {
-      max: 70,
+      max: 33,
       tier: 'green',
       cssClass: 'semaphore-green',
       label: 'Nivel Óptimo',
       description: 'Presupuesto saludable y dentro de los parámetros previstos'
     },
     AMBER: {
-      max: 90,
+      max: 66,
       tier: 'amber',
       cssClass: 'semaphore-amber',
       label: 'Tope Próximo',
@@ -47,7 +47,7 @@
     const roundedPct = Math.round(percentage * 10) / 10;
 
     let tierConfig;
-    if (roundedPct < SEMAPHORE_CONFIG.GREEN.max) {
+    if (roundedPct <= SEMAPHORE_CONFIG.GREEN.max) {
       tierConfig = SEMAPHORE_CONFIG.GREEN;
     } else if (roundedPct <= SEMAPHORE_CONFIG.AMBER.max) {
       tierConfig = SEMAPHORE_CONFIG.AMBER;
