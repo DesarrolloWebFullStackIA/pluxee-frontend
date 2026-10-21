@@ -2,6 +2,7 @@ const EXPENSES_API_URL = "http://localhost:8000/api/v1/expenses";
 const EXPENSE_EMPLOYEES_API_URL = "http://localhost:8000/api/v1/employees";
 const CATEGORIES_API_URL = "http://localhost:8000/api/v1/expenses/categories";
 
+
 async function getExpenses() {
   const response = await axios.get(EXPENSES_API_URL);
   return response.data;
