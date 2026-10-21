@@ -213,93 +213,10 @@
         <span class="dash-section-eyebrow">Distribución Presupuestaria</span>
         <h2 class="dash-section-title">Gastos por Categoría</h2>
       </div>
-      <span class="dash-badge-pill">4 categorías activas</span>
+      <span class="dash-badge-pill" id="categories-count-badge">Cargando categorías...</span>
     </div>
-    <div class="dash-category-grid">
-      <!-- Comida -->
-      <div class="dash-category-card">
-        <div class="cat-header-row">
-          <div class="cat-title-wrap">
-            <span class="material-symbols-outlined cat-icon comida">restaurant</span>
-            <span class="cat-name">Comida</span>
-          </div>
-          <span class="cat-percent-badge warning">78%</span>
-        </div>
-        <div class="cat-amounts-row">
-          <span class="cat-current-amount">€11.700</span>
-          <span class="cat-target-amount">de €15.000</span>
-        </div>
-        <div class="cat-meter-track">
-          <div class="cat-meter-fill comida"></div>
-        </div>
-        <div class="cat-footer-row">
-          <span>Disponible:</span>
-          <strong>€3.300</strong>
-        </div>
-      </div>
-      <!-- Transporte -->
-      <div class="dash-category-card">
-        <div class="cat-header-row">
-          <div class="cat-title-wrap">
-            <span class="material-symbols-outlined cat-icon transporte">directions_bus</span>
-            <span class="cat-name">Transporte</span>
-          </div>
-          <span class="cat-percent-badge neutral">65%</span>
-        </div>
-        <div class="cat-amounts-row">
-          <span class="cat-current-amount">€7.800</span>
-          <span class="cat-target-amount">de €12.000</span>
-        </div>
-        <div class="cat-meter-track">
-          <div class="cat-meter-fill transporte"></div>
-        </div>
-        <div class="cat-footer-row">
-          <span>Disponible:</span>
-          <strong>€4.200</strong>
-        </div>
-      </div>
-      <!-- Formación -->
-      <div class="dash-category-card">
-        <div class="cat-header-row">
-          <div class="cat-title-wrap">
-            <span class="material-symbols-outlined cat-icon formacion">school</span>
-            <span class="cat-name">Formación</span>
-          </div>
-          <span class="cat-percent-badge success">52%</span>
-        </div>
-        <div class="cat-amounts-row">
-          <span class="cat-current-amount">€5.200</span>
-          <span class="cat-target-amount">de €10.000</span>
-        </div>
-        <div class="cat-meter-track">
-          <div class="cat-meter-fill formacion"></div>
-        </div>
-        <div class="cat-footer-row">
-          <span>Disponible:</span>
-          <strong>€4.800</strong>
-        </div>
-      </div>
-      <!-- Salud -->
-      <div class="dash-category-card">
-        <div class="cat-header-row">
-          <div class="cat-title-wrap">
-            <span class="material-symbols-outlined cat-icon salud">health_and_safety</span>
-            <span class="cat-name">Salud</span>
-          </div>
-          <span class="cat-percent-badge success">47%</span>
-        </div>
-        <div class="cat-amounts-row">
-          <span class="cat-current-amount">€3.800</span>
-          <span class="cat-target-amount">de €8.000</span>
-        </div>
-        <div class="cat-meter-track">
-          <div class="cat-meter-fill salud"></div>
-        </div>
-        <div class="cat-footer-row">
-          <span>Disponible:</span>
-          <strong>€4.200</strong>
-        </div>
-      </div>
+    <div class="dash-category-grid" id="dash-category-grid">
+      <!-- Categorías cargadas dinámicamente desde el backend -->
     </div>
   </div>
 
@@ -320,112 +237,13 @@
             <th class="text-right">Acción</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>
-              <div class="emp-cell">
-                <div class="dash-table-avatar bg-blue-avatar">SC</div>
-                <div class="emp-cell-info">
-                  <span class="emp-cell-name">Sofia Chen</span>
-                  <span class="emp-cell-role">Talent Lead</span>
-                </div>
-              </div>
-            </td>
-            <td>
-              <span class="badge-category salud">Salud &amp; Bienestar</span>
-            </td>
-            <td class="text-right font-bold">€1.480</td>
-            <td class="text-right text-muted">€2.120</td>
-            <td>
-              <span class="semaphore-badge semaphore-green">
-                <span class="semaphore-dot"></span>
-                <span>41% Consumido</span>
-              </span>
-            </td>
-            <td class="text-right">
-              <a href="#empleados" class="dash-table-view-btn">Ver Ficha</a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="emp-cell">
-                <div class="dash-table-avatar bg-amber-avatar">CR</div>
-                <div class="emp-cell-info">
-                  <span class="emp-cell-name">Carlos Ruiz</span>
-                  <span class="emp-cell-role">Product Designer</span>
-                </div>
-              </div>
-            </td>
-            <td>
-              <span class="badge-category comida">Comida &amp; Restauración</span>
-            </td>
-            <td class="text-right font-bold">€2.210</td>
-            <td class="text-right text-muted">€190</td>
-            <td>
-              <span class="semaphore-badge semaphore-red">
-                <span class="semaphore-dot"></span>
-                <span>92% Alerta Crítica</span>
-              </span>
-            </td>
-            <td class="text-right">
-              <a href="#empleados" class="dash-table-view-btn">Ver Ficha</a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="emp-cell">
-                <div class="dash-table-avatar bg-purple-avatar">LM</div>
-                <div class="emp-cell-info">
-                  <span class="emp-cell-name">Laura Moreno</span>
-                  <span class="emp-cell-role">Senior Frontend Eng.</span>
-                </div>
-              </div>
-            </td>
-            <td>
-              <span class="badge-category formacion">Formación Continua</span>
-            </td>
-            <td class="text-right font-bold">€1.100</td>
-            <td class="text-right text-muted">€2.000</td>
-            <td>
-              <span class="semaphore-badge semaphore-green">
-                <span class="semaphore-dot"></span>
-                <span>35% Consumido</span>
-              </span>
-            </td>
-            <td class="text-right">
-              <a href="#empleados" class="dash-table-view-btn">Ver Ficha</a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="emp-cell">
-                <div class="dash-table-avatar bg-emerald-avatar">MR</div>
-                <div class="emp-cell-info">
-                  <span class="emp-cell-name">Mateo Rivas</span>
-                  <span class="emp-cell-role">DevOps Specialist</span>
-                </div>
-              </div>
-            </td>
-            <td>
-              <span class="badge-category transporte">Transporte &amp; Abono</span>
-            </td>
-            <td class="text-right font-bold">€1.980</td>
-            <td class="text-right text-muted">€820</td>
-            <td>
-              <span class="semaphore-badge semaphore-amber">
-                <span class="semaphore-dot"></span>
-                <span>71% Advertencia</span>
-              </span>
-            </td>
-            <td class="text-right">
-              <a href="#empleados" class="dash-table-view-btn">Ver Ficha</a>
-            </td>
-          </tr>
+        <tbody id="dash-recent-employees-tbody">
+          <!-- Filas cargadas dinámicamente desde el backend -->
         </tbody>
       </table>
     </div>
     <div class="dash-table-footer">
-      <span class="dash-footer-counter">Mostrando los colaboradores con mayor consumo presupuestario</span>
+      <span class="dash-footer-counter" id="dash-table-footer-counter">Mostrando los colaboradores más recientes</span>
     </div>
   </div>
 </div>
