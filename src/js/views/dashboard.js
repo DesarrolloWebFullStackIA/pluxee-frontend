@@ -214,30 +214,39 @@
     }
 
     // 5. Categorías dinámicas desde el backend (#dash-category-grid)
+    // Se filtran y ordenan para mostrar exactamente 4 categorías: aquellas con menor saldo disponible (las más al límite)
     const categoryGrid = document.getElementById('dash-category-grid') || document.querySelector('.dash-category-grid');
     const categoryBadge = document.getElementById('categories-count-badge');
 
+    // Mapear saldo disponible y ordenar de menor a mayor disponibilidad
+    const prioritizedCategories = [...dashboardData.categories]
+      .map((cat) => {
+        const allocated = Number(cat.total_allocated) || 0;
+        const spent = Number(cat.total_spent) || 0;
+        const available = Math.max(0, allocated - spent);
+        const pct = allocated > 0 ? Math.min(100, Math.round((spent / allocated) * 100)) : 0;
+        return { ...cat, allocated, spent, available, pct };
+      })
+      .sort((a, b) => a.available - b.available)
+      .slice(0, 4);
+
     if (categoryBadge) {
-      categoryBadge.textContent = `${dashboardData.categories.length} categorías activas`;
+      categoryBadge.textContent = `4 categorías con menor saldo disponible`;
     }
 
     if (categoryGrid) {
-      if (dashboardData.categories.length === 0) {
+      if (prioritizedCategories.length === 0) {
         categoryGrid.innerHTML = `
           <div style="grid-column: 1 / -1; padding: 2rem; text-align: center; color: var(--pluxee-text-muted);">
             No se encontraron categorías de beneficios registradas en el backend.
           </div>
         `;
       } else {
-        categoryGrid.innerHTML = dashboardData.categories
+        categoryGrid.innerHTML = prioritizedCategories
           .map((cat) => {
-            const allocated = Number(cat.total_allocated) || 0;
-            const spent = Number(cat.total_spent) || 0;
-            const available = Math.max(0, allocated - spent);
-            const pct = allocated > 0 ? Math.min(100, Math.round((spent / allocated) * 100)) : 0;
             const icon = getCategoryIcon(cat.category_name);
             const catClass = getCategoryClass(cat.category_name);
-            const badgeClass = pct > 66 ? 'warning' : pct > 33 ? 'neutral' : 'success';
+            const badgeClass = cat.pct > 66 ? 'warning' : cat.pct > 33 ? 'neutral' : 'success';
 
             return `
               <div class="dash-category-card">
@@ -246,18 +255,18 @@
                     <span class="material-symbols-outlined cat-icon ${catClass}">${icon}</span>
                     <span class="cat-name">${cat.category_name}</span>
                   </div>
-                  <span class="cat-percent-badge ${badgeClass}">${pct}%</span>
+                  <span class="cat-percent-badge ${badgeClass}">${cat.pct}%</span>
                 </div>
                 <div class="cat-amounts-row">
-                  <span class="cat-current-amount" data-eur="${spent}">${formatAmount(spent)}</span>
-                  <span class="cat-target-amount" data-eur="${allocated}">de ${formatAmount(allocated)}</span>
+                  <span class="cat-current-amount" data-eur="${cat.spent}">${formatAmount(cat.spent)}</span>
+                  <span class="cat-target-amount" data-eur="${cat.allocated}">de ${formatAmount(cat.allocated)}</span>
                 </div>
                 <div class="cat-meter-track">
-                  <div class="cat-meter-fill ${catClass}" style="width: ${pct}%;"></div>
+                  <div class="cat-meter-fill ${catClass}" style="width: ${cat.pct}%;"></div>
                 </div>
                 <div class="cat-footer-row">
                   <span>Disponible:</span>
-                  <strong data-eur="${available}">${formatAmount(available)}</strong>
+                  <strong data-eur="${cat.available}">${formatAmount(cat.available)}</strong>
                 </div>
               </div>
             `;
