@@ -62,6 +62,9 @@
     constructor() {
       this.listeners = [];
       this.state = this.loadState();
+      if (typeof window !== 'undefined') {
+        window.addEventListener('storage', (event) => this.syncGlobalBudgetCap(event));
+      }
     }
 
     loadState() {
@@ -126,7 +129,46 @@
 
     // --- Control de Presupuesto Global (US-FE-02.4) ---
     getGlobalBudgetCap() {
+      try {
+        if (typeof localStorage !== 'undefined') {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            const storedCap = Number(parsed?.globalBudgetCap);
+            if (Number.isFinite(storedCap) && storedCap > 0) {
+              this.state.globalBudgetCap = storedCap;
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Could not refresh the global budget from localStorage', e);
+      }
       return Number(this.state.globalBudgetCap) || 45000;
+    }
+
+    syncGlobalBudgetCap(event) {
+      if (event.key !== STORAGE_KEY) return;
+
+      let updatedCap = 45000;
+      try {
+        if (event.newValue) {
+          const parsed = JSON.parse(event.newValue);
+          const storedCap = Number(parsed?.globalBudgetCap);
+          if (Number.isFinite(storedCap) && storedCap > 0) {
+            updatedCap = storedCap;
+          }
+        }
+      } catch (e) {
+        console.warn('Could not sync the global budget from another tab', e);
+        return;
+      }
+
+      if (updatedCap === Number(this.state.globalBudgetCap)) return;
+      this.state.globalBudgetCap = updatedCap;
+      this.notify();
+      window.dispatchEvent(new CustomEvent('budget:updated', {
+        detail: { globalBudgetCap: updatedCap, metrics: this.getGlobalBudgetMetrics() }
+      }));
     }
 
     setGlobalBudgetCap(amount) {
