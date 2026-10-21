@@ -1,6 +1,7 @@
 const USE_MOCK_EXPENSES = true;
 
 const EXPENSES_API_URL = "http://localhost:3000/api/expenses";
+const MOCK_EXPENSES_STORAGE_KEY = "pluxee_mock_expenses_v1";
 
 
 const expenseEmployees = [
@@ -20,7 +21,7 @@ const expenseCategories = [
   { id: 5, name: "Salud" }
 ];
 
-let mockExpenses = [
+const defaultMockExpenses = [
   { id: 1, date: "2024-10-24", employee: expenseEmployees[0], category: "Transporte", concept: "Abono mensual tren cercanías Renfe", amount: 54, receiptType: "pdf", receiptUrl: "#", status: "pending" },
   { id: 2, date: "2024-10-23", employee: expenseEmployees[1], category: "Restauración", concept: "Almuerzo de trabajo sprint design", amount: 32.5, receiptType: "image", receiptUrl: "#", status: "pending" },
   { id: 3, date: "2024-10-21", employee: expenseEmployees[2], category: "Formación", concept: "Certificación AWS Solutions Architect", amount: 210, receiptType: "pdf", receiptUrl: "#", status: "approved" },
@@ -29,8 +30,35 @@ let mockExpenses = [
   { id: 6, date: "2024-10-15", employee: expenseEmployees[5], category: "Salud", concept: "Copago póliza dental ampliada", amount: 38, receiptType: "pdf", receiptUrl: "#", status: "approved" }
 ];
 
+function loadMockExpenses() {
+  try {
+    const stored = window.localStorage.getItem(MOCK_EXPENSES_STORAGE_KEY);
+    if (stored !== null) {
+      const expenses = JSON.parse(stored);
+      if (!Array.isArray(expenses)) {
+        throw new TypeError("El almacenamiento de gastos no contiene una lista.");
+      }
+      return expenses;
+    }
+  } catch (error) {
+    console.error("No se pudieron cargar los gastos guardados.", error);
+  }
+  return [...defaultMockExpenses];
+}
+
+let mockExpenses = loadMockExpenses();
+
+function persistMockExpenses() {
+  try {
+    window.localStorage.setItem(MOCK_EXPENSES_STORAGE_KEY, JSON.stringify(mockExpenses));
+  } catch (error) {
+    console.error("No se pudieron guardar los cambios de gastos.", error);
+  }
+}
+
 async function getExpenses() {
   if (USE_MOCK_EXPENSES) {
+    persistMockExpenses();
     return mockExpenses;
   }
 
@@ -58,6 +86,7 @@ async function createExpense(values) {
 
 
     mockExpenses.unshift(newExpense);
+    persistMockExpenses();
     return newExpense;
   }
 
@@ -83,6 +112,7 @@ async function approveExpense(id) {
   if (USE_MOCK_EXPENSES) {
     const expense = mockExpenses.find((item) => item.id == id);
     expense.status = "approved";
+    persistMockExpenses();
     return expense;
   }
 
@@ -95,6 +125,7 @@ async function rejectExpense(id, reason) {
     const expense = mockExpenses.find((item) => item.id == id);
     expense.status = "rejected";
     expense.rejectionReason = reason;
+    persistMockExpenses();
     return expense;
   }
 

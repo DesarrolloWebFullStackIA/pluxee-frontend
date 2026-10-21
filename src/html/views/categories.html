@@ -13,11 +13,12 @@
           <p class="text-sm sm:text-base text-slate-600 max-w-3xl">Configura y amplía las categorías de beneficios de la empresa (comida, transporte, formación, salud y guardería). El equipo de RR. HH. puede modificarlas en tiempo real.</p>
         </div>
 
-        <div class="flex items-center gap-3">
+        <div class="flex flex-col items-end gap-1">
           <button id="btn-nueva-categoria" class="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#091426] hover:bg-[#1e293b] text-white text-sm font-semibold shadow-sm transition-all" type="button">
             <span class="material-symbols-outlined text-lg">add_circle</span>
             <span>Nueva categoría</span>
           </button>
+          <span class="text-xs text-slate-500">Añade categorías y define su presupuesto total.</span>
         </div>
       </div>
 
@@ -25,11 +26,8 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div class="p-5 bg-white rounded-xl shadow-xs border border-slate-200/80 flex items-center justify-between">
           <div class="flex flex-col gap-1">
-            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Categorías disponibles</span>
-            <span id="categorias-kpi-count" class="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#091426]">5 categorías activas</span>
-              <span class="text-xs text-emerald-600 font-medium flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Disponibles para asignación
-            </span>
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Categorías en catálogo</span>
+            <span id="categorias-kpi-count" class="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#091426]">Cargando...</span>
           </div>
           <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
             <span class="material-symbols-outlined text-2xl">category</span>
@@ -39,8 +37,8 @@
         <div class="p-5 bg-white rounded-xl shadow-xs border border-slate-200/80 flex items-center justify-between">
           <div class="flex flex-col gap-1">
             <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Presupuesto global asignado</span>
-            <span class="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#091426]">€ 45.000 / ciclo</span>
-            <span class="text-xs text-slate-500 font-medium">Distribuido en 124 planes individuales</span>
+            <span id="categorias-kpi-budget" class="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-[#091426]">—</span>
+            <span id="categorias-kpi-budget-detail" class="text-xs text-slate-500 font-medium">Suma de presupuestos de categorías activas</span>
           </div>
           <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
             <span class="material-symbols-outlined text-2xl">account_balance_wallet</span>
@@ -49,9 +47,15 @@
 
         <div class="p-5 bg-white rounded-xl shadow-xs border border-slate-200/80 flex items-center justify-between">
           <div class="flex flex-col gap-1">
-            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Regla transaccional de asignación</span>
-            <span class="font-['Plus_Jakarta_Sans'] text-base font-bold text-slate-900">Máximo un beneficio por categoría</span>
-            <span class="text-xs text-blue-600 font-medium">No se permiten asignaciones por encima del presupuesto</span>
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Presupuesto restante</span>
+            <span id="categorias-kpi-remaining" class="font-['Plus_Jakarta_Sans'] text-2xl font-bold text-slate-900">—</span>
+            <span id="categorias-kpi-spent" class="text-xs text-slate-500 font-medium">Gasto ejecutado: —</span>
+            <span id="categorias-kpi-semaphore" class="text-xs text-emerald-700 font-semibold">0 % ejecutado · verde</span>
+            <div class="category-semaphore" aria-label="Porcentaje del presupuesto ejecutado">
+              <div id="categorias-semaphore-bar" class="category-semaphore__track" role="progressbar" aria-label="Presupuesto ejecutado" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <span id="categorias-semaphore-fill" class="category-semaphore__fill semaphore-green"></span>
+              </div>
+            </div>
           </div>
           <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
             <span class="material-symbols-outlined text-2xl">verified_user</span>
@@ -63,9 +67,10 @@
       <div class="flex flex-col gap-4">
         <div class="flex items-center justify-between">
           <h2 class="font-['Plus_Jakarta_Sans'] text-xl font-bold text-[#091426]">Catálogo oficial de beneficios</h2>
-          <span id="categorias-count" class="text-xs text-slate-500 font-medium">5 de 5 categorías activas</span>
+          <span id="categorias-count" class="text-xs text-slate-500 font-medium">Cargando categorías...</span>
         </div>
 
+        <p id="category-feedback" class="category-feedback" role="status" aria-live="polite" hidden></p>
         <div id="catalogo-categorias" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
           <!-- Card 1: Comida -->
@@ -81,7 +86,6 @@
                     <span class="text-xs text-slate-500 font-medium">Vales y reparto durante la jornada laboral</span>
                   </div>
                 </div>
-                <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-semibold border border-emerald-200/60">Activa</span>
               </div>
               <p class="text-xs text-slate-600 leading-relaxed">
                 Tickets diarios de restaurante y saldo virtual para almuerzos de trabajo. Exención fiscal de hasta 11 € por día laborable, según el artículo 42 del IRPF.
@@ -106,10 +110,6 @@
               </div>
             </div>
 
-            <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
-              <button data-category-action="edit" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200/70 transition-colors" type="button">Editar</button>
-              <button data-category-action="delete" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-rose-700 hover:bg-rose-50 transition-colors" type="button">Eliminar</button>
-            </div>
           </div>
 
           <!-- Card 2: Transporte -->
@@ -125,7 +125,6 @@
                     <span class="text-xs text-slate-500 font-medium">Abono y movilidad urbana</span>
                   </div>
                 </div>
-                <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-semibold border border-emerald-200/60">Activa</span>
               </div>
               <p class="text-xs text-slate-600 leading-relaxed">
                 Abono mensual de transporte público (metro, Renfe Cercanías y autobuses urbanos) y servicios de bicicleta compartida. Límite de 1.500 € al año.
@@ -150,10 +149,6 @@
               </div>
             </div>
 
-            <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
-              <button data-category-action="edit" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200/70 transition-colors" type="button">Editar</button>
-              <button data-category-action="delete" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-rose-700 hover:bg-rose-50 transition-colors" type="button">Eliminar</button>
-            </div>
           </div>
 
           <!-- Card 3: Formación -->
@@ -169,7 +164,6 @@
                     <span class="text-xs text-slate-500 font-medium">Cursos y certificaciones</span>
                   </div>
                 </div>
-                <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-semibold border border-emerald-200/60">Activa</span>
               </div>
               <p class="text-xs text-slate-600 leading-relaxed">
                 Financiación directa de másteres, certificaciones oficiales en la nube (AWS, GCP y Azure), idiomas y seminarios de capacitación técnica.
@@ -194,10 +188,6 @@
               </div>
             </div>
 
-            <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
-              <button data-category-action="edit" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200/70 transition-colors" type="button">Editar</button>
-              <button data-category-action="delete" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-rose-700 hover:bg-rose-50 transition-colors" type="button">Eliminar</button>
-            </div>
           </div>
 
           <!-- Card 4: Salud & Bienestar -->
@@ -213,7 +203,6 @@
                     <span class="text-xs text-slate-500 font-medium">Seguro médico y dental</span>
                   </div>
                 </div>
-                <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-semibold border border-emerald-200/60">Activa</span>
               </div>
               <p class="text-xs text-slate-600 leading-relaxed">
                 Póliza colectiva de salud privada, sin copagos médicos, y cobertura dental integral para la persona empleada y sus familiares directos (hasta 500 € por persona).
@@ -238,10 +227,6 @@
               </div>
             </div>
 
-            <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
-              <button data-category-action="edit" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200/70 transition-colors" type="button">Editar</button>
-              <button data-category-action="delete" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-rose-700 hover:bg-rose-50 transition-colors" type="button">Eliminar</button>
-            </div>
           </div>
 
           <!-- Card 5: Guardería Infantil -->
@@ -257,7 +242,6 @@
                     <span class="text-xs text-slate-500 font-medium">Educación infantil de primer ciclo (0-3 años)</span>
                   </div>
                 </div>
-                <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-semibold border border-emerald-200/60">Activa</span>
               </div>
               <p class="text-xs text-slate-600 leading-relaxed">
                 Cheques y pagos telemáticos directos a centros de educación infantil autorizados. Beneficio exento al 100 % del IRPF, sin límite máximo anual.
@@ -282,10 +266,6 @@
               </div>
             </div>
 
-            <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
-              <button data-category-action="edit" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200/70 transition-colors" type="button">Editar</button>
-              <button data-category-action="delete" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-rose-700 hover:bg-rose-50 transition-colors" type="button">Eliminar</button>
-            </div>
           </div>
 
           <!-- Empty Add Card Placeholder -->
