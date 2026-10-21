@@ -1319,3 +1319,33 @@
     flex-wrap: wrap;
   }
 }
+
+
+
+/* Barra de progreso del gasto por categoría */
+.employee-detail-form__progress {
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background-color: #e5e7eb;
+}
+
+.employee-detail-form__progress-bar {
+  height: 100%;
+  border-radius: inherit;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.employee-detail-form__progress-bar.progress--green {
+  background-color: #16a34a;
+}
+
+.employee-detail-form__progress-bar.progress--orange {
+  background-color: #f59e0b;
+}
+
+.employee-detail-form__progress-bar.progress--red {
+  background-color: #dc2626;
+}
+
