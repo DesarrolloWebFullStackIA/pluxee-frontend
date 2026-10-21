@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const USE_MOCK_EXPENSES = true;
 
 const EXPENSES_API_URL = "http://localhost:3000/api/expenses";
@@ -30,11 +29,6 @@ const defaultMockExpenses = [
   { id: 5, date: "2024-10-18", employee: expenseEmployees[4], category: "Transporte", concept: "Recarga tarjeta Consorcio Metro", amount: 21.8, receiptType: "image", receiptUrl: "#", status: "pending" },
   { id: 6, date: "2024-10-15", employee: expenseEmployees[5], category: "Salud", concept: "Copago póliza dental ampliada", amount: 38, receiptType: "pdf", receiptUrl: "#", status: "approved" }
 ];
-=======
-const EXPENSES_API_URL = "http://localhost:8000/api/v1/expenses";
-const EXPENSE_EMPLOYEES_API_URL = "http://localhost:8000/api/v1/employees";
-const CATEGORIES_API_URL = "http://localhost:8000/api/v1/expenses/categories";
->>>>>>> 3d3ed4c95405f80c1dc01446dd74d8b4fcd7da3f
 
 function loadMockExpenses() {
   try {
@@ -63,20 +57,16 @@ function persistMockExpenses() {
 }
 
 async function getExpenses() {
-<<<<<<< HEAD
   if (USE_MOCK_EXPENSES) {
     persistMockExpenses();
     return mockExpenses;
   }
 
-=======
->>>>>>> 3d3ed4c95405f80c1dc01446dd74d8b4fcd7da3f
   const response = await axios.get(EXPENSES_API_URL);
   return response.data;
 }
 
 async function createExpense(values) {
-<<<<<<< HEAD
   if (USE_MOCK_EXPENSES) {
     // Buscamos el empleado y la categoría por su id
     const employee = expenseEmployees.find((item) => item.id == values.employeeId);
@@ -101,8 +91,6 @@ async function createExpense(values) {
   }
 
  
-=======
->>>>>>> 3d3ed4c95405f80c1dc01446dd74d8b4fcd7da3f
   const formData = new FormData();
   formData.append("employeeId", values.employeeId);
   formData.append("categoryId", values.categoryId);
@@ -128,7 +116,6 @@ async function updateExpense(id, values) {
 }
 
 async function approveExpense(id) {
-<<<<<<< HEAD
   if (USE_MOCK_EXPENSES) {
     const expense = mockExpenses.find((item) => item.id == id);
     expense.status = "approved";
@@ -136,14 +123,11 @@ async function approveExpense(id) {
     return expense;
   }
 
-=======
->>>>>>> 3d3ed4c95405f80c1dc01446dd74d8b4fcd7da3f
   const response = await axios.patch(EXPENSES_API_URL + "/" + id + "/approve");
   return response.data;
 }
 
 async function rejectExpense(id, reason) {
-<<<<<<< HEAD
   if (USE_MOCK_EXPENSES) {
     const expense = mockExpenses.find((item) => item.id == id);
     expense.status = "rejected";
@@ -152,8 +136,6 @@ async function rejectExpense(id, reason) {
     return expense;
   }
 
-=======
->>>>>>> 3d3ed4c95405f80c1dc01446dd74d8b4fcd7da3f
   const response = await axios.patch(EXPENSES_API_URL + "/" + id + "/reject", { reason: reason });
   return response.data;
 }
