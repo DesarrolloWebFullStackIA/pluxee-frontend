@@ -15,12 +15,51 @@ function initModal() {
     button.addEventListener("click", () => closeDynamicModal());
   });
 
+  // Escuchar inputs para limpiar errores de validacion en tiempo real.
+  modalContentElement.addEventListener("input", (event) => {
+    const target = event.target;
+    if (target && target.matches && target.matches("input, select, textarea")) {
+      if (target.checkValidity()) {
+        target.classList.remove("is-invalid");
+      }
+      const form = target.closest("form");
+      if (form) {
+        const remainingInvalid = form.querySelectorAll(".is-invalid");
+        const alertBox = form.querySelector(".modal-form-alert");
+        if (alertBox && remainingInvalid.length === 0) {
+          alertBox.hidden = true;
+        }
+      }
+    }
+  });
+
   // Confirmar.
   modal.querySelector('[data-action="confirm"]').addEventListener("click", () => {
     const form = modalContentElement.querySelector("form");
 
-    // Si hay formulario, comprobar sus campos obligatorios.
-    if (form && !form.reportValidity()) return;
+    // Si hay formulario, comprobar sus campos obligatorios con feedback visual.
+    if (form) {
+      const inputs = [...form.querySelectorAll("input, select, textarea")];
+      let hasError = false;
+      inputs.forEach(input => {
+        if (!input.checkValidity()) {
+          input.classList.add("is-invalid");
+          hasError = true;
+        } else {
+          input.classList.remove("is-invalid");
+        }
+      });
+      const alertBox = form.querySelector(".modal-form-alert");
+      if (hasError) {
+        if (alertBox) alertBox.hidden = false;
+        form.reportValidity();
+        const firstInvalid = form.querySelector(".is-invalid");
+        if (firstInvalid) firstInvalid.focus();
+        return;
+      } else {
+        if (alertBox) alertBox.hidden = true;
+      }
+    }
 
     const data = form
       ? Object.fromEntries(new FormData(form).entries())

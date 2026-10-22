@@ -49,6 +49,7 @@
     if (n.includes('guarderia') || n.includes('infantil') || n.includes('hijos')) return 'child_care';
     if (n.includes('seguro') || n.includes('vida') || n.includes('poliza')) return 'security';
     if (n.includes('tecnologia') || n.includes('equipo') || n.includes('ordenador') || n.includes('laptop')) return 'devices';
+    if (n.includes('gimnas') || n.includes('gym') || n.includes('fitness') || n.includes('deport')) return 'fitness_center';
     return 'category';
   }
 
@@ -64,6 +65,7 @@
     if (n.includes('formacion')) return 'formacion';
     if (n.includes('salud')) return 'salud';
     if (n.includes('guarderia')) return 'guarderia';
+    if (n.includes('gimnas') || n.includes('gym')) return 'formacion';
     return 'comida';
   }
 

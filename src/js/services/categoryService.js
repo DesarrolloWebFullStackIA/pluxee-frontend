@@ -19,6 +19,21 @@
 		{ icon: "category", label: "General", color: "salud" }
 	];
 
+	const ICON_ALIAS_MAP = {
+		utensils: "restaurant",
+		restaurant: "restaurant",
+		bus: "directions_bus",
+		directions_bus: "directions_bus",
+		"book-open": "school",
+		school: "school",
+		"heart-pulse": "health_and_safety",
+		health_and_safety: "health_and_safety",
+		baby: "child_care",
+		child_care: "child_care",
+		dumbbell: "fitness_center",
+		fitness_center: "fitness_center"
+	};
+
 	function formatMoney(value) {
 		const amount = Number(value) || 0;
 		return typeof window.formatMoney === "function"
@@ -30,9 +45,25 @@
 			}).format(amount);
 	}
 
-	function getIconOption(icon) {
-		return ICON_OPTIONS.find((option) => option.icon === icon)
-			|| ICON_OPTIONS[ICON_OPTIONS.length - 1];
+	function getIconOption(icon, name) {
+		const resolvedIcon = (ICON_ALIAS_MAP[icon] || icon || "").trim().toLowerCase();
+		const directMatch = ICON_OPTIONS.find((option) => option.icon === resolvedIcon);
+		if (directMatch) return directMatch;
+
+		if (name) {
+			const n = String(name).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+			if (n.includes("comida") || n.includes("restauran") || n.includes("aliment")) return ICON_OPTIONS[0];
+			if (n.includes("transporte") || n.includes("movilidad") || n.includes("bus") || n.includes("tren")) return ICON_OPTIONS[1];
+			if (n.includes("formacion") || n.includes("curso") || n.includes("estudio")) return ICON_OPTIONS[2];
+			if (n.includes("salud") || n.includes("medic") || n.includes("bienestar")) return ICON_OPTIONS[3];
+			if (n.includes("guarderia") || n.includes("infantil") || n.includes("hijos")) return ICON_OPTIONS[4];
+			if (n.includes("tecnolog") || n.includes("laptop") || n.includes("equipo")) return ICON_OPTIONS[5];
+			if (n.includes("gimnas") || n.includes("gym") || n.includes("fit") || n.includes("deport")) return ICON_OPTIONS[6];
+			if (n.includes("idioma") || n.includes("ingles")) return ICON_OPTIONS[7];
+			if (n.includes("hogar") || n.includes("casa")) return ICON_OPTIONS[8];
+		}
+
+		return ICON_OPTIONS[ICON_OPTIONS.length - 1];
 	}
 
 	function getCategoryData(card) {
@@ -109,7 +140,7 @@
 
 	function renderCategory(category, catalog) {
 		const card = document.createElement("article");
-		const iconOption = getIconOption(category.icon);
+		const iconOption = getIconOption(category.icon, category.name);
 		card.className = "category-card category-card--custom";
 		card.dataset.categoryCard = "true";
 		card.innerHTML = `
@@ -253,19 +284,23 @@
 		const maximumBudget = remaining + currentBudget;
 
 		form.innerHTML = `
+			<div id="category-form-alert" class="modal-form-alert" hidden role="alert">
+				<span class="material-symbols-outlined" style="font-size: 18px;" aria-hidden="true">error</span>
+				<span>Por favor, completa todos los campos obligatorios marcados con asterisco (*).</span>
+			</div>
 			<div class="form-field">
-				<label for="category-name">Nombre de la categoría</label>
+				<label for="category-name">Nombre de la categoría <span class="required-asterisk">*</span></label>
 				<input id="category-name" name="name" type="text" required maxlength="100" placeholder="Ej. Bienestar y gimnasio" />
 			</div>
 			<div class="form-row">
 				<div class="form-field">
-					<label for="category-icon">Icono identificador</label>
+					<label for="category-icon">Icono identificador <span class="required-asterisk">*</span></label>
 					<select id="category-icon" name="icon" required>
 						${ICON_OPTIONS.map((option) => `<option value="${option.icon}">${option.label}</option>`).join("")}
 					</select>
 				</div>
 				<div class="form-field">
-					<label for="category-budget">Presupuesto asignado (EUR)</label>
+					<label for="category-budget">Presupuesto asignado (EUR) <span class="required-asterisk">*</span></label>
 					<input id="category-budget" name="budget" type="number" min="0.01" max="${maximumBudget}" step="0.01" required placeholder="150" />
 				</div>
 			</div>
@@ -284,7 +319,7 @@
 		`;
 
 		form.elements.namedItem("name").value = category?.name || "";
-		form.elements.namedItem("icon").value = category?.icon || ICON_OPTIONS[0].icon;
+		form.elements.namedItem("icon").value = (ICON_ALIAS_MAP[category?.icon] || category?.icon) || ICON_OPTIONS[0].icon;
 		form.elements.namedItem("budget").value = category ? currentBudget : "";
 		form.elements.namedItem("description").value = category?.description || "";
 
@@ -346,7 +381,7 @@
 		const result = await resultPromise;
 		if (!result.confirmed) return;
 
-		const iconOption = getIconOption(result.data.icon);
+		const iconOption = getIconOption(result.data.icon, result.data.name);
 		const payload = {
 			name: result.data.name.trim(),
 			description: result.data.description.trim() || null,

@@ -183,6 +183,7 @@
 .gastos-kpi__icon { font-size: 20px; color: var(--g-secondary); }
 .gastos-kpi__icon--amber { color: #d97706; }
 .gastos-kpi__icon--green { color: #059669; }
+.gastos-kpi__icon--rose { color: #e11d48; }
 
 .gastos-kpi__value {
   font-family: "Plus Jakarta Sans", sans-serif;
@@ -192,11 +193,14 @@
 }
 
 .gastos-kpi__value--amber { color: #b45309; }
+.gastos-kpi__value--green { color: #047857; }
+.gastos-kpi__value--rose { color: #be123c; }
 
 .gastos-kpi__sub { font-size: 12px; color: var(--g-outline); }
 .gastos-kpi__sub--blue { font-weight: 600; color: var(--g-secondary); }
 .gastos-kpi__sub--amber { font-weight: 600; color: #92400e; }
 .gastos-kpi__sub--green { font-weight: 600; color: #047857; }
+.gastos-kpi__sub--rose { font-weight: 600; color: #be123c; }
 
 .gastos-card {
   display: flex;
@@ -617,6 +621,47 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.employees-pagination__pages {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.pagination-button {
+  display: inline-flex;
+  min-width: 2rem;
+  min-height: 2rem;
+  padding: 0 0.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dbe2ea;
+  border-radius: 0.5rem;
+  background: #fff;
+  color: #334155;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.pagination-button:hover:not(:disabled) {
+  border-color: #0058be;
+  color: #0058be;
+  background: #eff6ff;
+}
+
+.pagination-button.is-current {
+  border-color: #0058be;
+  background: #0058be;
+  color: #fff;
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .gastos-pager__btn {

@@ -14,10 +14,25 @@ let gastosNextBtn;
 const GASTOS_CATEGORY_CLASSES = {
   "Transporte": "transporte",
   "Restauración": "restauracion",
+  "Comida": "restauracion",
   "Formación": "formacion",
   "Guardería": "guarderia",
-  "Salud": "salud"
+  "Salud": "salud",
+  "Gimnasio": "formacion"
 };
+
+function getPageRange(currentPage, totalPages, maxButtons = 5) {
+  if (totalPages <= maxButtons) {
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
+  let start = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+  let end = start + maxButtons - 1;
+  if (end > totalPages) {
+    end = totalPages;
+    start = Math.max(1, end - maxButtons + 1);
+  }
+  return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+}
 
 const GASTOS_STATUS_TEXT = {
   pending: "Pendiente",
@@ -140,17 +155,30 @@ function buildExpenseRow(expense) {
 }
 
 function updateSummary() {
-  let pending = 0, approved = 0, rejected = 0, totalAmount = 0, pendingAmount = 0;
+  let pending = 0, approved = 0, rejected = 0;
+  let totalAmount = 0, pendingAmount = 0, approvedAmount = 0, rejectedAmount = 0;
   for (const expense of gastosList) {
-    totalAmount += Number(expense.amount);
-    if (expense.status === "pending") { pending++; pendingAmount += Number(expense.amount); }
-    else if (expense.status === "approved") { approved++; }
-    else if (expense.status === "rejected") { rejected++; }
+    const amt = Number(expense.amount) || 0;
+    totalAmount += amt;
+    if (expense.status === "pending") {
+      pending++;
+      pendingAmount += amt;
+    } else if (expense.status === "approved") {
+      approved++;
+      approvedAmount += amt;
+    } else if (expense.status === "rejected") {
+      rejected++;
+      rejectedAmount += amt;
+    }
   }
   const counts = { all: gastosList.length, pending: pending, approved: approved, rejected: rejected };
-  document.querySelectorAll("[data-count]").forEach((element) => { element.textContent = counts[element.dataset.count]; });
+  document.querySelectorAll("[data-count]").forEach((element) => {
+    element.textContent = counts[element.dataset.count] ?? 0;
+  });
   setAmount("kpi-total-amount", totalAmount);
   setAmount("kpi-pending-amount", pendingAmount);
+  setAmount("kpi-approved-amount", approvedAmount);
+  setAmount("kpi-rejected-amount", rejectedAmount);
 }
 
 function renderExpensesTable() {
@@ -170,6 +198,24 @@ function renderExpensesTable() {
 
   gastosPrevBtn.disabled = gastosPage <= 1;
   gastosNextBtn.disabled = gastosPage >= totalPages;
+
+  const pagesContainer = document.getElementById("expenses-pagination-pages");
+  if (pagesContainer) {
+    pagesContainer.innerHTML = "";
+    const pageNumbers = getPageRange(gastosPage, totalPages, 5);
+    pageNumbers.forEach((p) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "pagination-button" + (p === gastosPage ? " is-current" : "");
+      btn.textContent = String(p);
+      if (p === gastosPage) btn.setAttribute("aria-current", "page");
+      btn.addEventListener("click", () => {
+        gastosPage = p;
+        renderExpensesTable();
+      });
+      pagesContainer.append(btn);
+    });
+  }
   document.querySelectorAll("[data-filter]").forEach((tab) => {
     const isActive = tab.dataset.filter === gastosFilter;
     tab.classList.toggle("is-active", isActive);
@@ -286,14 +332,18 @@ async function openNewExpenseModal() {
 
     const form = document.createElement("form");
     form.innerHTML = `
-      <div class="form-row">
-        <div class="form-field"><label>Empleado</label><select name="employeeId" required>${employeeOptions}</select></div>
-        <div class="form-field"><label>Categoría</label><select name="categoryId" required>${categoryOptions}</select></div>
+      <div id="new-expense-alert" class="modal-form-alert" hidden role="alert">
+        <span class="material-symbols-outlined" style="font-size: 18px;" aria-hidden="true">error</span>
+        <span>Por favor, completa todos los campos obligatorios marcados con asterisco (*).</span>
       </div>
-      <div class="form-field"><label>Concepto</label><input name="concept" type="text" required placeholder="Ej. Abono tren" /></div>
       <div class="form-row">
-        <div class="form-field"><label>Importe (€)</label><input name="amount" type="number" min="0.01" step="0.01" required placeholder="0.00" /></div>
-        <div class="form-field"><label>Fecha</label><input name="date" type="date" value="${today}" required /></div>
+        <div class="form-field"><label>Empleado <span class="required-asterisk">*</span></label><select name="employeeId" required>${employeeOptions}</select></div>
+        <div class="form-field"><label>Categoría <span class="required-asterisk">*</span></label><select name="categoryId" required>${categoryOptions}</select></div>
+      </div>
+      <div class="form-field"><label>Concepto <span class="required-asterisk">*</span></label><input name="concept" type="text" required placeholder="Ej. Abono tren" /></div>
+      <div class="form-row">
+        <div class="form-field"><label>Importe (€) <span class="required-asterisk">*</span></label><input name="amount" type="number" min="0.01" step="0.01" required placeholder="0.00" /></div>
+        <div class="form-field"><label>Fecha <span class="required-asterisk">*</span></label><input name="date" type="date" value="${today}" required /></div>
       </div>
       <div class="form-field"><label>Justificante</label><input name="receipt" type="file" accept=".pdf,image/*" /></div>
       <div class="gastos-balance" id="gasto-balance">
@@ -383,14 +433,18 @@ async function openEditExpenseModal(expense) {
 
     const form = document.createElement("form");
     form.innerHTML = `
-      <div class="form-row">
-        <div class="form-field"><label>Empleado</label><select name="employeeId" required>${employeeOptions}</select></div>
-        <div class="form-field"><label>Categoría</label><select name="categoryId" required>${categoryOptions}</select></div>
+      <div id="edit-expense-alert" class="modal-form-alert" hidden role="alert">
+        <span class="material-symbols-outlined" style="font-size: 18px;" aria-hidden="true">error</span>
+        <span>Por favor, completa todos los campos obligatorios marcados con asterisco (*).</span>
       </div>
-      <div class="form-field"><label>Concepto</label><input name="concept" type="text" required value="${escapeHTML(expense.concept)}" /></div>
       <div class="form-row">
-        <div class="form-field"><label>Importe (€)</label><input name="amount" type="number" min="0.01" step="0.01" required value="${expense.amount}" /></div>
-        <div class="form-field"><label>Fecha</label><input name="date" type="date" value="${expense.date}" required /></div>
+        <div class="form-field"><label>Empleado <span class="required-asterisk">*</span></label><select name="employeeId" required>${employeeOptions}</select></div>
+        <div class="form-field"><label>Categoría <span class="required-asterisk">*</span></label><select name="categoryId" required>${categoryOptions}</select></div>
+      </div>
+      <div class="form-field"><label>Concepto <span class="required-asterisk">*</span></label><input name="concept" type="text" required value="${escapeHTML(expense.concept)}" /></div>
+      <div class="form-row">
+        <div class="form-field"><label>Importe (€) <span class="required-asterisk">*</span></label><input name="amount" type="number" min="0.01" step="0.01" required value="${expense.amount}" /></div>
+        <div class="form-field"><label>Fecha <span class="required-asterisk">*</span></label><input name="date" type="date" value="${expense.date}" required /></div>
       </div>
 
       <!-- AQUÍ ESTÁ EL BLOQUE NUEVO CON EL ARCHIVO ACTUAL -->

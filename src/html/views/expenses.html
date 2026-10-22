@@ -13,20 +13,6 @@
         Supervisa y valida los comprobantes reportados por los empleados en Pluxee Enterprise de forma centralizada.
       </p>
 
-      <div class="gastos-head__pills">
-        <span class="gastos-pill gastos-pill--pending">
-          <span class="gastos-pill__dot"></span>
-          <span><span data-count="pending">0</span> Pendientes</span>
-        </span>
-        <span class="gastos-pill gastos-pill--approved">
-          <span class="gastos-pill__dot"></span>
-          <span><span data-count="approved">0</span> Aprobados</span>
-        </span>
-        <span class="gastos-pill gastos-pill--rejected">
-          <span class="gastos-pill__dot"></span>
-          <span><span data-count="rejected">0</span> Rechazados</span>
-        </span>
-      </div>
     </div>
 
     <div class="gastos-head__actions">
@@ -61,26 +47,25 @@
       </div>
     </article>
 
-    <!-- Pendiente de backend: estos dos KPI son datos fijos de ejemplo -->
     <article class="gastos-kpi">
       <div class="gastos-kpi__top">
-        <span class="gastos-kpi__label">Consumo flexible</span>
-        <span class="material-symbols-outlined gastos-kpi__icon">pie_chart</span>
+        <span class="gastos-kpi__label">Gastos aprobados</span>
+        <span class="material-symbols-outlined gastos-kpi__icon gastos-kpi__icon--green">check_circle</span>
       </div>
       <div class="gastos-kpi__bottom">
-        <span class="gastos-kpi__value">78.4%</span>
-        <span class="gastos-kpi__sub">de <span data-eur="181500" data-decimals="0">181.500 €</span></span>
+        <span class="gastos-kpi__value gastos-kpi__value--green"><span data-count="approved">0</span> aprobados</span>
+        <span class="gastos-kpi__sub gastos-kpi__sub--green" id="kpi-approved-amount" data-eur="0" data-decimals="2"></span>
       </div>
     </article>
 
     <article class="gastos-kpi">
       <div class="gastos-kpi__top">
-        <span class="gastos-kpi__label">Tiempo medio de aprobación</span>
-        <span class="material-symbols-outlined gastos-kpi__icon gastos-kpi__icon--green">avg_pace</span>
+        <span class="gastos-kpi__label">Gastos rechazados</span>
+        <span class="material-symbols-outlined gastos-kpi__icon gastos-kpi__icon--rose">cancel</span>
       </div>
       <div class="gastos-kpi__bottom">
-        <span class="gastos-kpi__value">3.8h</span>
-        <span class="gastos-kpi__sub gastos-kpi__sub--green">-22% vs anterior</span>
+        <span class="gastos-kpi__value gastos-kpi__value--rose"><span data-count="rejected">0</span> rechazados</span>
+        <span class="gastos-kpi__sub gastos-kpi__sub--rose" id="kpi-rejected-amount" data-eur="0" data-decimals="2"></span>
       </div>
     </article>
   </div>
@@ -143,8 +128,9 @@
     <div class="gastos-footer">
       <span id="expenses-info">Sin transacciones</span>
       <div class="gastos-pager">
-        <button type="button" id="page-prev" class="gastos-pager__btn" disabled>Anterior</button>
-        <button type="button" id="page-next" class="gastos-pager__btn" disabled>Siguiente</button>
+        <button type="button" id="page-prev" class="pagination-button" disabled>Anterior</button>
+        <div id="expenses-pagination-pages" class="employees-pagination__pages"></div>
+        <button type="button" id="page-next" class="pagination-button" disabled>Siguiente</button>
       </div>
     </div>
   </div>

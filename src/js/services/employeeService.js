@@ -17,6 +17,47 @@
   const FALLBACK_CATEGORY = { id: null, name: "", chipLabel: "", label: "", icon: "category", color: "blue", description: "" };
   const PERCENT_FORMAT = new Intl.NumberFormat("es-ES", { maximumFractionDigits: 1 });
   let root, tableBody, searchInput, activeDepartment = "all", globalBudget = 20000;
+  const EMPLOYEES_PER_PAGE = 10;
+  let employeesCurrentPage = 1;
+
+  function getPageRange(currentPage, totalPages, maxButtons = 5) {
+    if (totalPages <= maxButtons) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    let start = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+    let end = start + maxButtons - 1;
+    if (end > totalPages) {
+      end = totalPages;
+      start = Math.max(1, end - maxButtons + 1);
+    }
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+  }
+
+  function renderEmployeesPagination(totalPages) {
+    const prevBtn = root.querySelector('[data-page-action="previous"]');
+    const nextBtn = root.querySelector('[data-page-action="next"]');
+    const pagesContainer = byId("employees-pagination-pages");
+
+    if (prevBtn) prevBtn.disabled = employeesCurrentPage <= 1;
+    if (nextBtn) nextBtn.disabled = employeesCurrentPage >= totalPages;
+
+    if (pagesContainer) {
+      pagesContainer.innerHTML = "";
+      const pageNumbers = getPageRange(employeesCurrentPage, totalPages, 5);
+      pageNumbers.forEach(p => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "pagination-button" + (p === employeesCurrentPage ? " is-current" : "");
+        btn.textContent = String(p);
+        if (p === employeesCurrentPage) btn.setAttribute("aria-current", "page");
+        btn.addEventListener("click", () => {
+          employeesCurrentPage = p;
+          applyFilters();
+        });
+        pagesContainer.append(btn);
+      });
+    }
+  }
 
   const byId = id => document.getElementById(id);
   const rows = () => tableBody ? [...tableBody.querySelectorAll("tr[data-employee-id]")] : [];
@@ -367,23 +408,46 @@
   function applyFilters() {
     if (!root || !searchInput) return;
     const query = searchInput.value.trim().toLocaleLowerCase("es");
-    let visible = 0;
+    const matchingRows = [];
     rows().forEach(row => {
       const department = getDepartment(row), show = (activeDepartment === "all" || department === activeDepartment) && row.textContent.toLocaleLowerCase("es").includes(query);
-      row.hidden = !show;
-      if (show) visible++;
+      if (show) matchingRows.push(row);
+      else row.hidden = true;
     });
+
+    const totalPages = Math.max(1, Math.ceil(matchingRows.length / EMPLOYEES_PER_PAGE));
+    if (employeesCurrentPage > totalPages) employeesCurrentPage = totalPages;
+    if (employeesCurrentPage < 1) employeesCurrentPage = 1;
+
+    const start = (employeesCurrentPage - 1) * EMPLOYEES_PER_PAGE;
+    const end = start + EMPLOYEES_PER_PAGE;
+
+    matchingRows.forEach((row, idx) => {
+      row.hidden = !(idx >= start && idx < end);
+    });
+
     root.querySelectorAll(".filter-button[data-department]").forEach(button => {
       const active = button.dataset.department === activeDepartment;
       button.classList.toggle("is-active", active);
       button.setAttribute("aria-pressed", String(active));
     });
+
     const count = byId("employees-results-count");
-    if (count) count.textContent = `${visible} ${visible === 1 ? "empleado" : "empleados"}`;
+    if (count) count.textContent = `${matchingRows.length} ${matchingRows.length === 1 ? "empleado" : "empleados"}`;
+
     const empty = byId("employees-empty-state");
-    if (empty) empty.hidden = visible !== 0;
+    if (empty) empty.hidden = matchingRows.length !== 0;
+
     const info = byId("employees-pagination-info");
-    if (info) info.textContent = `Mostrando ${visible} de ${rows().length} empleados`;
+    if (info) {
+      if (matchingRows.length > 0) {
+        info.textContent = `Mostrando ${start + 1}-${Math.min(end, matchingRows.length)} de ${matchingRows.length} empleados`;
+      } else {
+        info.textContent = "Sin empleados";
+      }
+    }
+
+    renderEmployeesPagination(totalPages);
   }
 
   function updateSummary() {
@@ -408,7 +472,9 @@
     avatar.setAttribute("aria-hidden", "true");
     const info = createTextElement("span", "employee-info", "");
     info.append(createTextElement("span", "employee-info__name", name), createTextElement("span", "employee-info__email", email));
-    employeeCell.append(avatar, info);
+    const cellWrapper = createTextElement("div", "employee-cell__wrapper", "");
+    cellWrapper.append(avatar, info);
+    employeeCell.append(cellWrapper);
     const departmentCell = document.createElement("td");
     departmentCell.append(createTextElement("span", "department-badge", department));
     const benefitsCell = document.createElement("td");
@@ -441,15 +507,19 @@
     form.id = "employee-create-form";
     form.dataset.budgetInvalid = "false";
     form.innerHTML = `
-      <div class="form-row">
-        <div class="form-field"><label for="new-employee-name">Nombre</label><input id="new-employee-name" name="name" type="text" autocomplete="given-name" required maxlength="120" placeholder="Nombre del empleado"></div>
-        <div class="form-field"><label for="new-employee-last-name">Apellido</label><input id="new-employee-last-name" name="last_name" type="text" autocomplete="family-name" maxlength="120" placeholder="Apellido del empleado" required></div>
+      <div id="create-employee-alert" class="modal-form-alert" hidden role="alert">
+        <span class="material-symbols-outlined" style="font-size: 18px;" aria-hidden="true">error</span>
+        <span>Por favor, completa todos los campos obligatorios marcados con asterisco (*).</span>
       </div>
       <div class="form-row">
-        <div class="form-field"><label for="new-employee-department">Departamento</label><select id="new-employee-department" name="department" required><option value="">Selecciona un departamento</option>${DEPARTMENTS.map(department => `<option value="${department}">${department}</option>`).join("")}</select></div>
-        <div class="form-field"><label for="new-employee-email">Correo electrónico</label><input id="new-employee-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="nombre@empresa.com"></div>
+        <div class="form-field"><label for="new-employee-name">Nombre <span class="required-asterisk">*</span></label><input id="new-employee-name" name="name" type="text" autocomplete="given-name" required maxlength="120" placeholder="Nombre del empleado"></div>
+        <div class="form-field"><label for="new-employee-last-name">Apellido <span class="required-asterisk">*</span></label><input id="new-employee-last-name" name="last_name" type="text" autocomplete="family-name" maxlength="120" placeholder="Apellido del empleado" required></div>
       </div>
-      <div class="form-field"><label for="new-employee-budget">Límite global (€)</label><input id="new-employee-budget" name="max_budget" type="number" min="0" step="0.01" required placeholder="0,00"></div>
+      <div class="form-row">
+        <div class="form-field"><label for="new-employee-department">Departamento <span class="required-asterisk">*</span></label><select id="new-employee-department" name="department" required><option value="">Selecciona un departamento</option>${DEPARTMENTS.map(department => `<option value="${department}">${department}</option>`).join("")}</select></div>
+        <div class="form-field"><label for="new-employee-email">Correo electrónico <span class="required-asterisk">*</span></label><input id="new-employee-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="nombre@empresa.com"></div>
+      </div>
+      <div class="form-field"><label for="new-employee-budget">Límite global (€) <span class="required-asterisk">*</span></label><input id="new-employee-budget" name="max_budget" type="number" min="0" step="0.01" required placeholder="0,00"></div>
       <p class="modal-info">Saldo total disponible: <strong data-create-balance></strong></p>
       <p class="modal-info is-invalid" data-create-budget-error hidden role="alert" aria-live="polite"></p>`;
     const emailInput = form.elements.email, budgetInput = form.elements.max_budget, errorElement = form.querySelector("[data-create-budget-error]"), balanceElement = form.querySelector("[data-create-balance]");
@@ -460,7 +530,7 @@
     function validateCreateBudget() {
       const remaining = getCompanyRemainingBudget(), value = budgetInput.value.trim() === "" ? NaN : Number(budgetInput.value);
       balanceElement.textContent = money(remaining);
-      const hasValue = Number.isFinite(value), invalid = !hasValue || value < 0 || value > remaining;
+      const hasValue = Number.isFinite(value), invalid = hasValue && (value < 0 || value > remaining);
       let message = "";
       if (hasValue && value < 0) message = "El límite del empleado no puede ser negativo.";
       else if (hasValue && value > remaining) message = `El límite introducido (${money(value)}) supera el saldo disponible de la empresa (${money(remaining)}). Reduce el importe para continuar.`;
@@ -636,7 +706,7 @@ function createEditEmployeeForm(row) {
 
     <section class="employee-detail-form__panel">
       <div class="employee-detail-form__panel-text">
-        <label for="edit-max-budget">Límite Global del Empleado (€)</label>
+        <label for="edit-max-budget">Límite Global del Empleado (€) <span class="required-asterisk">*</span></label>
         <span data-budget-help></span>
       </div>
       <p class="modal-info">
@@ -1011,11 +1081,31 @@ async function showEditEmployeeModal(row) {
   }
 }
   function bindViewEvents() {
-    searchInput.addEventListener("input", applyFilters);
+    searchInput.addEventListener("input", () => {
+      employeesCurrentPage = 1;
+      applyFilters();
+    });
     root.querySelectorAll(".filter-button[data-department]").forEach(button => button.addEventListener("click", () => {
       activeDepartment = button.dataset.department;
+      employeesCurrentPage = 1;
       applyFilters();
     }));
+    const prevBtn = root.querySelector('[data-page-action="previous"]');
+    if (prevBtn) {
+      prevBtn.addEventListener("click", () => {
+        if (employeesCurrentPage > 1) {
+          employeesCurrentPage--;
+          applyFilters();
+        }
+      });
+    }
+    const nextBtn = root.querySelector('[data-page-action="next"]');
+    if (nextBtn) {
+      nextBtn.addEventListener("click", () => {
+        employeesCurrentPage++;
+        applyFilters();
+      });
+    }
     root.addEventListener("click", event => {
       const target = event.target instanceof Element ? event.target : null;
       if (!target) return;
