@@ -102,3 +102,48 @@
 .chat-form button:hover { background: #1d4ed8; }
 
 .chat-panel[hidden] { display: none !important; }
+
+
+.chat-msg--tabla {
+  max-width: 100%;
+  width: 100%;
+  min-width: 0;
+}
+
+
+.chat-tabla-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  margin-top: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.chat-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.chat-tabla th {
+  background: #2563eb;
+  color: #fff;
+  text-align: left;
+  font-weight: 600;
+  padding: 6px 8px;
+  white-space: nowrap;
+}
+
+.chat-tabla td {
+  padding: 5px 8px;
+  border-top: 1px solid #e5e7eb;
+  color: #1f2937;
+  background: #fff;
+}
+
+.chat-tabla tbody tr:nth-child(even) td {
+  background: #f9fafb;
+}
+.chat-panel:has(.chat-msg--tabla) {
+  width: 440px;
+}
