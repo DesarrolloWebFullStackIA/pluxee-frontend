@@ -1,0 +1,728 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Estilos Base / Comunes -->
+<link rel="stylesheet" href="../../css/style.css">
+<!-- Estilos Propios de la Página -->
+<link rel="stylesheet" href="../../css/detalle-empleado.css">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed": "#111c2d", "on-primary-container": "#8590a6", "secondary-container": "#2170e4", "outline-variant": "#c5c6cd", "inverse-primary": "#bcc7de", "tertiary": "#00190e", "outline": "#75777d", "primary-fixed-dim": "#bcc7de", "surface-bright": "#f8f9ff", "surface-container-highest": "#d3e4fe", "inverse-surface": "#213145", "primary-fixed": "#d8e3fb", "secondary": "#0058be", "on-primary-fixed-variant": "#3c475a", "surface-container-low": "#eff4ff", "on-error-container": "#93000a", "surface": "#f8f9ff", "on-secondary-container": "#fefcff", "on-secondary-fixed": "#001a42", "on-tertiary-fixed": "#002113", "surface-container": "#e5eeff", "on-secondary-fixed-variant": "#004395", "secondary-fixed-dim": "#adc6ff", "secondary-fixed": "#d8e2ff", "on-tertiary": "#ffffff", "primary-container": "#1e293b", "on-background": "#0b1c30", "surface-variant": "#d3e4fe", "on-primary": "#ffffff", "on-secondary": "#ffffff", "error-container": "#ffdad6", "on-tertiary-container": "#00a472", "surface-dim": "#cbdbf5", "tertiary-fixed-dim": "#4edea3", "surface-container-high": "#dce9ff", "surface-container-lowest": "#ffffff", "inverse-on-surface": "#eaf1ff", "on-tertiary-fixed-variant": "#005236", "on-surface-variant": "#45474c", "error": "#ba1a1a", "surface-tint": "#545f73", "background": "#f8f9ff", "on-error": "#ffffff", "tertiary-container": "#00301e", "on-surface": "#0b1c30", "tertiary-fixed": "#6ffbbe", "primary": "#091426" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter-sm": "1rem", "margin": "2rem", "space-xl": "2.5rem", "margin-mobile": "1rem", "space-md": "1rem", "space-lg": "1.5rem", "gutter": "1.5rem", "space-sm": "0.5rem", "space-xs": "0.25rem" }, "fontFamily": { "headline-md": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "label-sm": ["Inter"], "label-lg": ["Inter"], "display": ["Plus Jakarta Sans"], "label-md": ["Inter"], "headline-lg": ["Plus Jakarta Sans"], "display-mobile": ["Plus Jakarta Sans"], "body-lg": ["Inter"], "body-sm": ["Inter"], "headline-lg-mobile": ["Plus Jakarta Sans"], "body-md": ["Inter"] }, "fontSize": { "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "600" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "-0.005em", "fontWeight": "600" }], "display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.025em", "fontWeight": "700" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }], "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "display-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen flex flex-col">
+<!-- Sticky Top Navigation Bar -->
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200/80 px-6 py-3.5 shadow-sm transition-all">
+<div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+<!-- Left Side: Logo & Brand -->
+<div class="flex items-center gap-3">
+<a href="dashboard.html" class="flex items-center gap-3 group">
+<img src="../../assets/pluxee-icon.png" alt="Pluxee Logo" class="w-10 h-10 rounded-xl object-cover shadow-sm ring-1 ring-slate-200">
+<div class="flex items-center gap-2">
+<span class="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#091426] tracking-tight group-hover:text-blue-600 transition-colors">Pluxee <span class="font-semibold text-slate-600">Enterprise</span></span>
+<span class="text-[11px] font-semibold text-blue-700 bg-blue-50 border border-blue-200/60 px-2 py-0.5 rounded-full">Gestión de Beneficios</span>
+</div>
+</a>
+</div>
+<!-- Center: Horizontal Navigation -->
+<nav class="hidden md:flex items-center gap-1.5">
+<a class="font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 px-3.5 py-1.5 rounded-lg text-sm transition-colors flex items-center gap-1.5" href="dashboard.html">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a aria-current="page" class="font-semibold text-blue-600 bg-blue-50/80 px-3.5 py-1.5 rounded-lg border border-blue-100 text-sm transition-colors flex items-center gap-1.5" href="empleados.html">
+<span class="material-symbols-outlined text-lg">groups</span>
+<span>Empleados</span>
+</a>
+<a class="font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 px-3.5 py-1.5 rounded-lg text-sm transition-colors flex items-center gap-1.5" href="gastos.html">
+<span class="material-symbols-outlined text-lg">receipt_long</span>
+<span>Gastos y Aprobaciones</span>
+<span class="ml-1 bg-amber-100 text-amber-800 text-xs font-semibold px-1.5 py-0.2 rounded-full">4</span>
+</a>
+<a class="font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 px-3.5 py-1.5 rounded-lg text-sm transition-colors flex items-center gap-1.5" href="../../../index.html#categorias">
+<span class="material-symbols-outlined text-lg">category</span>
+<span>Categorías</span>
+</a>
+</nav>
+<!-- Right Side: Currency Switcher Only (Single Admin User) -->
+<div class="flex items-center gap-3">
+<div class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200/60 text-xs font-medium">
+<button class="px-2.5 py-1 rounded-md bg-white text-slate-900 font-semibold shadow-xs transition-all" type="button">€ EUR</button>
+<button class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-colors" type="button">$ USD</button>
+<button class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-colors" type="button">£ GBP</button>
+</div>
+<!-- Mobile Hamburger Drawer Toggle (US-FE-01.5) -->
+<button
+  id="mobileMenuToggle"
+  type="button"
+  class="md:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+  aria-expanded="false"
+  aria-controls="mobileMenu"
+  aria-label="Abrir menú de navegación"
+>
+  <span id="mobileMenuIcon" class="material-symbols-outlined text-2xl">menu</span>
+</button>
+</div>
+</div>
+
+<!-- Mobile Collapsible Navigation Drawer (US-FE-01.5) -->
+<div
+  id="mobileMenu"
+  class="hidden md:hidden border-t border-slate-200/80 mt-3 pt-3 pb-2 space-y-1 transition-all"
+  aria-label="Navegación móvil"
+>
+  <a
+    data-nav="dashboard"
+    class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 transition-colors"
+    href="dashboard.html"
+  >
+    <span class="material-symbols-outlined text-lg">dashboard</span>
+    <span>Dashboard</span>
+  </a>
+  <a
+    data-nav="empleados"
+    class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-blue-600 bg-blue-50/80 transition-colors"
+    href="empleados.html"
+  >
+    <span class="material-symbols-outlined text-lg">groups</span>
+    <span>Empleados</span>
+  </a>
+  <a
+    data-nav="gastos"
+    class="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 transition-colors"
+    href="gastos.html"
+  >
+    <div class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-lg">receipt_long</span>
+      <span>Gastos y Aprobaciones</span>
+    </div>
+    <span class="bg-amber-100 text-amber-800 text-xs font-semibold px-2 py-0.5 rounded-full">4</span>
+  </a>
+  <a
+    data-nav="categorias"
+    class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 transition-colors"
+    href="../../../index.html#categorias"
+  >
+    <span class="material-symbols-outlined text-lg">category</span>
+    <span>Categorías</span>
+  </a>
+</div>
+</header>
+<!-- Main Container Centered Layout -->
+<main class="w-full flex-1">
+<div class="max-w-7xl mx-auto px-6 py-8">
+<div class="flex flex-col w-full">
+<!-- Breadcrumbs & Nav Bar -->
+<div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+<div class="flex items-center gap-2 text-on-surface-variant flex-wrap">
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-lowest border border-surface-container-high text-primary hover:bg-surface-container-low hover:text-secondary transition-all font-label-md text-label-md font-semibold shadow-xs" href="empleados.html">
+<span class="material-symbols-outlined text-base">arrow_back</span>
+            Volver a Empleados
+          </a>
+<span class="text-outline text-xs">/</span>
+<span class="font-label-md text-label-md text-primary font-semibold">Sofia Chen (Senior UX Designer)</span>
+<span class="ml-1 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            Activo en nómina
+          </span>
+</div>
+<div class="flex items-center gap-2">
+<button class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-lowest border border-surface-container-high text-primary shadow-xs hover:bg-surface-container-low transition-all font-label-md text-label-md font-semibold" type="button">
+<span class="material-symbols-outlined text-base">file_download</span>
+            Exportar Ficha
+          </button>
+</div>
+</div>
+<!-- Bento Profile Section -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-5 mb-8">
+<div class="xl:col-span-5 bg-surface-container-lowest border border-surface-container-high/80 rounded-xl p-5 shadow-xs flex flex-col justify-center relative">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-xl bg-blue-100 text-blue-700 font-extrabold text-xl flex items-center justify-center shrink-0 border border-blue-200/80 shadow-xs">SC</div>
+<div class="flex flex-col min-w-0">
+<h2 class="font-headline-sm text-lg text-primary font-bold truncate">Sofia Chen</h2>
+<p class="font-body-md text-body-md text-on-surface-variant font-medium">Senior UX Designer • Diseño de Producto</p>
+<p class="font-body-sm text-body-sm text-outline flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-sm">mail</span> sofia.chen@pluxee-enterprise.io
+              </p>
+</div>
+</div>
+</div>
+<div class="xl:col-span-7 grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-surface-container-lowest border border-surface-container-high/80 rounded-xl p-5 shadow-xs flex flex-col justify-between">
+<div>
+<span class="font-label-md text-[11px] text-outline uppercase tracking-wider font-semibold block mb-1.5">Asignado Total</span>
+<p class="font-display text-2xl lg:text-3xl text-primary font-bold tracking-tight">1.850 €</p>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-outline">calendar_today</span> Presupuesto anual 2024
+            </p>
+</div>
+<div class="bg-surface-container-lowest border border-surface-container-high/80 rounded-xl p-5 shadow-xs flex flex-col justify-between">
+<div>
+<span class="font-label-md text-[11px] text-outline uppercase tracking-wider font-semibold block mb-1.5">Gastado Total</span>
+<p class="font-display text-2xl lg:text-3xl text-secondary font-bold tracking-tight">920 €</p>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-secondary">trending_up</span> 49.7% del presupuesto
+            </p>
+</div>
+<div class="bg-surface-container-lowest border border-surface-container-high/80 rounded-xl p-5 shadow-xs flex flex-col justify-between">
+<div>
+<span class="font-label-md text-[11px] text-emerald-700 font-semibold uppercase tracking-wider block mb-1.5">Saldo Disponible</span>
+<p class="font-display text-2xl lg:text-3xl text-emerald-600 font-bold tracking-tight">930 €</p>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-emerald-600">check_circle</span> Disponible para gastar
+            </p>
+</div>
+</div>
+</div>
+<!-- Benefits Allocation by Category -->
+<div class="mb-8">
+<div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+<div>
+<h3 class="font-headline-md text-xl text-primary font-bold">Desglose de Beneficios Asignados</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Monitoreo en tiempo real del saldo por vertical de bienestar de Sofia</p>
+</div>
+<button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-container-lowest border border-surface-container-high text-secondary hover:bg-surface-container-low font-label-md text-label-md font-semibold transition-all shadow-xs" type="button">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+            + Asignar Nueva Categoría a Sofia
+          </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Card 1: Comida -->
+<div class="bg-surface-container-lowest border border-surface-container-high/80 rounded-xl p-5 shadow-xs flex flex-col justify-between transition-all hover:shadow-sm">
+<div>
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">restaurant</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-primary font-bold">Comida &amp; Rest.</h4>
+<span class="font-label-sm text-label-sm text-outline">Ticket diario</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-secondary font-bold">60%</span>
+</div>
+<div class="space-y-1.5 mb-4">
+<div class="flex justify-between font-body-sm text-body-sm">
+<span class="text-outline">Asignado:</span>
+<span class="text-primary font-semibold">350 €</span>
+</div>
+<div class="flex justify-between font-body-sm text-body-sm">
+<span class="text-outline">Gastado:</span>
+<span class="text-secondary font-semibold">210 €</span>
+</div>
+<div class="flex justify-between font-body-sm text-body-sm pt-1 border-t border-surface-container">
+<span class="font-semibold text-primary">Saldo Disponible:</span>
+<span class="font-bold text-emerald-600">140 €</span>
+</div>
+</div>
+</div>
+<div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden mb-2">
+<div class="h-full bg-secondary rounded-full" style="width: 60%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Tarjeta física • Límite 18€/día</span>
+</div>
+</div>
+<!-- Card 2: Transporte Sostenible -->
+<div class="bg-surface-container-lowest border border-surface-container-high/80 rounded-xl p-5 shadow-xs flex flex-col justify-between transition-all hover:shadow-sm">
+<div>
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">directions_subway</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-primary font-bold">Transporte</h4>
+<span class="font-label-sm text-label-sm text-outline">Abono &amp; Bici</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-secondary font-bold">63%</span>
+</div>
+<div class="space-y-1.5 mb-4">
+<div class="flex justify-between font-body-sm text-body-sm">
+<span class="text-outline">Asignado:</span>
+<span class="text-primary font-semibold">150 €</span>
+</div>
+<div class="flex justify-between font-body-sm text-body-sm">
+<span class="text-outline">Gastado:</span>
+<span class="text-secondary font-semibold">95 €</span>
+</div>
+<div class="flex justify-between font-body-sm text-body-sm pt-1 border-t border-surface-container">
+<span class="font-semibold text-primary">Saldo Disponible:</span>
+<span class="font-bold text-emerald-600">55 €</span>
+</div>
+</div>
+</div>
+<div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden mb-2">
+<div class="h-full bg-secondary rounded-full" style="width: 63%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Abono mensual Renfe / EMT</span>
+</div>
+</div>
+<!-- Card 3: Formación & Conferencias -->
+<div class="bg-surface-container-lowest border border-surface-container-high/80 rounded-xl p-5 shadow-xs flex flex-col justify-between transition-all hover:shadow-sm">
+<div>
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">school</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-primary font-bold">Formación</h4>
+<span class="font-label-sm text-label-sm text-outline">Cursos &amp; Eventos</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-secondary font-bold">50%</span>
+</div>
+<div class="space-y-1.5 mb-4">
+<div class="flex justify-between font-body-sm text-body-sm">
+<span class="text-outline">Asignado:</span>
+<span class="text-primary font-semibold">1.000 €</span>
+</div>
+<div class="flex justify-between font-body-sm text-body-sm">
+<span class="text-outline">Gastado:</span>
+<span class="text-secondary font-semibold">500 €</span>
+</div>
+<div class="flex justify-between font-body-sm text-body-sm pt-1 border-t border-surface-container">
+<span class="font-semibold text-primary">Saldo Disponible:</span>
+<span class="font-bold text-emerald-600">500 €</span>
+</div>
+</div>
+</div>
+<div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden mb-2">
+<div class="h-full bg-secondary rounded-full" style="width: 50%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Exento IRPF s/ LIRPF art. 42</span>
+</div>
+</div>
+<!-- Card 4: Salud & Bienestar -->
+<div class="bg-surface-container-lowest border border-surface-container-high/80 rounded-xl p-5 shadow-xs flex flex-col justify-between transition-all hover:shadow-sm">
+<div>
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">health_and_safety</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-primary font-bold">Salud &amp; Bienestar</h4>
+<span class="font-label-sm text-label-sm text-outline">Seguro Médico &amp; Gym</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container-high text-secondary font-bold">32%</span>
+</div>
+<div class="space-y-1.5 mb-4">
+<div class="flex justify-between font-body-sm text-body-sm">
+<span class="text-outline">Asignado:</span>
+<span class="text-primary font-semibold">350 €</span>
+</div>
+<div class="flex justify-between font-body-sm text-body-sm">
+<span class="text-outline">Gastado:</span>
+<span class="text-secondary font-semibold">115 €</span>
+</div>
+<div class="flex justify-between font-body-sm text-body-sm pt-1 border-t border-surface-container">
+<span class="font-semibold text-primary">Saldo Disponible:</span>
+<span class="font-bold text-emerald-600">235 €</span>
+</div>
+</div>
+</div>
+<div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden mb-2">
+<div class="h-full bg-secondary rounded-full" style="width: 32%;"></div>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Sanitas Cuadro Médico Completo</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Transactions History Table & Attached Voucher Preview -->
+<div class="bg-surface-container-lowest border border-surface-container-high/80 rounded-xl shadow-xs mb-8 overflow-hidden">
+<div class="p-5 flex flex-wrap items-center justify-between gap-4 border-b border-surface-container-high/60">
+<div>
+<h3 class="font-headline-md text-xl text-primary font-bold">Historial Transaccional &amp; Justificantes</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Auditoría completa de los gastos imputados al plan de retribución flexible de Sofia</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-label-md text-label-md text-outline">Filtrar por año:</span>
+<select class="h-9 px-3 rounded-lg bg-surface-container-low border border-surface-container-high text-primary font-label-md text-label-md outline-none focus:ring-1 focus:ring-secondary">
+<option>2024 (Año en curso)</option>
+<option>2023</option>
+</select>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/70 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider h-11 border-b border-surface-container-high/60">
+<th class="px-5 py-2.5">Fecha</th>
+<th class="px-4 py-2.5">Categoría</th>
+<th class="px-4 py-2.5">Concepto</th>
+<th class="px-4 py-2.5 text-right">Importe</th>
+<th class="px-4 py-2.5 text-center">Justificante Adjunto</th>
+<th class="px-4 py-2.5 text-center">Estado</th>
+<th class="px-5 py-2.5 text-right">Acciones</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/50 text-body-md">
+<!-- Row 1: Course -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-5 py-3.5 text-on-surface-variant font-body-sm whitespace-nowrap">18 Ago 2024</td>
+<td class="px-4 py-3.5 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-xs">school</span>
+                    Formación
+                  </span>
+</td>
+<td class="px-4 py-3.5 font-medium text-primary">
+                  Membresía Anual IDF - Interaction Design Foundation
+                  <span class="block text-outline font-body-sm text-body-sm">Curso avanzado Microinteracciones &amp; DS</span>
+</td>
+<td class="px-4 py-3.5 text-right font-semibold text-primary whitespace-nowrap">500,00 €</td>
+<td class="px-4 py-3.5 text-center whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-secondary-fixed/40 text-secondary hover:bg-secondary-fixed transition-colors font-label-sm text-label-sm font-bold" onclick="document.getElementById('receipt-modal').classList.remove('hidden')" type="button">
+<span class="material-symbols-outlined text-sm">picture_as_pdf</span>
+                    Factura_IDF_Sofia.pdf
+                  </button>
+</td>
+<td class="px-4 py-3.5 text-center whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    Aprobado RRHH
+                  </span>
+</td>
+<td class="px-5 py-3.5 text-right whitespace-nowrap">
+<button aria-label="Más opciones" class="p-1 rounded text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-lg">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-5 py-3.5 text-on-surface-variant font-body-sm whitespace-nowrap">12 Ago 2024</td>
+<td class="px-4 py-3.5 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-xs">restaurant</span>
+                    Comida
+                  </span>
+</td>
+<td class="px-4 py-3.5 font-medium text-primary">
+                  Carga Tarjeta Prepago Edenred Ticket Restaurant
+                  <span class="block text-outline font-body-sm text-body-sm">Recarga quincenal automática</span>
+</td>
+<td class="px-4 py-3.5 text-right font-semibold text-primary whitespace-nowrap">210,00 €</td>
+<td class="px-4 py-3.5 text-center whitespace-nowrap">
+<span class="inline-flex items-center gap-1 text-outline font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm">receipt</span>
+                    Auto-generado
+                  </span>
+</td>
+<td class="px-4 py-3.5 text-center whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    Aprobado RRHH
+                  </span>
+</td>
+<td class="px-5 py-3.5 text-right whitespace-nowrap">
+<button aria-label="Más opciones" class="p-1 rounded text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-lg">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-5 py-3.5 text-on-surface-variant font-body-sm whitespace-nowrap">05 Ago 2024</td>
+<td class="px-4 py-3.5 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-xs">directions_subway</span>
+                    Transporte
+                  </span>
+</td>
+<td class="px-4 py-3.5 font-medium text-primary">
+                  Renfe Cercanías Abono Recurrente Mensual
+                  <span class="block text-outline font-body-sm text-body-sm">Zona B1 a Madrid Chamartín</span>
+</td>
+<td class="px-4 py-3.5 text-right font-semibold text-primary whitespace-nowrap">95,00 €</td>
+<td class="px-4 py-3.5 text-center whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container text-primary hover:bg-surface-container-high transition-colors font-label-sm text-label-sm font-medium" type="button">
+<span class="material-symbols-outlined text-sm">attach_file</span>
+                    Recibo_Renfe_Ago.pdf
+                  </button>
+</td>
+<td class="px-4 py-3.5 text-center whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    Aprobado RRHH
+                  </span>
+</td>
+<td class="px-5 py-3.5 text-right whitespace-nowrap">
+<button aria-label="Más opciones" class="p-1 rounded text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-lg">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: Pending -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="px-5 py-3.5 text-on-surface-variant font-body-sm whitespace-nowrap">24 Jul 2024</td>
+<td class="px-4 py-3.5 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-xs">health_and_safety</span>
+                    Salud
+                  </span>
+</td>
+<td class="px-4 py-3.5 font-medium text-primary">
+                  Complemento Dental Adeslas &amp; Cuota Fisioterapia
+                  <span class="block text-outline font-body-sm text-body-sm">Sesión ergonomía postural autorizada</span>
+</td>
+<td class="px-4 py-3.5 text-right font-semibold text-primary whitespace-nowrap">115,00 €</td>
+<td class="px-4 py-3.5 text-center whitespace-nowrap">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-surface-container text-primary hover:bg-surface-container-high transition-colors font-label-sm text-label-sm font-medium" type="button">
+<span class="material-symbols-outlined text-sm">attach_file</span>
+                    Clinica_Salud_Jul.pdf
+                  </button>
+</td>
+<td class="px-4 py-3.5 text-center whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    Pendiente Auditoría
+                  </span>
+</td>
+<td class="px-5 py-3.5 text-right whitespace-nowrap">
+<button aria-label="Más opciones" class="p-1 rounded text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-lg">more_horiz</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Lower Section: Management of Dynamic Categories -->
+<div class="bg-surface-container-low/70 border border-surface-container-high/60 rounded-xl p-6">
+<div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+<div>
+<h3 class="font-headline-lg text-2xl text-primary font-bold">Catálogo de Categorías de Beneficios</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Categorías activas para la retribución flexible global de Pluxee Enterprise.</p>
+</div>
+<button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-semibold hover:bg-on-primary-fixed-variant transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-lg">add</span>
+            + Nueva Categoría
+          </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-surface-container-high/80 rounded-xl p-4 shadow-xs flex flex-col justify-between hover:shadow-sm transition-all">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary text-xl">restaurant</span>
+<h4 class="font-headline-sm text-base text-primary font-bold">Comida</h4>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Vales y tarjetas restaurante para comidas de trabajo.</p>
+<div class="mt-4 p-2.5 rounded-lg bg-surface-container-low border border-surface-container-high/50">
+<span class="font-label-sm text-label-sm text-outline block">Tope orientativo:</span>
+<span class="font-semibold text-primary text-body-md">Hasta 400 € / mes</span>
+</div>
+</div>
+<div class="mt-4 pt-2.5 border-t border-surface-container-low flex justify-end">
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low text-primary font-label-md text-label-md font-semibold hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-sm">edit</span> Editar
+              </button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest border border-surface-container-high/80 rounded-xl p-4 shadow-xs flex flex-col justify-between hover:shadow-sm transition-all">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary text-xl">directions_subway</span>
+<h4 class="font-headline-sm text-base text-primary font-bold">Transporte</h4>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Abonos de transporte público urbano y cercanías.</p>
+<div class="mt-4 p-2.5 rounded-lg bg-surface-container-low border border-surface-container-high/50">
+<span class="font-label-sm text-label-sm text-outline block">Tope orientativo:</span>
+<span class="font-semibold text-primary text-body-md">Hasta 136 € / mes</span>
+</div>
+</div>
+<div class="mt-4 pt-2.5 border-t border-surface-container-low flex justify-end">
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low text-primary font-label-md text-label-md font-semibold hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-sm">edit</span> Editar
+              </button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest border border-surface-container-high/80 rounded-xl p-4 shadow-xs flex flex-col justify-between hover:shadow-sm transition-all">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary text-xl">school</span>
+<h4 class="font-headline-sm text-base text-primary font-bold">Formación</h4>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Cursos, certificaciones profesionales e idiomas.</p>
+<div class="mt-4 p-2.5 rounded-lg bg-surface-container-low border border-surface-container-high/50">
+<span class="font-label-sm text-label-sm text-outline block">Tope orientativo:</span>
+<span class="font-semibold text-primary text-body-md">Hasta 2.500 € / año</span>
+</div>
+</div>
+<div class="mt-4 pt-2.5 border-t border-surface-container-low flex justify-end">
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low text-primary font-label-md text-label-md font-semibold hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-sm">edit</span> Editar
+              </button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest border border-surface-container-high/80 rounded-xl p-4 shadow-xs flex flex-col justify-between hover:shadow-sm transition-all">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary text-xl">health_and_safety</span>
+<h4 class="font-headline-sm text-base text-primary font-bold">Salud</h4>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Seguro médico privado y cobertura para el empleado.</p>
+<div class="mt-4 p-2.5 rounded-lg bg-surface-container-low border border-surface-container-high/50">
+<span class="font-label-sm text-label-sm text-outline block">Tope orientativo:</span>
+<span class="font-semibold text-primary text-body-md">Hasta 500 € / año</span>
+</div>
+</div>
+<div class="mt-4 pt-2.5 border-t border-surface-container-low flex justify-end">
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low text-primary font-label-md text-label-md font-semibold hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-sm">edit</span> Editar
+              </button>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="bg-surface-container-lowest border border-surface-container-high/80 rounded-xl p-4 shadow-xs flex flex-col justify-between hover:shadow-sm transition-all">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary text-xl">child_care</span>
+<h4 class="font-headline-sm text-base text-primary font-bold">Guardería</h4>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Ayuda para educación infantil de primer ciclo.</p>
+<div class="mt-4 p-2.5 rounded-lg bg-surface-container-low border border-surface-container-high/50">
+<span class="font-label-sm text-label-sm text-outline block">Tope orientativo:</span>
+<span class="font-semibold text-primary text-body-md">Pago mensual directo</span>
+</div>
+</div>
+<div class="mt-4 pt-2.5 border-t border-surface-container-low flex justify-end">
+<button class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low text-primary font-label-md text-label-md font-semibold hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-sm">edit</span> Editar
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Modal: Attached Voucher Visualizer -->
+<div aria-modal="true" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-inverse-surface/40 backdrop-blur-sm hidden" id="receipt-modal" role="dialog">
+<div class="bg-surface-container-lowest rounded-xl shadow-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh] border border-surface-container-high">
+<!-- Header -->
+<div class="p-4 bg-surface-container-low flex items-center justify-between border-b border-surface-container-high/60">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-primary text-on-primary">
+<span class="material-symbols-outlined text-lg">description</span>
+</div>
+<div>
+<h4 class="font-label-lg text-label-lg text-primary font-bold">Visor de Justificante Fiscal</h4>
+<p class="font-body-sm text-body-sm text-outline">Factura Curso Interaction Design Foundation.pdf</p>
+</div>
+</div>
+<button class="p-1.5 rounded-lg text-outline hover:text-primary hover:bg-surface-container transition-colors" onclick="document.getElementById('receipt-modal').classList.add('hidden')" type="button">
+<span class="material-symbols-outlined text-xl">close</span>
+</button>
+</div>
+<!-- Preview Body -->
+<div class="p-6 overflow-y-auto flex-1 space-y-4">
+<!-- Voucher Paper UI Mockup -->
+<div class="p-5 rounded-lg bg-surface border border-surface-container-high shadow-xs text-on-surface">
+<div class="flex justify-between items-start pb-4 border-b border-surface-container-high/50">
+<div>
+<span class="font-display text-xl text-primary font-extrabold tracking-tight">IxDF</span>
+<p class="font-body-sm text-body-sm text-outline">Interaction Design Foundation ApS</p>
+<p class="font-label-sm text-label-sm text-outline">VAT: DK33878291</p>
+</div>
+<div class="text-right">
+<span class="inline-block px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-label-sm text-label-sm font-bold">PAGADO</span>
+<p class="font-label-sm text-label-sm text-outline mt-1">Factura Nº: INV-2024-88931</p>
+<p class="font-label-sm text-label-sm text-outline">Fecha: 18 Ago 2024</p>
+</div>
+</div>
+<div class="py-4 text-body-sm">
+<div class="flex justify-between text-outline pb-1 font-label-sm uppercase">
+<span>Concepto Formativo</span>
+<span>Total</span>
+</div>
+<div class="flex justify-between py-1 text-primary font-medium">
+<span>Membresía Profesional Anual Design Leadership (Sofia Chen)</span>
+<span>500,00 €</span>
+</div>
+<div class="flex justify-between py-1 text-outline">
+<span>Base Imponible</span>
+<span>500,00 €</span>
+</div>
+<div class="flex justify-between py-1 text-outline">
+<span>IVA / Reverse Charge B2B (0%)</span>
+<span>0,00 €</span>
+</div>
+</div>
+<div class="pt-4 border-t border-surface-container-high/50 flex justify-between items-center">
+<div>
+<span class="font-label-sm text-label-sm text-outline">Beneficiario Imputado</span>
+<p class="font-body-md text-body-md text-primary font-bold">Pluxee Enterprise S.L. • Sofia Chen</p>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-outline">Total Liquidado</span>
+<p class="font-headline-md text-xl text-primary font-bold">500,00 €</p>
+</div>
+</div>
+</div>
+<!-- Verification Checklist -->
+<div class="grid grid-cols-2 gap-3 p-3 rounded-lg bg-surface-container-low border border-surface-container-high/40">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-base">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface">CIF/NIF verificado en VIES</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-600 text-base">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface">Adecuación al plan formativo RRHH</span>
+</div>
+</div>
+</div>
+<!-- Footer Buttons -->
+<div class="p-4 bg-surface-container-low border-t border-surface-container-high/60 flex items-center justify-between">
+<button class="inline-flex items-center gap-1 font-label-md text-label-md text-secondary font-semibold hover:underline" type="button">
+<span class="material-symbols-outlined text-base">open_in_new</span>
+        Abrir documento original
+      </button>
+<div class="flex items-center gap-2">
+<button class="px-4 py-2 rounded-lg bg-surface-container-lowest border border-surface-container-high text-primary font-label-md text-label-md font-semibold hover:bg-surface-container transition-colors" onclick="document.getElementById('receipt-modal').classList.add('hidden')" type="button">
+          Cerrar
+        </button>
+<button class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-semibold hover:bg-on-primary-fixed-variant transition-colors" type="button">
+<span class="material-symbols-outlined text-base">verified_user</span>
+          Confirmar Visado
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Interactive preview close on ESC key
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      const modal = document.getElementById('receipt-modal');
+      if (modal && !modal.classList.contains('hidden')) {
+        modal.classList.add('hidden');
+      }
+    }
+  });
+</script>
+<footer class="w-full border-t border-slate-200/70 bg-white py-4 mt-12">
+<div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+<div class="flex items-center gap-2">
+<span class="font-semibold text-slate-700">Pluxee Enterprise HR Suite</span>
+<span>•</span>
+<span>Versión 3.4.2</span>
+</div>
+<div>
+<span>© 2024 Pluxee Technologies. Todos los derechos reservados.</span>
+</div>
+</div>
+</footer>
+<script src="../../js/components/header.js"></script>
+</body></html>

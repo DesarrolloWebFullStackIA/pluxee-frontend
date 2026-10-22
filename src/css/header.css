@@ -1,0 +1,291 @@
+/* ==========================================================
+   HEADER RESPONSIVE — estilo Pluxee/Plexus (CSS puro, mobile-first)
+   Móvil/tablet (< 1100px): hamburguesa + menú desplegable
+   Escritorio (>= 1100px): navegación en línea
+   ========================================================== */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgb(255 255 255 / 95%);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgb(226 232 240 / 80%);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+  font-family: "Inter", sans-serif;
+}
+
+.header__container {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: flex;
+  flex-wrap: wrap;            /* permite que el nav pase a una 2ª fila en móvil */
+  align-items: center;
+  gap: 12px;
+}
+
+/* ---------- Marca ---------- */
+.header__brand {
+  order: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  text-decoration: none;
+}
+
+.header__logo {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px #e2e8f0, 0 1px 2px rgb(0 0 0 / 8%);
+}
+
+.header__name {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #091426;
+  white-space: nowrap;
+  transition: color 150ms;
+}
+
+.header__brand:hover .header__name {
+  color: #2563eb;
+}
+
+.header__name-sub {
+  font-weight: 600;
+  color: #475569;
+}
+
+.header__tag {
+  display: none;              /* solo en pantallas anchas */
+  padding: 2px 8px;
+  border: 1px solid rgb(191 219 254 / 60%);
+  border-radius: 9999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ---------- Navegación (desplegable en móvil) ---------- */
+.header__nav {
+  order: 4;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid rgb(226 232 240 / 80%);
+}
+
+.header--open .header__nav {
+  display: flex;
+  animation: header-drop 150ms ease-out;
+}
+
+.header__link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid transparent;   /* evita saltos al activarse */
+  border-radius: 8px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 150ms, color 150ms;
+}
+
+.header__link .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.header__link:hover {
+  background: rgb(241 245 249 / 70%);
+  color: #0f172a;
+}
+
+/* Enlace activo (ajusta el selector a la clase que ponga tu JS) */
+.header__link.active,
+.header__link.is-active,
+.header__link[aria-current="page"] {
+  background: rgb(239 246 255 / 80%);
+  border-color: #dbeafe;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.header__badge {
+  margin-left: auto;          /* en móvil, a la derecha */
+  padding: 1px 8px;
+  border-radius: 9999px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.header__badge[hidden] {
+  display: none;
+}
+
+/* ---------- Selector de moneda ---------- */
+.header__currency {
+  order: 2;
+  margin-left: auto;          /* empuja moneda + hamburguesa a la derecha */
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  border: 1px solid rgb(226 232 240 / 60%);
+  border-radius: 8px;
+  background: #f1f5f9;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.header__currency-btn {
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #475569;
+  font: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 150ms;
+}
+
+.header__currency-btn:hover {
+  color: #0f172a;
+}
+
+.header__currency-btn.active,
+.header__currency-btn.is-active,
+.header__currency-btn[aria-pressed="true"] {
+  background: #fff;
+  color: #0f172a;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 8%);
+}
+
+/* ---------- Botón hamburguesa ---------- */
+.header__toggle {
+  order: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #475569;
+  cursor: pointer;
+  transition: background 150ms, color 150ms;
+}
+
+.header__toggle:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.header__toggle-icon {
+  font-size: 24px;
+}
+
+.header__link:focus-visible,
+.header__toggle:focus-visible,
+.header__currency-btn:focus-visible,
+.header__brand:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+@keyframes header-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Móviles pequeños ---------- */
+@media (max-width: 420px) {
+  .header__name-sub {
+    display: none;            /* queda solo "Plexus" */
+  }
+
+  .header__container {
+    gap: 8px;
+  }
+}
+
+/* ---------- Tablet y escritorio pequeño ---------- */
+@media (min-width: 640px) {
+  .header__container {
+    padding: 14px 24px;
+  }
+
+  .header__currency-btn {
+    padding: 4px 10px;
+  }
+}
+
+/* ---------- Escritorio: navegación en línea ---------- */
+@media (min-width: 1100px) {
+  .header__container {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .header__nav {
+    order: 2;
+    display: flex;            /* siempre visible */
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    border-top: 0;
+    gap: 6px;
+    animation: none;
+  }
+
+  .header__link {
+    padding: 6px 14px;
+  }
+
+  .header__badge {
+    margin-left: 4px;
+  }
+
+  .header__currency {
+    order: 3;
+    margin-left: 0;
+  }
+
+  .header__toggle {
+    display: none;
+  }
+}
+
+/* Etiqueta "Gestión de Beneficios" solo si hay sitio de sobra */
+@media (min-width: 1280px) {
+  .header__tag {
+    display: inline-block;
+  }
+}
