@@ -1,5 +1,11 @@
 # Pluxee Enterprise HR Suite - Frontend Application
 
+![Status](https://img.shields.io/badge/status-academic%20project-blue)
+![Affiliation](https://img.shields.io/badge/affiliation-unofficial-orange)
+![License](https://img.shields.io/badge/purpose-educational%20only-green)
+
+---
+
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/pluxee-enterprise/pluxee-frontend)
 [![Architecture](https://img.shields.io/badge/architecture-Vanilla%20ES6%2B%20SPA-yellow.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![Styling](https://img.shields.io/badge/styling-Tailwind%20CSS%20%2B%20Scoped%20CSS-38bdf8.svg)](https://tailwindcss.com/)
